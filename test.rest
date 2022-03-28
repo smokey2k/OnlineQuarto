@@ -1,0 +1,23 @@
+### Get root
+GET http://localhost:3000/
+
+### Get /login
+GET http://localhost:3000/login
+
+### POST to /login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "s2k",
+    "password": "d"
+}
+
+### POST to /login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "dandsffsfds",
+    "password": "d"
+}

@@ -1,0 +1,80 @@
+.webgl-container {
+    
+    position: absolute;
+    background-color: rgb(70, 81, 87);
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+main {
+    display: flex;
+    background-color: transparent;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    z-index: 2;
+}
+
+main * {
+    padding: 0.5ch;
+    margin: 0.5ch;
+    color: #fff;
+    text-shadow: #000 5px 10px 5px;
+    -webkit-font-smoothing: antialiased;
+    font-size: 3vh;
+}
+
+.root {
+    display: flex;
+    flex-flow: column;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.root > h1 {
+    font-size: 4vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.rootForm {
+    display: flex;
+    flex-flow: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.rootForm * {
+    width: fit-content;
+    text-shadow: none;
+    color: rgb(70, 81, 87);
+    border-radius: 0 0 0 1ch;
+    border: 2px solid rgb(37, 37, 37);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    box-shadow: 5px 10px #00000080;
+}
+
+.rootForm button {
+    color: black;
+}
+
+
+.rootButtons {
+    display: flex;
+    background-color: red;
+    flex-flow: row;
+    width: 100%;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.rootButtons a {
+    text-decoration: none;
+    width: fit-content;
+    
+}
+

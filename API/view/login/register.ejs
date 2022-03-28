@@ -1,0 +1,22 @@
+<%- include('../header') %>
+<link rel="stylesheet" href="/css/login/main.css">
+<div class="webgl-container">
+    <%- include('3Dbackground') %>
+</div>
+<main>
+    <div class="root">
+        <h1>Register<h1>
+        <form class="rootForm" method='post' action='/register'>
+            <input type='text' name='name' placeholder='Username..' required />
+            <input type='email' name='email' placeholder='Email..' required />
+            <input type='password' name='passwd1' placeholder='Password..' required />
+            <input type='password' name='passwd2' placeholder='Retype password..' required />
+            <button type='submit'>SUBMIT</button>
+        </form>
+        <div class="rootButtons">
+            
+            <a href='/'>Back</a>
+        </div>
+    </div>
+</main>
+<%- include('../footer') %>

@@ -1,0 +1,78 @@
+main {
+    display: flex;
+    flex-flow: column;
+    width: calc(100% - 2ch);
+    height: calc(100% - 2ch);
+    margin: 1ch;
+    background-color: blue;
+}
+
+main ul {
+    list-style: none;
+    padding-left: 0;
+    padding: 1ch;
+}
+
+
+
+.userinfo {
+    display: flex;
+    font-size: 2vh;
+    font-weight: bold;
+    font-stretch: ultra-condensed;
+    font-family: Arial;
+    overflow: auto;
+    width: fit-content;
+    background-color: white;
+}
+
+.userinfo ul {
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    padding: 1ch;
+    overflow: auto;
+}
+
+.main-header {
+    background-color: aqua;
+    padding: 1ch;
+}
+
+.main-main {
+    flex: auto;
+    display: flex;
+   
+    padding: 1ch;
+    overflow: auto;
+    flex-flow: row;
+}
+
+#lobbyChat {
+    background-color: rgb(167, 101, 101);
+    display: flex;
+    
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+#chatDisplay {
+    flex: auto;
+    width: 100%;
+}
+#chatInput {
+    height: fit-content;
+    background-color: chartreuse;
+}
+#main-left {
+    background-color: darkorange;
+    padding: 1ch;
+}
+#userlist {
+    background-color: darkseagreen;
+}
+
+.main-footer {
+    background-color: brown;
+    padding: 1ch;
+}
