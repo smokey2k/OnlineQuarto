@@ -9,3 +9,7 @@ html, body, .wrapper {
     height: 100%;
 }
 
+.wrapper {
+    background-color: rgb(70, 81, 87);
+}
+

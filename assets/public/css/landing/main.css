@@ -4,7 +4,6 @@ main {
     width: calc(100% - 2ch);
     height: calc(100% - 2ch);
     margin: 1ch;
-    background-color: blue;
 }
 
 main ul {
@@ -12,8 +11,6 @@ main ul {
     padding-left: 0;
     padding: 1ch;
 }
-
-
 
 .userinfo {
     display: flex;
@@ -49,26 +46,46 @@ main ul {
 }
 
 #lobbyChat {
-    background-color: rgb(167, 101, 101);
     display: flex;
-    
     flex-flow: column;
     height: 100%;
     width: 100%;
+    padding: 1ch;
 }
 #chatDisplay {
     flex: auto;
     width: 100%;
+    background: rgb(58,103,138);
+    background: linear-gradient(0deg, rgba(58,103,138,1) 0%, rgba(255,255,255,0) 100%);
+    border: 1px solid black;
+    padding: 1ch;
+    border-radius: 1ch 1ch 0 0;
 }
 #chatInput {
     height: fit-content;
     background-color: chartreuse;
+    border: 1px solid black;
+    padding: 0.5ch;
 }
 #main-left {
-    background-color: darkorange;
     padding: 1ch;
 }
-#userlist {
+
+.createGame {
+    background-color: transparent;
+}
+
+.createGame button { 
+    background-color: green;
+    border-radius: 1ch;
+    color: wheat;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 3ch;
+    text-shadow: #000 3px 3px 3px;
+    -webkit-font-smoothing: antialiased;
+}
+
+#gameList {
     background-color: darkseagreen;
 }
 

@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const router = require('./API/router');
 const http = require('http');
 const https = require('https');
 const ejs = require('ejs');
@@ -9,9 +8,9 @@ const logger = require('morgan');
 const os = require('os');
 const fs = require('fs');
 const moment = require('moment');
-
+const initDB = require('./API/model/model-mysql-init');
 const db = require('./API/model/model-mysql');
-const { initDB } = require('./API/model/model-mysql-init');
+const router = require('./API/router');
 
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 

@@ -23,7 +23,8 @@
     "mysql": "^2.18.1",
     "os": "^0.1.2",
     "socket.io": "^4.4.1",
-    "three": "^0.139.0"
+    "three": "^0.139.0",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.15",
