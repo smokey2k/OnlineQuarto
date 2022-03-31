@@ -1,5 +1,4 @@
 .webgl-container {
-    
     position: absolute;
     background-color: rgb(70, 81, 87);
     display: flex;
@@ -42,12 +41,18 @@ main * {
 }
 
 .rootForm {
+    width: fit-content;
     display: flex;
     flex-flow: column;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-.rootForm * {
+.Form {
+    display: flex;
+    flex-flow: column;
+}
+
+.Form * {
     width: fit-content;
     text-shadow: none;
     color: rgb(70, 81, 87);
@@ -57,7 +62,7 @@ main * {
     box-shadow: 5px 10px #00000080;
 }
 
-.rootForm button {
+.Form button {
     color: black;
 }
 
@@ -66,15 +71,21 @@ main * {
     display: flex;
     background-color: red;
     flex-flow: row;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
     font-size: 2vh;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
 .rootButtons a {
-    text-decoration: none;
+    align-self: center;
+     text-decoration: none;
     width: fit-content;
     
 }
 
+.rootError {
+    text-align: center;
+}

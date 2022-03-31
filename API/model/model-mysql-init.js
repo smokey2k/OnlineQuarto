@@ -14,9 +14,9 @@ init.getConnection((err, connection)=>{
 });
 
 const users = {
-    's2k': ['datas2k@gmail.com','d',null],
-    'jan': ['jan@gmail.com','d',null],
-    'dan': ['dan@gmail.com','d',null]
+    's2k': ['datas2k@gmail.com','d'],
+    'jan': ['jan@gmail.com','d'],
+    'dan': ['dan@gmail.com','d']
 }
 
 var initDB = `
@@ -26,25 +26,22 @@ CREATE TABLE if not exists users (
     id int AUTO_INCREMENT primary key, 
     username varchar(100) UNIQUE,
     email  varchar(100),
-    password varchar(100),
-    status tinyint(1)
+    password varchar(100)
+    
 );
-CREATE TABLE if not exists active_users (
+CREATE TABLE if not exists rooms (
     id int AUTO_INCREMENT primary key,
-    userID int,
     room varchar(100),
-    socket varchar(20)
+    userID int,
+    route varchar(100)
 );
 `
 init.query(initDB, function (err, result) {
     if (err) throw err;
     const db = require('./model-mysql');
     for (const [key, value] of Object.entries(users)) {
-        db.query(`INSERT IGNORE INTO users (username, email, password, status ) VALUES ('${key}', '${value[0]}', '${value[1]}','${value[2]}')`, (err)=>{
+        db.query(`INSERT IGNORE INTO users (username, email, password ) VALUES ('${key}', '${value[0]}', '${value[1]}')`, (err)=>{
             if (err) throw err;
-        });
-        db.query(`UPDATE users SET status = null WHERE users.username = '${key}'`, (err)=>{
-             if (err) throw err;
         });
     }
     console.log(`MySQL Database: '${process.env.DBNAME} initialised.`);

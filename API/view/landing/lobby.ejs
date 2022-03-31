@@ -1,0 +1,50 @@
+<%- include('../header') %>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="/css/landing/lobby.css">
+<main>
+    <div class="main-header">
+        <div class="userinfo">
+            <ul>
+                <li>Session ID: <%= userInfo.sessionID %></li>
+                <li>Socket ID: <span id="socketInfo"></span> </li>
+                <li>User ID: <%= userInfo.userID %></li>
+                <li>User Name: <%= userInfo.name %></li>
+                <li>Room: <span id="roomName"></span> </li>
+            </ul>
+        </div>
+       
+    </div>
+    <div class="main-main">
+        <div id="lobbyChat">
+            <div id="chatDisplay"></div>
+            <div id="chatInput">
+                <input id="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
+                <button class="button_game button_orange" id="chatInputButton">SEND</button>
+            </div>
+        </div>
+        <div id="main-left">
+            <div class="createGame">
+                <button class="button_create button_green">Create Game</button>
+            </div>
+            <div class="games">
+                <span>Games</span>
+                <ul id="gameList">
+                    <li class="button_game button_blue">dsfdsf</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main-footer">
+        <form id="logout" action="/logout" method="post">
+            <button class="button_logout button_red" type="submit">logout</button>
+        </form>
+    </div>
+</main>
+    <script>
+        var userInfo = <%- JSON.stringify(userInfo) %>;
+    </script>
+    <script src="/js/quarto/lobby.js">
+        
+    </script>
+<%- include('../footer') %>

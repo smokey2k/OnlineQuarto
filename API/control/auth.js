@@ -1,6 +1,10 @@
 require('dotenv').config();
 const db = require('../model/model-mysql');
 const ejs = require('ejs');
+//const { redirect } = require('express/lib/response');
+
+const baseRoom = "lobby";
+var errorMsg = "";
 
 exports.GET_root = (req,res)=>{
     ejs.renderFile('./API/view/login/root.ejs', (err, data)=>{
@@ -9,66 +13,69 @@ exports.GET_root = (req,res)=>{
     });
 }
 exports.GET_login = (req,res)=>{
-    ejs.renderFile('./API/view/login/login.ejs', (err, data)=>{
+    ejs.renderFile('./API/view/login/login.ejs',{errorMsg} , (err, data)=>{
+        if (err) throw err;
+        res.send(data);
+    });
+}
+
+exports.GET_sessionOccupied = (req,res)=>{
+    ejs.renderFile('./API/view/login/sessionOccupied.ejs', (err, data)=>{
         if (err) throw err;
         res.send(data);
     });
 }
 
 exports.POST_login = (req,res)=>{
+    const { username, password } = req.body;
     if (!req.session.userID) {
-        const { username, password } = req.body;
         if (username && password) {
             db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results)=> {
                 if (err) throw err;
                 if (results.length > 0) {
-                    if (results[0].status) {
-                        console.log ('ALREADY LOGGEIN IN !');
-                        return;    
-                    }
                     req.session.userID = results[0].id;
                     req.session.username = results[0].username;
-                    req.session.room = 'lobby';
-                    db.query(`UPDATE users SET status = 1 WHERE users.id = '${req.session.userID}'`, (err)=>{
-                        if (err) throw err;
-                        db.query(`INSERT INTO active_users VALUES(null, '${req.session.userID}', '${req.session.room}',null)`, (err)=>{
-                            if (err) throw err;
-                            return res.redirect('/landing');    
-                        });
-                        
+                    db.query('SELECT * FROM rooms WHERE userID = ?', [req.session.userID], (err, results)=> {
+                        if (results.length > 0) {
+                            req.session.room = results[0].room;
+                            req.session.route = results[0].route;
+                        } else {
+                            req.session.room = baseRoom;
+                            req.session.route = baseRoom;
+                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.room}','${req.session.userID}','${req.session.route}')`, (err)=>{
+                                if (err) throw err;
+                            });
+                        }
+                        return res.redirect(`/${req.session.route}`);
                     });
-                    
-                    
                 } else {
-                    console.log("Incorrect Username and/or Password !");
-                    //passwordError = "Incorrect Username and/or Password !";
+                    errorMsg = `Incorrect Username and/or Password !`;
+                    res.redirect('/login');
                 }			
             });
         } else {
-            //passwordError = "Please enter Username and Password !";
+            errorMsg = `Missing Username and/or Password !`;
+            res.redirect('/login');
+        }
+    } else {
+        if (username != req.session.username) {
+            res.redirect(`/sessionOccupied`);
+        } else {
+            res.redirect(`/${req.session.route}`);
         }
     }
 }
 
 exports.POST_logout = (req,res)=>{
-    const userID = req.session.userID;
-    db.query(`UPDATE users SET status = null WHERE users.id = '${userID}'`, (err)=>{
-        if (err) throw err;
-        db.query(`DELETE FROM active_users WHERE active_users.userID = '${userID}'`, (err)=>{
-            if (err) throw err;
-        });
-    });
     req.session.destroy( err => {
-        if (err) {
-            return res.redirect('/landing')
-        }
+        if (err) throw err;
         res.clearCookie(process.env.SESSION_NAME);
         res.redirect('/')
     })
 }
 
 exports.GET_register = (req,res)=>{
-    ejs.renderFile('./API/view/login/register.ejs', (err, data)=>{
+    ejs.renderFile('./API/view/login/register.ejs', {errorMsg} , (err, data)=>{
         if (err) throw err;
         res.send(data);
     });
@@ -77,26 +84,37 @@ exports.GET_register = (req,res)=>{
 exports.POST_register = (req,res)=>{
     const { name,email,passwd1,passwd2 } = req.body;
     if (passwd1 != passwd2) {
-        res.send('A megadott jelszavak nem egyeznek!');
-        
+        errorMsg = `Passwords are not same !`;
+        res.redirect('/register');
     } else {
         db.query(`SELECT id FROM users WHERE email='${email}'`, (err, results)=>{
             if (err) throw err;
             if (results.length > 0)
             {
-                res.send('Ez az e-mail cím már regisztrált!');
+                errorMsg = `The given E-mail address already registered !`;
+                res.redirect('/register');
             }
             else
             {
-                db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}',1)`, (err)=>{
+                db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}')`, (err)=>{
                     if (err) throw err;
-                });
-                db.query(`SELECT id FROM users WHERE email='${email}'`, (err, results)=>{
-                    if (err) throw err;
-                    req.session.userID = results[0].id;
-                    return res.redirect('landing');
+                    if (!req.session.userID) {
+                        db.query(`SELECT * FROM users WHERE email='${email}'`, (err, results)=>{
+                            req.session.userID = results[0].id;
+                            req.session.username = results[0].username;
+                            req.session.room = baseRoom;
+                            req.session.route = baseRoom;
+                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.room}','${req.session.userID}','${req.session.route}')`, (err)=>{
+                                if (err) throw err;
+                                return res.redirect(`/${req.session.route}`);
+                            });
+                        });      
+                    } else {
+                        res.redirect(`/sessionOccupied`);
+                    }                    
                 });
             }
         });
     }
 }
+

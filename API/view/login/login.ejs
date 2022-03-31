@@ -5,15 +5,18 @@
 </div>
 <main>
     <div class="root">
-        <h1>Login<h1>
-        <form class="rootForm" method='post' action='/login'>
-            <input type='text' name='username' placeholder='Username..' required />
-            <input type='password' name='password' placeholder='Password..' required />
-            <button type='submit'>SUBMIT</button>
-        </form>
+        <h1>Login</h1>
+        <div class="rootForm">
+            <form class="Form" method='post' action='/login'>
+                <input type='text' name='username' placeholder='Username..' required />
+                <input type='password' name='password' placeholder='Password..' required />
+                <button type='submit'>SUBMIT</button>
+            </form>
+        </div>
         <div class="rootButtons">
             <a href='/'>Back</a>
         </div>
+        <div class="rootError"><%= errorMsg %></div>
     </div>
 </main>
 <%- include('../footer') %>

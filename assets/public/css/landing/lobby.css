@@ -1,0 +1,180 @@
+main {
+    display: flex;
+    flex-flow: column;
+    width: calc(100% - 2ch);
+    height: calc(100% - 2ch);
+    margin: 1ch;
+}
+
+main ul {
+    list-style: none;
+    padding-left: 0;
+    padding: 1ch;
+}
+.userinfo {
+    display: flex;
+    font-size: 2vh;
+    font-weight: bold;
+    font-stretch: ultra-condensed;
+    font-family: Arial;
+    overflow: auto;
+    width: fit-content;
+    background-color: white;
+}
+
+.userinfo ul {
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    padding: 1ch;
+    overflow: auto;
+}
+
+.main-header {
+    background-color: aqua;
+    padding: 1ch;
+}
+
+.main-main {
+    flex: auto;
+    display: flex;
+   
+    padding: 1ch;
+    overflow: auto;
+    flex-flow: row;
+}
+
+#lobbyChat {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+    padding: 1ch;
+}
+#chatDisplay {
+    flex: auto;
+    width: 100%;
+    background: rgb(58,103,138);
+    background: linear-gradient(0deg, rgba(58,103,138,1) 0%, rgba(255,255,255,0) 100%);
+    border: 1px solid black;
+    padding: 1ch;
+    border-radius: 1ch 1ch 0 0;
+}
+#chatInput {
+    height: fit-content;
+    border: 1px solid black;
+    padding: 0.7ch;
+    display: flex;
+    flex-flow: row;
+}
+
+#chatInput input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3ch;
+    padding: 0.5ch;
+    flex: auto;
+    margin-right: 0.5ch;
+}
+
+#chatInput button {
+    font-size: 3ch;
+    padding-left: 1.5ch;
+    padding-right: 1.5ch;
+}
+
+#main-left {
+    padding: 1ch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createGame {
+    width: fit-content;
+}
+
+.createGame button{
+    font-size: 4ch;
+    white-space: nowrap;
+}
+
+.games {
+    padding-top: 1ch;
+    display: flex;
+    flex-flow: column;
+    flex: auto;
+    overflow: auto;
+    width: 28ch;
+}
+
+.games span {
+    padding: 0.5ch;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 4ch;
+    border-radius: 0.7ch 0.7ch 0 0;
+    border: 1px solid black;    
+    background-color: black;
+    color: white;
+}
+
+#gameList {
+    flex: auto;
+    border: 1px solid black;
+    border-top: 10px;
+    border-radius: 0 0 0.7ch 0.7ch;
+    overflow: auto;
+    padding-right: 2ch;    
+
+}
+
+#gameList li {
+    margin-bottom: 0.5ch;
+    font-size: 4ch;
+}
+
+
+.main-footer {
+    border-radius: 0.7ch;
+    border: 5px outset rgb(158, 107, 40);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 3ch;
+    padding: 0.5ch;
+    background-color: rgb(128, 73, 0);
+    border-radius: 0.7ch;
+    color: lightgray;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: center;    
+}
+#logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3ch;
+    background-color: silver;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.message::before {
+    content: '';
+    position: relative;
+    display: block;
+    width: 0.5ch;
+    z-index: 1;
+    border-style: solid;
+    border-color: transparent silver transparent transparent;
+    border-width: 10px 15px 10px 0;
+    top: 18px;
+    left: -25px;
+    margin-top: -20px;
+}
+
