@@ -11,7 +11,6 @@ main ul {
     padding-left: 0;
     padding: 1ch;
 }
-
 .userinfo {
     display: flex;
     font-size: 2vh;
@@ -63,33 +62,96 @@ main ul {
 }
 #chatInput {
     height: fit-content;
-    background-color: chartreuse;
     border: 1px solid black;
-    padding: 0.5ch;
+    padding: 0.7ch;
+    display: flex;
+    flex-flow: row;
 }
+
+#chatInput input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3ch;
+    padding: 0.5ch;
+    flex: auto;
+    margin-right: 0.5ch;
+}
+
+#chatInput button {
+    font-size: 3ch;
+    padding-left: 1.5ch;
+    padding-right: 1.5ch;
+}
+
 #main-left {
     padding: 1ch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .createGame {
-    background-color: transparent;
+    width: fit-content;
 }
 
-.createGame button { 
-    background-color: green;
-    border-radius: 1ch;
-    color: wheat;
+.createGame button{
+    font-size: 4ch;
+    white-space: nowrap;
+}
+
+.games {
+    padding-top: 1ch;
+    display: flex;
+    flex-flow: column;
+    flex: auto;
+    overflow: auto;
+    width: 28ch;
+}
+
+.games span {
+    padding: 0.5ch;
+    text-align: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 3ch;
-    text-shadow: #000 3px 3px 3px;
-    -webkit-font-smoothing: antialiased;
+    font-size: 4ch;
+    border-radius: 0.7ch 0.7ch 0 0;
+    border: 1px solid black;    
+    background-color: black;
+    color: white;
 }
 
 #gameList {
-    background-color: darkseagreen;
+    flex: auto;
+    border: 1px solid black;
+    border-top: 10px;
+    border-radius: 0 0 0.7ch 0.7ch;
+    overflow: auto;
+    padding-right: 2ch;    
+
 }
 
-.main-footer {
-    background-color: brown;
-    padding: 1ch;
+#gameList li {
+    margin-bottom: 0.5ch;
+    font-size: 4ch;
 }
+
+
+.main-footer {
+    border-radius: 0.7ch;
+    border: 5px outset rgb(158, 107, 40);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 3ch;
+    padding: 0.5ch;
+    background-color: rgb(128, 73, 0);
+    border-radius: 0.7ch;
+    color: lightgray;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: center;    
+}
+#logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
