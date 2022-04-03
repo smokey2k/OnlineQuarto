@@ -1,0 +1,40 @@
+<script src='/js/threex.windowresize.js'></script>
+<script type="module">
+	import * as THREE from '/js/threejs/three.module.js';
+	const canvas = document.getElementsByClassName('webgl-container')[0];
+	var renderer,myWidth,myHeight,oldCanvasWidth;
+
+	const camera = new THREE.PerspectiveCamera( 70, canvas.offsetWidth / canvas.offsetHeight, 0.01, 10 ); //window.innerWidth / window.innerHeight
+	camera.position.z = 0.5;
+	const scene = new THREE.Scene();
+	const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+	const material = new THREE.MeshNormalMaterial();
+	const mesh = new THREE.Mesh( geometry, material );
+	scene.add( mesh );
+	myRenderer()
+	
+	let dimension = function(){ return { width: canvas.offsetWidth, height: canvas.offsetHeight } }
+	THREEx.WindowResize(renderer, camera,dimension);
+	//winResize = new THREEx.WindowResize(renderer, camera,dimension)
+	renderer.setAnimationLoop( animation );
+	canvas.appendChild( renderer.domElement );
+
+	//winResize.trigger();
+
+	function animation( time ) {
+		mesh.rotation.x = time / 2000;
+		mesh.rotation.y = time / 1000;
+		renderer.render( scene, camera );
+	}
+
+	function myRenderer() {
+    	myWidth = canvas.offsetWidth;
+    	myHeight = canvas.offsetHeight;
+    	oldCanvasWidth = myWidth;
+    	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+    	renderer.setPixelRatio( myWidth / myHeight ); //window.devicePixelRatio
+    	renderer.setSize(myWidth, myHeight);
+    	renderer.outputEncoding = THREE.sRGBEncoding;
+    	renderer.shadowMap.enabled = true;
+	};
+</script>

@@ -1,12 +1,15 @@
 const db = require('../model/model-mysql');
 const moment = require('moment');
 const roomUsers = [];
+const games = [];
 
 exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
         const session = socket.request.session;
-        socket.on('joinToRoom', (userInfo)=> {
+        
+        socket.on('joinToRoom', ()=> {
             const user = joinUser(session.userID, session.username, session.room, socket.id,1);
+            //const user = joinUser(session.userID, session.username, session.room, socket.id,1);
             socket.join(user.room);
             // update room info
             io.to(user.room).emit('updateRoom',session.room, getRoomUsers(session.room));
@@ -18,6 +21,10 @@ exports = module.exports = function(io) {
         // listen for messages
         socket.on('message', (msg)=>{
             io.in(session.room).emit('message',formatMessage(session.username, msg));
+        });
+        // listen for createGame
+        socket.on('createGame', (msg)=>{
+            io.in(session.room).emit('createGame',`${session.userID},${session.username}`);
         });
     });
 }
@@ -32,10 +39,17 @@ function formatMessage(username, text) {
 
 // user join to room
 function joinUser(userID,name,room,socketID,firstTime) {
+    db.query(`UPDATE rooms SET room='${room}', socketID='${socketID}' WHERE userID=${userID};`, (err)=>{
+        if (err) throw err;
+    });
     const user = {userID,name,room,socketID,firstTime};
     const index = roomUsers.findIndex(object => object.userID === user.userID);
     if (index === -1) {
         roomUsers.push(user);
+    } else {
+        if (socketID != roomUsers[index].socketID) {
+            roomUsers[index].socketID = socketID;
+        }
     }
     return user;
 }

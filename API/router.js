@@ -28,5 +28,7 @@ router.post('/logout', redirectLogin, auth.POST_logout);
 router.get('/sessionOccupied', auth.GET_sessionOccupied);
 
 router.get('/lobby', redirectLogin, landing.GET_lobby);
+router.get('/game', redirectLogin, landing.GET_game);
+router.post('/game', redirectLogin, landing.POST_game);
 
 module.exports = router;

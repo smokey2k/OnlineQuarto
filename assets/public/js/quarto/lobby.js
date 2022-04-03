@@ -1,12 +1,31 @@
-$( document ).ready( socketINIT() );
+$( document ).ready( INIT() );
 
-function socketINIT() {
-    const roomNameDOM = document.querySelector('#roomName');
+
+function INIT() {
+    //const roomNameDOM = document.querySelector('#roomName');
+    //const createGameForm = document.querySelector('#createGameForm');
+    const createGameButton = document.querySelector('#createGameButton');
     const gameListDOM = document.querySelector('#gameList');
     const display = document.getElementById('chatDisplay');
     const chatInputBox = document.querySelector('#chatInputBox');
     const chatInputButton = document.querySelector('#chatInputButton');
     const socket = io({transports: ['websocket'], upgrade: false});
+
+    $("#createGameButtonForm").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/game",
+            type: "POST",
+            data: {'gameroom': `${userInfo.userID}-${userInfo.name}`},
+            success: function(data){
+                location.href = '/game';
+            }
+        });
+    });
+
+    //createGameButton.addEventListener('click', (event)=>{
+    //    createGame(socket,userInfo);
+    //});
 
     chatInputButton.addEventListener('click', (event)=>{
         sendMessage(chatInputBox,socket);
@@ -16,21 +35,20 @@ function socketINIT() {
             sendMessage(chatInputBox,socket);
         }
     });
-   
 
-    //userInfo = Object.assign({room: 'lobby'}, userInfo);
-    
-    socket.emit('joinToRoom', userInfo );
+    socket.emit('joinToRoom');
     socket.on('joinedToRoom', (msg)=>{
-        document.getElementById("socketInfo").innerHTML = socket.id;
+        
+        //document.getElementById("socketInfo").innerHTML = socket.id;
         if (msg !== "") {
             outputMessage(msg,display);    
         }
     });
 
     socket.on('updateRoom', (room,users)=>{
-        outputRoomName(room,roomNameDOM);
+        //outputRoomName(room,roomNameDOM);
         outputUserList(users,gameListDOM);
+        console.log(socket.id);
     });
 
     //receive a message
@@ -38,7 +56,17 @@ function socketINIT() {
         outputMessage(msg,display);
     })
 
+    socket.on('createGame', (msg)=>{
+        console.log(msg);
+    })
 }
+
+function foo() {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
+    //var data = "dani";
+    //$.post( "/game", ( data )=> {
+    //  });
+ }
 
 // Add roomname to DOM
 function outputRoomName(room,DOMelement) {
@@ -50,7 +78,8 @@ function outputUserList(users,DOMelement) {
     DOMelement.innerHTML = '';
     users.forEach(user => {
         const li = document.createElement('li');
-        li.innerHTML = user.name;
+        li.classList.add('userButton');
+        li.innerHTML = `<div><span>${user.userID}<br>${user.name}<br>${user.room}<br>${user.socketID}</span><div>`;
         DOMelement.appendChild(li); 
     });
 }
@@ -78,3 +107,7 @@ function sendMessage(DOMelement,socket) {
         DOMelement.focus();
     }
 }
+
+
+function createGame(socket,userInfo,form) {
+};

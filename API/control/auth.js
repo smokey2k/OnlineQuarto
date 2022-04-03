@@ -1,7 +1,6 @@
 require('dotenv').config();
 const db = require('../model/model-mysql');
 const ejs = require('ejs');
-//const { redirect } = require('express/lib/response');
 
 const baseRoom = "lobby";
 var errorMsg = "";
@@ -42,7 +41,7 @@ exports.POST_login = (req,res)=>{
                         } else {
                             req.session.room = baseRoom;
                             req.session.route = baseRoom;
-                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.room}','${req.session.userID}','${req.session.route}')`, (err)=>{
+                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.userID}', '${req.session.username}', '${req.session.room}','${req.session.route}',null)`, (err)=>{
                                 if (err) throw err;
                             });
                         }

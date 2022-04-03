@@ -4,7 +4,7 @@
 	const canvas = document.getElementsByClassName('webgl-container')[0];
 	var renderer,myWidth,myHeight,oldCanvasWidth;
 
-	const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+	const camera = new THREE.PerspectiveCamera( 70, canvas.offsetWidth / canvas.offsetHeight, 0.01, 10 );
 	camera.position.z = 0.5;
 	const scene = new THREE.Scene();
 	const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );

@@ -31,10 +31,12 @@ CREATE TABLE if not exists users (
 );
 CREATE TABLE if not exists rooms (
     id int AUTO_INCREMENT primary key,
-    room varchar(100),
     userID int,
-    route varchar(100)
-);
+    username varchar(100),
+    room varchar(100),
+    route varchar(100),
+    socketID varchar(20)
+    );
 `
 init.query(initDB, function (err, result) {
     if (err) throw err;

@@ -1,0 +1,25 @@
+<%- include('../header') %>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="/css/game/game.css">
+<main>
+    <div class="main-header"></div>
+    <div class="main-main">
+        <div class="webgl-container">
+            <%- include('game3D') %>
+        </div>
+        <div id="gameChat">
+            <div id="gameChatDisplay"></div>
+            <div id="gameChatInput">
+                <input id="gameChatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
+                <button id="gameChatInputButton" class="button_game button_orange">SEND</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-footer">
+        <form id="logout" action="/logout" method="post">
+            <button class="button_logout button_red" type="submit">logout</button>
+        </form>
+    </div>
+</main>
+    <!-- <script src="/js/quarto/game.js"></script> -->
+<%- include('../footer') %>
