@@ -27,6 +27,7 @@ exports.GET_sessionOccupied = (req,res)=>{
 
 exports.POST_login = (req,res)=>{
     const { username, password } = req.body;
+    errorMsg = '';
     if (!req.session.userID) {
         if (username && password) {
             db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results)=> {
@@ -82,6 +83,7 @@ exports.GET_register = (req,res)=>{
 
 exports.POST_register = (req,res)=>{
     const { name,email,passwd1,passwd2 } = req.body;
+    errorMsg = '';
     if (passwd1 != passwd2) {
         errorMsg = `Passwords are not same !`;
         res.redirect('/register');
@@ -103,7 +105,7 @@ exports.POST_register = (req,res)=>{
                             req.session.username = results[0].username;
                             req.session.room = baseRoom;
                             req.session.route = baseRoom;
-                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.room}','${req.session.userID}','${req.session.route}')`, (err)=>{
+                            db.query(`INSERT INTO rooms VALUES(null, '${req.session.userID}', '${req.session.username}', '${req.session.room}','${req.session.route}',null)`, (err)=>{
                                 if (err) throw err;
                                 return res.redirect(`/${req.session.route}`);
                             });

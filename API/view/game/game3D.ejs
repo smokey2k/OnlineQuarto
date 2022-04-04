@@ -31,10 +31,11 @@
     	myWidth = canvas.offsetWidth;
     	myHeight = canvas.offsetHeight;
     	oldCanvasWidth = myWidth;
-    	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+    	renderer = new THREE.WebGLRenderer( { alpha: true } ); //,antialias: true
     	renderer.setPixelRatio( myWidth / myHeight ); //window.devicePixelRatio
     	renderer.setSize(myWidth, myHeight);
     	renderer.outputEncoding = THREE.sRGBEncoding;
     	renderer.shadowMap.enabled = true;
+		
 	};
 </script>

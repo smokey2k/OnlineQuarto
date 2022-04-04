@@ -13,30 +13,23 @@
             </ul>
         </div> -->
     </div>
-    <div class="main-main">
-        <div id="lobbyChat">
-            <div id="chatDisplay"></div>
-            <div id="chatInput">
-                <input id="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
-                <button class="button_game button_orange" id="chatInputButton">SEND</button>
+    <div class="main-lobby">
+        <div class="chat">
+            <div class="chatDisplay"></div>
+            <div class="chatInput">
+                <input class="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
+                <button class="chatInputButton button_game button_orange">SEND</button>
             </div>
         </div>
         <div id="main-left">
             <div class="createGame">
-                <!-- <form id="createGameForm" action="/game" method="post">
-                    <input type="hidden" name="gameroom" value="room-<%= userInfo.userID %>-<%= userInfo.name %>" />
-                    <button id="createGameButton" class="button_create button_green" type="submit">Create Game</button>
-                </form> -->
                 <form method="post" id="createGameButtonForm">
                     <button id="submitBtn" class="button_create button_green" type="submit">Create Game</button>
                 </form> 
-                <!-- <button id="createGameButton" class="button_create button_green">Create Game</button> -->
             </div>
             <div class="games">
                 <span>Games</span>
-                <ul id="gameList">
-                    <li class="button_game button_blue">dsfdsf</li>
-                </ul>
+                <ul id="gameList"></ul>
             </div>
         </div>
     </div>

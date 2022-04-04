@@ -9,10 +9,10 @@ exports = module.exports = function(io) {
         
         socket.on('joinToRoom', ()=> {
             const user = joinUser(session.userID, session.username, session.room, socket.id,1);
-            //const user = joinUser(session.userID, session.username, session.room, socket.id,1);
             socket.join(user.room);
             // update room info
-            io.to(user.room).emit('updateRoom',session.room, getRoomUsers(session.room));
+            io.to(user.room).emit('updateRoom',session.room);
+            io.to('lobby').emit('updateLobbyRoom', user.room, games);
             // wellcome current user
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${user.room} !`) );
             // broadcast to users in room
@@ -23,8 +23,10 @@ exports = module.exports = function(io) {
             io.in(session.room).emit('message',formatMessage(session.username, msg));
         });
         // listen for createGame
-        socket.on('createGame', (msg)=>{
-            io.in(session.room).emit('createGame',`${session.userID},${session.username}`);
+        socket.on('createGame', ()=>{
+            const game = createGameRoom(session.userID,session.username);
+            io.in('lobby').emit('gameCreated',games);
+            //socket.join(game);
         });
     });
 }
@@ -54,6 +56,15 @@ function joinUser(userID,name,room,socketID,firstTime) {
     return user;
 }
 
+// create game room
+function createGameRoom(userID,name) {
+    const game = `${userID}-${name}`;
+    games.push(game);
+    return game;
+}
+
+
+
 function connectUser(userID) {
     let msg = '';
     const index = roomUsers.findIndex(object => object.userID === userID);
@@ -64,6 +75,14 @@ function connectUser(userID) {
     }
     return msg;
 }
+
+function getGames(){
+    for (let i = 0; i < games.length; i++) {
+        console.log(games[i]);
+    }
+    return games;
+}
+
 
 // get all user from room
 function getRoomUsers(room){

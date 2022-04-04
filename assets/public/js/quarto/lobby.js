@@ -4,11 +4,12 @@ $( document ).ready( INIT() );
 function INIT() {
     //const roomNameDOM = document.querySelector('#roomName');
     //const createGameForm = document.querySelector('#createGameForm');
+    const header = document.querySelector('.main-header');
     const createGameButton = document.querySelector('#createGameButton');
     const gameListDOM = document.querySelector('#gameList');
-    const display = document.getElementById('chatDisplay');
-    const chatInputBox = document.querySelector('#chatInputBox');
-    const chatInputButton = document.querySelector('#chatInputButton');
+    const display = document.querySelector('.chatDisplay');
+    const chatInputBox = document.querySelector('.chatInputBox');
+    const chatInputButton = document.querySelector('.chatInputButton');
     const socket = io({transports: ['websocket'], upgrade: false});
 
     $("#createGameButtonForm").submit(function(e) {
@@ -18,15 +19,13 @@ function INIT() {
             type: "POST",
             data: {'gameroom': `${userInfo.userID}-${userInfo.name}`},
             success: function(data){
+                socket.emit('createGame');
                 location.href = '/game';
             }
         });
     });
 
-    //createGameButton.addEventListener('click', (event)=>{
-    //    createGame(socket,userInfo);
-    //});
-
+    
     chatInputButton.addEventListener('click', (event)=>{
         sendMessage(chatInputBox,socket);
     });
@@ -35,7 +34,8 @@ function INIT() {
             sendMessage(chatInputBox,socket);
         }
     });
-
+    
+    
     socket.emit('joinToRoom');
     socket.on('joinedToRoom', (msg)=>{
         
@@ -45,10 +45,11 @@ function INIT() {
         }
     });
 
-    socket.on('updateRoom', (room,users)=>{
-        //outputRoomName(room,roomNameDOM);
-        outputUserList(users,gameListDOM);
-        console.log(socket.id);
+    socket.on('updateLobbyRoom', (room,games)=>{
+        outputRoomName(room,header);
+        //outputUserList(users,gameListDOM);
+        updateGameList(games,gameListDOM,socket);
+        //console.log(socket.id);
     });
 
     //receive a message
@@ -56,21 +57,45 @@ function INIT() {
         outputMessage(msg,display);
     })
 
-    socket.on('createGame', (msg)=>{
-        console.log(msg);
+    socket.on('gameCreated', (games)=>{
+        updateGameList(games,gameListDOM);
     })
 }
-
-function foo() {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
-    //var data = "dani";
-    //$.post( "/game", ( data )=> {
-    //  });
- }
 
 // Add roomname to DOM
 function outputRoomName(room,DOMelement) {
     DOMelement.innerHTML = room;
+}
+
+
+function updateGameList(games,DOMelement,socket) {
+    DOMelement.innerHTML = '';
+    for (let i = 0; i < games.length; i++) {
+        const li = document.createElement('li');
+        var form = document.createElement("form");
+        form.setAttribute('id','joinGameButtonForm');
+        form.setAttribute("method", "post");
+        var submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.value = games[i].split('-').pop(); 
+        submitButton.classList.add("button_game","button_blue");
+        submitButton.setAttribute('id',`${games[i]}`);
+        form.appendChild(submitButton);
+        li.appendChild(form);
+        DOMelement.appendChild(li);
+        $("#joinGameButtonForm").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/game",
+                type: "POST",
+                data: {'gameroom': `${games[i]}`},
+                success: function(data){
+                    //socket.emit('createGame');
+                    location.href = '/game';
+                }
+            });
+        });
+    }
 }
 
 // Add users to DOM

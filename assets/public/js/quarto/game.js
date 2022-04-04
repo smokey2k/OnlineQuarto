@@ -2,7 +2,7 @@
 
 
 function INIT() {
-
+    const header = document.querySelector('.main-header');
     const display = document.querySelector('#gameChatDisplay');
     const chatInputBox = document.querySelector('#gameChatInputBox');
     const chatInputButton = document.querySelector('#gameChatInputButton');
@@ -25,11 +25,11 @@ function INIT() {
         }
     });
 
-/*    socket.on('updateRoom', (room,users)=>{
-        outputUserList(users,gameListDOM);
-        console.log(socket.id);
+    socket.on('updateRoom', (room)=>{
+        outputRoomName("aaaaaaaaaaaa",header);
+        //outputUserList(users,gameListDOM);
     });
-*/
+
     socket.on('message', (msg)=>{
         outputMessage(msg,display);
     })
@@ -60,4 +60,7 @@ function sendMessage(DOMelement,socket) {
     }
 }
 
-
+// Add roomname to DOM
+function outputRoomName(room,DOMelement) {
+    DOMelement.innerHTML = room;
+}

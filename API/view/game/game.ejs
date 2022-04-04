@@ -2,16 +2,26 @@
 <script src="/socket.io/socket.io.js"></script>
 <link rel="stylesheet" href="/css/game/game.css">
 <main>
-    <div class="main-header"></div>
-    <div class="main-main">
+    <div class="main-header">
+        <div class="userinfo">
+            <ul>
+                <li>Session ID: <%= userInfo.sessionID %></li>
+                <li>Socket ID: <span id="socketInfo"></span> </li>
+                <li>User ID: <%= userInfo.userID %></li>
+                <li>User Name: <%= userInfo.name %></li>
+                <li>Room: <%= userInfo.room %> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-game">
         <div class="webgl-container">
             <%- include('game3D') %>
         </div>
-        <div id="gameChat">
-            <div id="gameChatDisplay"></div>
-            <div id="gameChatInput">
-                <input id="gameChatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
-                <button id="gameChatInputButton" class="button_game button_orange">SEND</button>
+        <div class="chat">
+            <div class="chatDisplay"></div>
+            <div class="chatInput">
+                <input class="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
+                <button class="chatInputButton button_game button_orange">SEND</button>
             </div>
         </div>
     </div>
@@ -21,5 +31,5 @@
         </form>
     </div>
 </main>
-    <!-- <script src="/js/quarto/game.js"></script> -->
+    <script src="/js/quarto/game.js"></script>
 <%- include('../footer') %>
