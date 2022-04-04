@@ -18,15 +18,10 @@ exports = module.exports = function(io) {
             socket.broadcast.to('lobby').emit('joinedToLobby', connectUser(user.userID) );
         });
 
-        socket.on('joinToGame', ()=> {
-            // count clients in room, if room full (max 2 client) then 
-            // remove the room from lobby's game list
-            let clients = 1;
-            if ( io.sockets.adapter.rooms.has(session.room) ) {
-                clients += io.sockets.adapter.rooms.get(session.room).size
-            }
-            console.log(clients);
-            if (clients < 2) {
+        socket.on('joinToGame', async function() {
+            var sockets = await io.in(session.room).fetchSockets();
+            console.log(sockets.length);
+            if (sockets.length == 1) {
                 socket.join(session.room);    
                 // update room info
                 io.to(session.room).emit('updateRoom',session.room);
@@ -34,7 +29,6 @@ exports = module.exports = function(io) {
                 socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.room}!`) );
                 // broadcast to users in room
                 socket.broadcast.to(session.room).emit('joinedToGame', connectUser(session.userID) );    
-            } else {
                 db.query('DELETE FROM games WHERE game = ?', [session.room], (err)=>{
                     if (err) throw err;
                     io.to('lobby').emit('deleteGameFromList', `${session.room}`);
@@ -46,7 +40,17 @@ exports = module.exports = function(io) {
                     // update lobby game list
                     io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
                 });
-            }           
+            } else {
+                socket.join(session.room);    
+                // update room info
+                io.to(session.room).emit('updateRoom',session.room);
+                // wellcome current user
+                socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.room}!`) );
+                // broadcast to users in room
+                socket.broadcast.to(session.room).emit('joinedToGame', connectUser(session.userID) );    
+            }
+            
+            
         });
 
 
@@ -71,6 +75,11 @@ exports = module.exports = function(io) {
         });
 
     });
+}
+
+
+async function countClientsInRoom(io,room) {
+    return await io.in(room).fetchSockets();
 }
 
 function formatMessage(username, text) {
