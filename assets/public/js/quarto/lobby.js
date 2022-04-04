@@ -36,9 +36,8 @@ function INIT() {
     });
     
     
-    socket.emit('joinToRoom');
-    socket.on('joinedToRoom', (msg)=>{
-        
+    socket.emit('joinToLobby');
+    socket.on('joinedToLobby', (msg)=>{
         //document.getElementById("socketInfo").innerHTML = socket.id;
         if (msg !== "") {
             outputMessage(msg,display);    
@@ -57,8 +56,8 @@ function INIT() {
         outputMessage(msg,display);
     })
 
-    socket.on('gameCreated', (games)=>{
-        updateGameList(games,gameListDOM);
+    socket.on('gameCreated', (games,game)=>{
+        updateGameList(games,gameListDOM,socket);
     })
 }
 
@@ -90,7 +89,7 @@ function updateGameList(games,DOMelement,socket) {
                 type: "POST",
                 data: {'gameroom': `${games[i]}`},
                 success: function(data){
-                    //socket.emit('createGame');
+                    //socket.emit('joinGame',`${games[i]}`);
                     location.href = '/game';
                 }
             });

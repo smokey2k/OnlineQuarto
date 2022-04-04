@@ -26,8 +26,8 @@ CREATE TABLE if not exists users (
     id int AUTO_INCREMENT primary key, 
     username varchar(100) UNIQUE,
     email  varchar(100),
-    password varchar(100)
-    
+    password varchar(100),
+    score int
 );
 CREATE TABLE if not exists rooms (
     id int AUTO_INCREMENT primary key,
@@ -36,7 +36,21 @@ CREATE TABLE if not exists rooms (
     room varchar(100),
     route varchar(100),
     socketID varchar(20)
-    );
+);
+CREATE TABLE if not exists games (
+    id int AUTO_INCREMENT primary key,
+    hostID int,
+    HostName varchar(100),
+    playerID int,
+    playerName varchar(100),
+    game varchar(100)
+);
+CREATE TABLE if not exists highscore (
+    id int AUTO_INCREMENT primary key,
+    playerID int,
+    playerName varchar(100),
+    score int
+);
 `
 init.query(initDB, function (err, result) {
     if (err) throw err;

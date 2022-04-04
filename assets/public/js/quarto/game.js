@@ -1,13 +1,12 @@
-//$( document ).ready( INIT() );
-
+$( document ).ready( INIT() );
 
 function INIT() {
     const header = document.querySelector('.main-header');
-    const display = document.querySelector('#gameChatDisplay');
-    const chatInputBox = document.querySelector('#gameChatInputBox');
-    const chatInputButton = document.querySelector('#gameChatInputButton');
+    const gameListDOM = document.querySelector('#gameList');
+    const display = document.querySelector('.chatDisplay');
+    const chatInputBox = document.querySelector('.chatInputBox');
+    const chatInputButton = document.querySelector('.chatInputButton');
     const socket = io({transports: ['websocket'], upgrade: false});
-
 
     chatInputButton.addEventListener('click', (event)=>{
         sendMessage(chatInputBox,socket);
@@ -18,16 +17,15 @@ function INIT() {
         }
     });
 
-    socket.emit('joinToRoom');
-    socket.on('joinedToRoom', (msg)=>{
+    socket.emit('joinToGame');
+    socket.on('joinedToGame', (msg)=>{
         if (msg !== "") {
             outputMessage(msg,display);    
         }
     });
 
     socket.on('updateRoom', (room)=>{
-        outputRoomName("aaaaaaaaaaaa",header);
-        //outputUserList(users,gameListDOM);
+        outputRoomName(room,header);
     });
 
     socket.on('message', (msg)=>{

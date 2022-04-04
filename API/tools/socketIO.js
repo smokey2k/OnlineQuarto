@@ -6,28 +6,70 @@ const games = [];
 exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
         const session = socket.request.session;
-        
-        socket.on('joinToRoom', ()=> {
+
+        socket.on('joinToLobby', ()=> {
             const user = joinUser(session.userID, session.username, session.room, socket.id,1);
-            socket.join(user.room);
+            socket.join('lobby');
             // update room info
-            io.to(user.room).emit('updateRoom',session.room);
-            io.to('lobby').emit('updateLobbyRoom', user.room, games);
+            io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
             // wellcome current user
-            socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${user.room} !`) );
+            socket.emit('message',formatMessage('System', `${user.name}, wellcome in the lobby !`) );
             // broadcast to users in room
-            socket.broadcast.to(user.room).emit('joinedToRoom', connectUser(user.userID) );
+            socket.broadcast.to('lobby').emit('joinedToLobby', connectUser(user.userID) );
         });
+
+        socket.on('joinToGame', ()=> {
+            // count clients in room, if room full (max 2 client) then 
+            // remove the room from lobby's game list
+            let clients = 1;
+            if ( io.sockets.adapter.rooms.has(session.room) ) {
+                clients += io.sockets.adapter.rooms.get(session.room).size
+            }
+            console.log(clients);
+            if (clients < 2) {
+                socket.join(session.room);    
+                // update room info
+                io.to(session.room).emit('updateRoom',session.room);
+                // wellcome current user
+                socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.room}!`) );
+                // broadcast to users in room
+                socket.broadcast.to(session.room).emit('joinedToGame', connectUser(session.userID) );    
+            } else {
+                db.query('DELETE FROM games WHERE game = ?', [session.room], (err)=>{
+                    if (err) throw err;
+                    io.to('lobby').emit('deleteGameFromList', `${session.room}`);
+                    for( var i = 0; i < games.length; i++){ 
+                        if ( games[i] === session.room) { 
+                            games.splice(i, 1); 
+                        }
+                    }
+                    // update lobby game list
+                    io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
+                });
+            }           
+        });
+
+
         // listen for messages
         socket.on('message', (msg)=>{
             io.in(session.room).emit('message',formatMessage(session.username, msg));
         });
+
         // listen for createGame
         socket.on('createGame', ()=>{
-            const game = createGameRoom(session.userID,session.username);
-            io.in('lobby').emit('gameCreated',games);
-            //socket.join(game);
+            db.query(`INSERT INTO games VALUES(null, '${session.userID}','${session.username}', null,null,'${session.userID}-${session.username}')`, (err)=>{
+                if (err) throw err;
+                db.query("SELECT * FROM games", (err, result, fields)=> {
+                    if (err) throw err;
+                    result.forEach(e => {
+                        games.push(e.game);
+                    });
+                    const game = `${session.userID}-${session.username}`;
+                    io.to('lobby').emit('gameCreated',games,game);
+                });
+            });
         });
+
     });
 }
 
@@ -44,7 +86,9 @@ function joinUser(userID,name,room,socketID,firstTime) {
     db.query(`UPDATE rooms SET room='${room}', socketID='${socketID}' WHERE userID=${userID};`, (err)=>{
         if (err) throw err;
     });
+    
     const user = {userID,name,room,socketID,firstTime};
+    
     const index = roomUsers.findIndex(object => object.userID === user.userID);
     if (index === -1) {
         roomUsers.push(user);
@@ -53,17 +97,9 @@ function joinUser(userID,name,room,socketID,firstTime) {
             roomUsers[index].socketID = socketID;
         }
     }
+    
     return user;
 }
-
-// create game room
-function createGameRoom(userID,name) {
-    const game = `${userID}-${name}`;
-    games.push(game);
-    return game;
-}
-
-
 
 function connectUser(userID) {
     let msg = '';
@@ -74,13 +110,6 @@ function connectUser(userID) {
         msg = formatMessage('System', `${roomUsers[index].name} joined to room: ${roomUsers[index].room} !`);
     }
     return msg;
-}
-
-function getGames(){
-    for (let i = 0; i < games.length; i++) {
-        console.log(games[i]);
-    }
-    return games;
 }
 
 

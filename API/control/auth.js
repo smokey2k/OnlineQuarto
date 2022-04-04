@@ -67,6 +67,9 @@ exports.POST_login = (req,res)=>{
 }
 
 exports.POST_logout = (req,res)=>{
+    db.query('DELETE FROM rooms WHERE userID = ?', [req.session.userID], (err)=>{
+        if (err) throw err;
+    });
     req.session.destroy( err => {
         if (err) throw err;
         res.clearCookie(process.env.SESSION_NAME);
