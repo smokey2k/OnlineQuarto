@@ -121,6 +121,7 @@ function outputMessage(message,display) {
     span2.innerHTML = `<span>${message.text}</span>`;
     div.appendChild(span2);
     display.appendChild(div);
+    //display.scrollTop = display.scrollHeight - display.clientHeight;
 }
 
 function sendMessage(DOMelement,socket) {

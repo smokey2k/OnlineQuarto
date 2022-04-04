@@ -8,6 +8,11 @@ function INIT() {
     const chatInputButton = document.querySelector('.chatInputButton');
     const socket = io({transports: ['websocket'], upgrade: false});
 
+    //window.setInterval(()=> {
+    //    display.scrollTop = display.scrollHeight;
+    //  }, 5000);
+
+
     chatInputButton.addEventListener('click', (event)=>{
         sendMessage(chatInputBox,socket);
     });
@@ -47,6 +52,7 @@ function outputMessage(message,display) {
     span2.innerHTML = `<span>${message.text}</span>`;
     div.appendChild(span2);
     display.appendChild(div);
+    display.scrollTop = display.scrollHeight;
 }
 
 function sendMessage(DOMelement,socket) {

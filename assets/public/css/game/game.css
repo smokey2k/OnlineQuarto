@@ -35,6 +35,9 @@
     border: 1px solid black;
     padding: 1ch;
     border-radius: 1ch 1ch 0 0;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
     overflow: auto;
 }
 
