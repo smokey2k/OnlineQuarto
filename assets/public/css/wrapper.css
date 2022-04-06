@@ -1,6 +1,14 @@
+:root {
+    --message-bg-color: silver;
+    --small-font-size: max(0.8em, 1vw);
+    --base-font-size: max(1em, 2vw);
+    --big-font-size: max(2em, 3vw);
+}
+  
 * {
     box-sizing: border-box;
     margin: 0;
+    font-size: var(--base-font-size);
 }
 html, body, .wrapper {
     display: flex;
@@ -11,29 +19,32 @@ html, body, .wrapper {
 
 .wrapper {
     background-color: rgb(70, 81, 87);
+    justify-content: space-between;
+    align-items: center;
 }
 
 main {
     display: flex;
+    flex: auto;
     flex-flow: column;
-    width: calc(100% - 2ch);
-    height: calc(100% - 2ch);
-    margin: 1ch;
+    width: calc(100% - 2vw);
+    height: calc(100% - 2vw);
+    margin: 1vw;
 }
 
 .main-header {
     background-color: aqua;
-    padding: 1ch;
+    padding: 1vw;
 }
 
 .main-footer {
-    border-radius: 0.7ch;
+    border-radius: 0.7vw;
     border: 5px outset rgb(158, 107, 40);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 3ch;
-    padding: 0.5ch;
+    /*font-size: 3vw;*/
+    padding: 0.5vw;
     background-color: rgb(128, 73, 0);
-    border-radius: 0.7ch;
+    border-radius: 0.7vw;
     color: lightgray;
     display: flex;
     flex-flow: column wrap;
@@ -47,27 +58,47 @@ main {
 }
 
 .message {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3ch;
-    background-color: silver;
-    padding: 10px;
-    border-radius: 10px;
-    margin-left: 15px;
-    margin-bottom: 15px;
+    font-family:'Arial Narrow';
+    /*font-size: max(2em, 3vw); */
+    margin: 0.2vw;
+    padding: 0.2vw;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 0.5vw;
+    background-color: rgba(0, 0, 0, 0.267);
+    padding: 1vh;
+    
+}
+.message * {
+    color: white;
+    text-shadow:
+    -2px -2px 0 #000,  
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
+     word-break: break-all;
+    }
+
+.message-date {
+/*    font-size: max(0.5em, 1vw);*/
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-right: 1vw;
+    font-size: var(--small-font-size);
 }
 
-.message::before {
-    content: '';
-    position: relative;
-    display: block;
-    width: 0.5ch;
-    z-index: 1;
-    border-style: solid;
-    border-color: transparent silver transparent transparent;
-    border-width: 10px 15px 10px 0;
-    top: 18px;
-    left: -25px;
-    margin-top: -20px;
+.message-uname {
+    /*font-size: max(0.5em, 1vw);*/
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-size: var(--small-font-size);
 }
 
-
+.message-text {
+    padding-top: 0;
+    margin-top: 0;
+    font-size: var(--base-font-size);
+/*    font-size: max(1em, 2vw);*/
+}

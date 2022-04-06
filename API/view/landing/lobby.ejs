@@ -1,6 +1,8 @@
 <%- include('../header') %>
 <script src="/socket.io/socket.io.js"></script>
 <link rel="stylesheet" href="/css/landing/lobby.css">
+<link rel="stylesheet" href="/css/landing/gamelistbkg.css">
+
 <main>
     <div class="main-header">
         <!-- <div class="userinfo">
@@ -14,28 +16,28 @@
         </div> -->
     </div>
     <div class="main-lobby">
+        <div class="main-tools">
+            <div class="createGame">
+                <form method="post" id="createGameButtonForm">
+                    <button id="submitBtn" class="button button_create button_green" type="submit">Create Game</button>
+                </form> 
+            </div>
+            <div class="games">
+                <span class="games-header">Games</span>
+                <ul id="gameList"></ul>
+            </div>
+        </div>
         <div class="chat">
             <div class="chatDisplay"></div>
             <div class="chatInput">
                 <input class="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
-                <button class="chatInputButton button_game button_orange">SEND</button>
-            </div>
-        </div>
-        <div id="main-left">
-            <div class="createGame">
-                <form method="post" id="createGameButtonForm">
-                    <button id="submitBtn" class="button_create button_green" type="submit">Create Game</button>
-                </form> 
-            </div>
-            <div class="games">
-                <span>Games</span>
-                <ul id="gameList"></ul>
+                <button class="chatInputButton button button_send button_orange">SEND</button>
             </div>
         </div>
     </div>
     <div class="main-footer">
         <form id="logout" action="/logout" method="post">
-            <button class="button_logout button_red" type="submit">logout</button>
+            <button class="button button_logout button_red" type="submit">logout</button>
         </form>
     </div>
 </main>

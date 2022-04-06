@@ -77,7 +77,7 @@ function updateGameList(games,DOMelement,socket) {
         var submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
         submitButton.value = games[i].split('-').pop(); 
-        submitButton.classList.add("button_game","button_blue");
+        submitButton.classList.add("button","button_game","button_blue");
         submitButton.setAttribute('id',`${games[i]}`);
         form.appendChild(submitButton);
         li.appendChild(form);
@@ -111,15 +111,20 @@ function outputUserList(users,DOMelement) {
 // Add messages to DOM
 function outputMessage(message,display) {
     const div = document.createElement('div');
-    div.classList.add('message');
-    const span = document.createElement('span');
-    span.classList.add('uname');
-    span.innerHTML = `<span>${message.time} : </span>`;
-    span.innerHTML += `<span>${message.username} mesage:</span><br>`;
-    div.appendChild(span);
+    const span0 = document.createElement('span');
+    const span1 = document.createElement('span');
     const span2 = document.createElement('span');
-    span2.innerHTML = `<span>${message.text}</span>`;
-    div.appendChild(span2);
+
+    div.classList.add('message');
+    //span0.classList.add('message-uname');
+    //span1.classList.add('message-text');
+   
+    span0.innerHTML = `<span class="message-date">${message.time}</span><span class="message-uname">${message.username}</span><br>`;
+    span1.innerHTML = `<span class="message-text">${message.text}</span>`;
+
+    div.appendChild(span0);
+    div.appendChild(span1);
+    
     display.appendChild(div);
     //display.scrollTop = display.scrollHeight - display.clientHeight;
 }

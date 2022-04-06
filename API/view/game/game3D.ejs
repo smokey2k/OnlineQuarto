@@ -1,41 +1,80 @@
+<!-- <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet"> -->
+<script src="//cdn.rawgit.com/mrdoob/three.js/master/build/three.js"></script>
+<script src="//cdn.rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js"></script>
 <script src='/js/threex.windowresize.js'></script>
-<script type="module">
-	import * as THREE from '/js/threejs/three.module.js';
-	const canvas = document.getElementsByClassName('webgl-container')[0];
-	var renderer,myWidth,myHeight,oldCanvasWidth;
 
-	const camera = new THREE.PerspectiveCamera( 70, canvas.offsetWidth / canvas.offsetHeight, 0.01, 10 ); //window.innerWidth / window.innerHeight
-	camera.position.z = 0.5;
-	const scene = new THREE.Scene();
-	const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-	const material = new THREE.MeshNormalMaterial();
-	const mesh = new THREE.Mesh( geometry, material );
-	scene.add( mesh );
-	myRenderer()
-	
-	let dimension = function(){ return { width: canvas.offsetWidth, height: canvas.offsetHeight } }
-	THREEx.WindowResize(renderer, camera,dimension);
-	//winResize = new THREEx.WindowResize(renderer, camera,dimension)
-	renderer.setAnimationLoop( animation );
-	canvas.appendChild( renderer.domElement );
+<script>
+// Question Reference: discourse.threejs.org/...
+const canvas = document.getElementsByClassName('webgl-container')[0];
 
-	//winResize.trigger();
 
-	function animation( time ) {
-		mesh.rotation.x = time / 2000;
-		mesh.rotation.y = time / 1000;
-		renderer.render( scene, camera );
-	}
+let camera, scene, renderer, controls, mesh,
+    myWidth,myHeight,oldCanvasWidth,tanFOV;
 
-	function myRenderer() {
-    	myWidth = canvas.offsetWidth;
-    	myHeight = canvas.offsetHeight;
-    	oldCanvasWidth = myWidth;
-    	renderer = new THREE.WebGLRenderer( { alpha: true } ); //,antialias: true
-    	renderer.setPixelRatio( myWidth / myHeight ); //window.devicePixelRatio
-    	renderer.setSize(myWidth, myHeight);
-    	renderer.outputEncoding = THREE.sRGBEncoding;
-    	renderer.shadowMap.enabled = true;
-		
-	};
+const createWorld = () => {
+  mesh = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(2, 2, 2),
+    new THREE.MeshStandardMaterial({ color: 0xff9999 })
+  );
+  
+  scene.add(mesh);
+  
+  camera.lookAt(mesh.position);
+  
+  setInterval(() => {
+    mesh.rotateY(0.001);
+  }, 1 / 60);
+};
+
+const init = () => {
+  //camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000.0);
+  camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000.0);
+  
+  camera.position.set(-5, 5, 7);
+  tanFOV = Math.tan( ( ( Math.PI / 180 ) * camera.fov / 2 ) );
+  
+
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x333333);
+
+  scene.add(new THREE.HemisphereLight(0xffffcc, 0x19bbdc, 1));
+
+  //renderer = new THREE.WebGLRenderer({ antialias: true });
+  //renderer.setSize(window.innerWidth, window.innerHeight);
+  myRenderer();
+
+  //document.body.appendChild(renderer.domElement);
+  canvas.appendChild( renderer.domElement );
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  
+  createWorld();
+}
+
+const animate = () => {
+  requestAnimationFrame(animate);
+  
+  controls.update();
+
+  renderer.render(scene, camera); 
+}
+
+init();
+animate();
+
+function myRenderer() {
+    myWidth = canvas.offsetWidth;
+    myHeight = canvas.offsetHeight;
+    oldCanvasWidth = myWidth;
+    renderer = new THREE.WebGLRenderer( { alpha: false } ); //,antialias: true
+    renderer.setPixelRatio( myWidth / myHeight ); //window.devicePixelRatio
+    renderer.setSize(myWidth, myHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    let dimension = function(){ return { width: canvas.offsetWidth, height: canvas.offsetHeight } }
+	THREEx.WindowResize(renderer, camera, dimension, mesh,controls, tanFOV);
+};
+
+
 </script>
