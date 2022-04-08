@@ -1,0 +1,17 @@
+<div class="chat">
+    <div class="chat-display">
+    </div>
+    <div class="chat-input">
+        <button class="chat-room button_room button_red">
+            <% if(userInfo.route == 'game'){ %>
+                <%= userInfo.game %>
+            <% } else{ %>  
+                <%= userInfo.room %>
+            <% } %>
+            
+            
+        </button>
+        <input class="chat-input-box" type="text" name="chatMsg" placeholder='type..'>
+        <button class="chat-input-button button button_send">SEND</button>
+    </div>
+</div>

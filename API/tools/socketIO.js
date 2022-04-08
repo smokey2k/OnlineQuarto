@@ -6,48 +6,59 @@ const games = [];
 exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
         const session = socket.request.session;
-
-        socket.on('joinToLobby', ()=> {
-            const user = joinUser(session.userID, session.username, session.room, socket.id,1);
-            socket.join('lobby');
+        session.socket = socket.id;
+        
+        socket.on('joinToRoom', ()=> {
+            const user = joinUser(session.userID, session.username, session.room, session.socket,1);
+            socket.join(session.room);
             // update room info
-            io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
+            if (session.room == 'lobby') {
+                io.to('lobby').emit('updateLobby', games);    
+            }
             // wellcome current user
-            socket.emit('message',formatMessage('System', `${user.name}, wellcome in the lobby !`) );
+            socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             // broadcast to users in room
-            socket.broadcast.to('lobby').emit('joinedToLobby', connectUser(user.userID) );
+            socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
-
+        
         socket.on('joinToGame', async function() {
             var sockets = await io.in(session.room).fetchSockets();
             console.log(sockets.length);
             if (sockets.length == 1) {
-                socket.join(session.room);    
+                socket.join(session.game);    
                 // update room info
-                io.to(session.room).emit('updateRoom',session.room);
+                //io.to(session.room).emit('updateGameRoom',session.room);
                 // wellcome current user
                 socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.room}!`) );
                 // broadcast to users in room
-                socket.broadcast.to(session.room).emit('joinedToGame', connectUser(session.userID) );    
-                db.query('DELETE FROM games WHERE game = ?', [session.room], (err)=>{
-                    if (err) throw err;
-                    io.to('lobby').emit('deleteGameFromList', `${session.room}`);
-                    for( var i = 0; i < games.length; i++){ 
-                        if ( games[i] === session.room) { 
-                            games.splice(i, 1); 
-                        }
+                socket.broadcast.to(session.game).emit('joinedToGame', formatMessage('System', `${session.username} joined to room: ${session.game} !`) );    
+                
+                console.log(`games: ${games}`)
+                for( var i = 0; i < games.length; i++){ 
+                    if ( games[i] === session.game) { 
+                        games.splice(i, 1); 
                     }
-                    // update lobby game list
-                    io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
-                });
+                }
+
+                io.to('lobby').emit('updateLobby', games);
+                console.log(`games: ${games}`)
+                //db.query('DELETE FROM games WHERE game = ?', [session.room], (err)=>{
+                //    if (err) throw err;
+                //    io.to('lobby').emit('deleteGameFromList', `${session.room}`);
+                //    
+                //    
+                //    
+                //    // update lobby game list
+                //    io.to('lobby').emit('updateLobbyRoom', 'lobby', games);
+                //});
             } else {
-                socket.join(session.room);    
+                socket.join(session.game);    
                 // update room info
-                io.to(session.room).emit('updateRoom',session.room);
+                //io.to(session.room).emit('updateRoom',session.room);
                 // wellcome current user
-                socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.room}!`) );
+                socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.game}!`) );
                 // broadcast to users in room
-                socket.broadcast.to(session.room).emit('joinedToGame', connectUser(session.userID) );    
+                socket.broadcast.to(session.game).emit('joinedToGame', connectUser(session.userID) );    
             }
             
             
@@ -56,7 +67,13 @@ exports = module.exports = function(io) {
 
         // listen for messages
         socket.on('message', (msg)=>{
-            io.in(session.room).emit('message',formatMessage(session.username, msg));
+            let room = '';
+            if (session.route != 'game') {
+                room = session.room;
+            } else {
+                room = session.game;
+            }
+            io.in(room).emit('message',formatMessage(session.username, msg));
         });
 
         // listen for createGame
@@ -92,7 +109,7 @@ function formatMessage(username, text) {
 
 // user join to room
 function joinUser(userID,name,room,socketID,firstTime) {
-    db.query(`UPDATE rooms SET room='${room}', socketID='${socketID}' WHERE userID=${userID};`, (err)=>{
+    db.query(`UPDATE rooms SET room='${room}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
         if (err) throw err;
     });
     

@@ -27,19 +27,18 @@ var THREEx	= THREEx || {}
  * @param {Object} controls OrbitControls for mouse input
  * 
 */
-THREEx.WindowResize	= function(renderer, camera, dimension, object, controls, tanFOV){
+THREEx.WindowResize	= function(renderer, camera, dimension, object, tanFOV,controls){
 	dimension 	= dimension || function(){ return { width: window.innerWidth, height: window.innerHeight } }
 	var callback	= function(){
 		// fetch target renderer size
 		var rendererSize = dimension();
 		// notify the renderer of the size change
 		renderer.setSize( rendererSize.width, rendererSize.height )
-		
 		// update the camera
 		camera.aspect	= rendererSize.width / rendererSize.height
 		//camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( rendererSize.width, rendererSize.height ) );
-		fitCameraToObject( camera, renderer, controls, 1.25 )
-		//camera.updateProjectionMatrix()
+		//fitCameraToObject( camera, renderer, 1.25, controls )
+		camera.updateProjectionMatrix()
 	}
 	// bind the resize event
 	window.addEventListener('resize', callback, false)
@@ -60,7 +59,7 @@ THREEx.WindowResize	= function(renderer, camera, dimension, object, controls, ta
 
 
 
-function fitCameraToObject ( camera, object, controls, offset ) {
+function fitCameraToObject ( camera, object, offset,controls ) {
     offset = offset || 1.25;
     /*
 	const boundingBox = new THREE.Box3();
@@ -89,19 +88,13 @@ function fitCameraToObject ( camera, object, controls, offset ) {
 	camera.updateProjectionMatrix();
 	/*
     if ( controls ) {
-
       // set camera to rotate around center of loaded object
       controls.target = center;
-
       // prevent camera from zooming out far enough to create far plane cutoff
       controls.maxDistance = cameraToFarEdge * 2;
-
       controls.saveState();
-
     } else {
-
         camera.lookAt( center )
-
-   }
-*/
+   	}
+	   */
 }

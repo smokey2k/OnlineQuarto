@@ -1,50 +1,44 @@
 <%- include('../header') %>
 <script src="/socket.io/socket.io.js"></script>
-<link rel="stylesheet" href="/css/landing/lobby.css">
-<link rel="stylesheet" href="/css/landing/gamelistbkg.css">
+<script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
 
-<main>
-    <div class="main-header">
-        <!-- <div class="userinfo">
-            <ul>
-                <li>Session ID: <%= userInfo.sessionID %></li>
-                <li>Socket ID: <span id="socketInfo"></span> </li>
-                <li>User ID: <%= userInfo.userID %></li>
-                <li>User Name: <%= userInfo.name %></li>
-                <li>Room: <span id="roomName"></span> </li>
-            </ul>
-        </div> -->
-    </div>
-    <div class="main-lobby">
+<link rel="stylesheet" href="/css/landing/lobby.css">
+    <div class="main">
         <div class="main-tools">
-            <div class="createGame">
-                <form method="post" id="createGameButtonForm">
-                    <button id="submitBtn" class="button button_create button_green" type="submit">Create Game</button>
-                </form> 
-            </div>
-            <div class="games">
-                <span class="games-header">Games</span>
-                <ul id="gameList"></ul>
-            </div>
+            <%- include('../widgets/gamelist') %>
         </div>
-        <div class="chat">
-            <div class="chatDisplay"></div>
-            <div class="chatInput">
-                <input class="chatInputBox" type="text" name="chatMsg" placeholder='type a message..'>
-                <button class="chatInputButton button button_send button_orange">SEND</button>
-            </div>
+        <%- include('../widgets/chat') %>
+    </div>
+    <div class="footer">
+        <div class="user-info">
+            <ul class="user-info-list">
+                <li>sessionID: <%= userInfo.sessionID %></li>
+                <li>userID: <%= userInfo.userID %></li>
+                <li>name: <%= userInfo.name %></li>
+                <li>room: <%= userInfo.room %></li>
+                <li>route: <%= userInfo.route %></li>
+                <li>game: <%= userInfo.game %></li>
+                <li>socket: <%= userInfo.socket %></li>
+            </ul>
+        </div>
+        <div class="footer-menu-right">
+            <form method="post" class="create-game-form">
+                <button id="submit-button" class="button button_create" type="submit">Create Game</button>
+            </form>
+        </div>
+        <div class="footer-menu-left">
+            <ul class="footer-menu-left-list">
+                <li class="header-menu-item">
+                    <button class="button button_game" type="submit">game</button>
+                </li>
+                <!-- <li class="footer-menu-item button button_leave">Leave</li> -->
+                <li class="footer-menu-item">
+                    <form id="logout" action="/logout" method="post">
+                        <button class="button button_logout" type="submit">logout</button>
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="main-footer">
-        <form id="logout" action="/logout" method="post">
-            <button class="button button_logout button_red" type="submit">logout</button>
-        </form>
-    </div>
-</main>
-    <script>
-        var userInfo = <%- JSON.stringify(userInfo) %>;
-    </script>
-    <script src="/js/quarto/lobby.js">
-        
-    </script>
+    <script type="module" src="/js/quarto/landing/lobby.js"></script>
 <%- include('../footer') %>

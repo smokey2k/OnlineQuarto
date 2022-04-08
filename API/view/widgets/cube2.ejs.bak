@@ -1,0 +1,102 @@
+<script src="//cdn.rawgit.com/mrdoob/three.js/master/build/three.js"></script>
+<script src="//cdn.rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js"></script>
+<script src='/js/threex.windowresize.js'></script>
+<script>
+
+const canvas = document.getElementsByClassName('webgl-container')[0];
+const mapDimensions = getmapDimensions(canvas);
+
+let camera, scene, renderer, mesh,
+    geometry, material, clock,
+    myWidth,myHeight,tanFOV;
+
+const worldWidth = 128, worldDepth = 128;
+
+const createWorld = () => {
+  mesh = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(2, 2, 2),
+    new THREE.MeshStandardMaterial({ color: 0xff9999 })
+  );
+
+  scene.add(mesh);
+  
+  camera.lookAt(mesh.position);
+  
+  setInterval(() => {
+    mesh.rotateY(0.001);
+  }, 1 / 60);
+  ocean();
+};
+
+const init = () => {
+  clock = new THREE.Clock();
+  camera = new THREE.PerspectiveCamera(60, mapDimensions.width/mapDimensions.height, 1, 2000);
+  camera.position.set(-1, 5, 7);
+  tanFOV = Math.tan( ( ( Math.PI / 180 ) * camera.fov / 2 ) );
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2( 0xaaccff, 0.0007  );
+  //scene.background = new THREE.Color(0x333333);
+  scene.add(new THREE.HemisphereLight(0xffffcc, 0x19bbdc, 1));
+  myRenderer();
+  canvas.appendChild( renderer.domElement );
+  createWorld();
+}
+
+const animate = () => {
+  requestAnimationFrame(animate);
+  render();
+  //renderer.render(scene, camera); 
+}
+
+function render() {
+    const delta = clock.getDelta();
+    const time = clock.getElapsedTime() * 4;
+    const position = geometry.attributes.position;
+    for ( let i = 0; i < position.count; i ++ ) {
+    	const y = 35 * Math.sin( i / 5 + ( time + i ) / 7 );
+    	position.setY( i, y );
+    }
+    position.needsUpdate = true;
+    renderer.render( scene, camera );
+}
+
+function myRenderer() {
+    myWidth = mapDimensions.width;
+    myHeight = mapDimensions.height;
+    renderer = new THREE.WebGLRenderer( { alpha: true } ); //,antialias: true
+    const renderCanvas = renderer.domElement;
+    renderer.setSize(myWidth, myHeight, false);
+    renderer.setPixelRatio( myHeight / myHeight ); //window.devicePixelRatio
+    camera.updateProjectionMatrix();
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    let dimension = function(){ return { width: canvas.offsetWidth, height: canvas.offsetHeight } }
+	  THREEx.WindowResize(renderer, camera, dimension, mesh, tanFOV);
+};
+
+function getmapDimensions(container) {
+  return container.getBoundingClientRect();
+}
+
+function ocean() {
+      geometry = new THREE.PlaneGeometry( 20000, 20000, worldWidth - 1, worldDepth - 1 );
+    	geometry.rotateX( - Math.PI / 2 );
+    	const position = geometry.attributes.position;
+    	position.usage = THREE.DynamicDrawUsage;
+    	for ( let i = 0; i < position.count; i ++ ) {
+    		const y = 35 * Math.sin( i / 2 );
+    		position.setY( i, y );
+    	}
+        
+    	const texture = new THREE.TextureLoader().load( '/media/textures/water.jpg' );
+    	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    	texture.repeat.set( 5, 5 );
+    	material = new THREE.MeshBasicMaterial( { color: 0x0044ff, map: texture } );
+    	mesh = new THREE.Mesh( geometry, material );
+    	scene.add( mesh );
+}
+
+
+init();
+animate();
+</script>

@@ -1,0 +1,20 @@
+.scrollbar {
+    scrollbar-color: gray rgba(255, 255, 255, 0.695);
+    scrollbar-width: 2vh;
+}
+.scrollbar::-webkit-scrollbar {
+    width: 2vh;
+}
+/* Track */
+.scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.695);
+}
+/* Handle */
+.scrollbar::-webkit-scrollbar-thumb {
+  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 20%, rgb(61, 61, 61) 100%);
+}
+  
+/* Handle on hover */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(192, 191, 191) 20%, rgb(107, 107, 107) 100%);
+}

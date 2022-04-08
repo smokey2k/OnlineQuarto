@@ -4,7 +4,10 @@
 
 <link rel="stylesheet" href="/css/game/game.css">
 <div class="main">
-    <div class="game">game</div>
+    <div class="about">
+        <h1>Userinfo:</h1>
+        <span> <%= userInfo.room %></span>
+    </div>
     <%- include('../widgets/chat') %>
 </div>
 
@@ -23,7 +26,6 @@
     </div>
     <div class="footer-menu-left">
         <ul class="footer-menu-left-list">
-            <li class="footer-menu-item button button_leave">Leave</li>
             <li class="footer-menu-item">
                 <form id="logout" action="/logout" method="post">
                     <button class="button button_logout" type="submit">logout</button>
@@ -33,5 +35,6 @@
     </div>
 </div>
 
-<script type="module" src="/js/quarto/game/game.js"></script>
+
+<script type="module" src="/js/quarto/landing/about.js"></script>
 <%- include('../footer') %>
