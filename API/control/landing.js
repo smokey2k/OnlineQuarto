@@ -16,12 +16,14 @@ exports.GET_lobby = (req,res)=>{
 
 exports.GET_game = (req,res)=>{
     const userInfo = getUserInfo(req);
-    req.session.route = 'game';    
-    userInfo.route = req.session.route;
-    ejs.renderFile('./API/view/game/game.ejs',{userInfo}, (err, data)=>{
-        if (err) throw err;
-        res.send(data);
-    });
+    if (req.session.game != 'null') {
+        req.session.route = 'game';
+        userInfo.route = req.session.route;
+        ejs.renderFile('./API/view/game/game.ejs',{userInfo}, (err, data)=>{
+            if (err) throw err;
+            res.send(data);
+        });    
+    }
 }
 
 exports.POST_game = (req,res)=>{

@@ -1,0 +1,36 @@
+<div class="user-info">
+    <table class="user-info-table">
+        <tbody>
+            <% for(const p in userInfo) {  %>
+            <tr>
+                <td><%= userInfo[p] %></td>
+                <td><%= p %></td>
+            </tr>
+             <% } %>
+             <tr>
+                <td id="socket"></td>
+                <td>socket</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    const panel = document.querySelector('.user-info');
+    let state = 0;
+    toggle(panel);
+    
+    panel.addEventListener('click', (event)=>{
+        toggle(panel);
+    });
+    
+    function toggle(panel) {
+        if (state == 0) {
+           state = 1;
+           panel.style.width = "1ch";
+           
+        } else {
+            state = 0;
+            panel.style.width = "fit-content";
+        }
+    }
+</script>

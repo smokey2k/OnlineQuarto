@@ -4,6 +4,10 @@ $( document ).ready( INIT() );
 
 function INIT() {
     initChat();
+    
+    const userDisplay = document.querySelector('#socket');
+    userDisplay.innerHTML = socket.id;
+
     socket.emit(`joinToRoom`);
     socket.on(`joinedToRoom`, (msg)=>{
         if (msg !== "") {

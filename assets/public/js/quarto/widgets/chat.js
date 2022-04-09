@@ -1,7 +1,13 @@
 export const socket = io({transports: ['websocket'], upgrade: false});
+
 export const display = document.querySelector('.chat-display');
 const chatInputBox = document.querySelector('.chat-input-box');
 const chatInputButton = document.querySelector('.chat-input-button');
+
+
+
+
+
 
 function initChat() {
     chatInputButton.addEventListener('click', (event)=>{
@@ -11,6 +17,10 @@ function initChat() {
     chatInputBox.addEventListener("keyup", (event)=> {
         if (event.key === 'Enter') { sendMessage(chatInputBox,socket);}
     });
+
+
+
+
 }
 
 function outputMessage(message,display) {

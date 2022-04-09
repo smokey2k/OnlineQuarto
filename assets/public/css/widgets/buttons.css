@@ -90,6 +90,7 @@
     }
 
 .button_game {
+    font-size: var(--big-font-size);
     color: white;
     background: radial-gradient(circle, rgb(0, 76, 255) 0%, rgb(37, 80, 179) 20%, rgb(9, 32, 87) 100%);
 }

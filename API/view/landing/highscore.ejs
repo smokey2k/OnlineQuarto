@@ -1,7 +1,7 @@
-<%- include('../header') %>
+<%- include('../widgets/header') %>
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
-
+<%- include('../widgets/userinfo') %>
 <link rel="stylesheet" href="/css/game/game.css">
 <div class="main">
     <div class="highscore">
@@ -15,17 +15,6 @@
 
 
 <div class="footer">
-    <div class="user-info">
-        <ul class="user-info-list">
-            <li>sessionID: <%= userInfo.sessionID %></li>
-            <li>userID: <%= userInfo.userID %></li>
-            <li>name: <%= userInfo.name %></li>
-            <li>room: <%= userInfo.room %></li>
-            <li>route: <%= userInfo.route %></li>
-            <li>game: <%= userInfo.game %></li>
-            <li>socket: <%= userInfo.socket %></li>
-        </ul>
-    </div>
     <div class="footer-menu-left">
         <ul class="footer-menu-left-list">
             <li class="footer-menu-item">

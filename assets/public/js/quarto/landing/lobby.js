@@ -4,8 +4,9 @@ import { updateGameList,gameListDOM } from '/js/quarto/widgets/gamelist.js'
 $( document ).ready( INIT() );
 
 function INIT() {
-    
     initChat();
+
+    
 
     $(".create-game-form").submit(function(e) {
         e.preventDefault();
@@ -19,13 +20,26 @@ function INIT() {
             }
         });
     });
+    
+
 
     socket.emit(`joinToRoom`);
+    
+    socket.on("connect", () => {
+        const userDisplay = document.querySelector('#socket');
+        userDisplay.innerHTML = socket.id;
+      });
+
+      socket.on("disconnect", () => {
+        console.log(socket.id); // undefined
+      });
+
     socket.on(`joinedToRoom`, (msg)=>{
         if (msg !== "") {
             outputMessage(msg,display);    
         }
     });
+    
     socket.on('message', (msg)=>{
         outputMessage(msg,display);
     })
@@ -34,7 +48,7 @@ function INIT() {
         updateGameList(games,gameListDOM,socket);
     });
 
-    socket.on('gameCreated', (games,game)=>{
+    socket.on('gameCreated', (games)=>{
         updateGameList(games,gameListDOM,socket);
     })
 }

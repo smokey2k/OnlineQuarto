@@ -21,13 +21,6 @@ exports.GET_login = (req,res)=>{
     });
 }
 
-exports.GET_sessionOccupied = (req,res)=>{
-    ejs.renderFile('./API/view/login/sessionOccupied.ejs', (err, data)=>{
-        if (err) throw err;
-        res.send(data);
-    });
-}
-
 exports.POST_login = (req,res)=>{
     const { username, password } = req.body;
     errorMsg = '';
@@ -35,7 +28,7 @@ exports.POST_login = (req,res)=>{
         if (username && password) {
             db_login(username,password,req,res);
         } else {
-            errorMsg = `Missing Username and/or Password !`;
+            sendError(`Missing Username and/or Password !`,res,'/login');
             res.redirect('/login');
         }
     } else {
@@ -44,6 +37,36 @@ exports.POST_login = (req,res)=>{
         } else {
             res.redirect(`/${req.session.route}`);
         }
+    }
+}
+
+
+exports.GET_register = (req,res)=>{
+    ejs.renderFile('./API/view/login/register.ejs', {errorMsg} , (err, data)=>{
+        if (err) throw err;
+        res.send(data);
+    });
+}
+
+exports.POST_register = (req,res)=>{
+    const { name,email,passwd1,passwd2 } = req.body;
+    errorMsg = '';
+    if (name.length > 12 || name == 'null') {
+        sendError('Name is too long or not allowed ! Maximum name lenght is 12 character.',res,'/register');
+    } else if (passwd1 != passwd2) {
+        sendError('The given passwords are not the same !',res,'/register');
+    } else {
+        db.query(`SELECT id FROM users WHERE email='${email}'`, (err, results)=>{
+            if (err) throw err;
+            if (results.length > 0)
+            {
+                sendError(`The given E-mail address already registered !`,res,'/register');
+            }
+            else
+            {
+                db_reggister(name,email,passwd1,req,res);
+            }
+        });
     }
 }
 
@@ -58,40 +81,18 @@ exports.POST_logout = (req,res)=>{
     })
 }
 
-exports.GET_register = (req,res)=>{
-    ejs.renderFile('./API/view/login/register.ejs', {errorMsg} , (err, data)=>{
+exports.GET_sessionOccupied = (req,res)=>{
+    ejs.renderFile('./API/view/login/sessionOccupied.ejs', (err, data)=>{
         if (err) throw err;
         res.send(data);
     });
 }
 
-function sendError(msg,res) {
+
+function sendError(msg,res,route) {
     errorMsg = msg;
-    res.redirect('/register');
+    res.redirect(route);
 }
-
-exports.POST_register = (req,res)=>{
-    const { name,email,passwd1,passwd2 } = req.body;
-    errorMsg = '';
-    if (name.length > 12 || name == 'null') {
-        sendError('Name is too long or not allowed ! Maximum name lenght is 12 character.',res);
-    } else if (passwd1 != passwd2) {
-        sendError('The given passwords are not the same !',res);
-    } else {
-        db.query(`SELECT id FROM users WHERE email='${email}'`, (err, results)=>{
-            if (err) throw err;
-            if (results.length > 0)
-            {
-                sendError(`The given E-mail address already registered !`,res);
-            }
-            else
-            {
-                db_reggister(name,email,passwd1,req,res);
-            }
-        });
-    }
-}
-
 
 function db_reggister(name,email,passwd1,req,res) {
     db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0)`, (err)=>{

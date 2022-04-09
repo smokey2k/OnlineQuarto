@@ -1,8 +1,8 @@
 <%- include('../header') %>
 <link rel="stylesheet" href="/css/login/main.css">
-<main>
     <div class="root">
         <h1>Register</h1>
+        <div class="rootError"><%= errorMsg %></div>
         <div class="rootForm">
             <form class="Form" method='post' action='/register'>
                 <input type='text' name='name' placeholder='Username..' required />
@@ -15,7 +15,5 @@
         <div class="rootButtons">
             <a href='/'>Back</a>
         </div>
-        <div class="rootError"><%= errorMsg %></div>
     </div>
-</main>
 <%- include('../footer') %>

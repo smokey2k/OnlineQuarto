@@ -13,7 +13,9 @@ exports = module.exports = function(io) {
             socket.join(session.room);
             // update room info
             if (session.room == 'lobby') {
-                io.to('lobby').emit('updateLobby', games);    
+                socket.to('lobby').emit('updateLobby', games);    
+            } else {
+                socket.to(session.room).emit('updateRoom');  // !!!!!!!!!!!!!!!!!   
             }
             // wellcome current user
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
@@ -86,7 +88,7 @@ exports = module.exports = function(io) {
                         games.push(e.game);
                     });
                     const game = `${session.userID}-${session.username}`;
-                    io.to('lobby').emit('gameCreated',games,game);
+                    socket.to('lobby').emit('gameCreated',games); // game
                 });
             });
         });

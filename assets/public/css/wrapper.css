@@ -1,5 +1,6 @@
 :root {
     --message-bg-color: silver;
+    --tiny-font-size: max(0.5em, 0.5vw);
     --small-font-size: max(0.8em, 1vw);
     --base-font-size: max(1em, 2vw);
     --big-font-size: max(1.2em, 2.2vw);
@@ -22,6 +23,9 @@ html, body, .wrapper {
     height: 100%;
     display: flex;
     flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .webgl-container {
@@ -49,10 +53,12 @@ html, body, .wrapper {
 }
 
 .wrapper {
-    
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
     min-width: 200px;
+    
 }
 
 
@@ -139,16 +145,3 @@ html, body, .wrapper {
     }
     
 } 
-
-
-
-.user-info {
-    color: white;
-    width: 100%;
-    height: fit-content;
-    background-color: red;
-}
-.user-info-list {
-    list-style: none;
-    padding: 0.5vh;
-}

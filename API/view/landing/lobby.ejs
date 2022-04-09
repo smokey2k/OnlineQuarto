@@ -1,6 +1,7 @@
-<%- include('../header') %>
+<%- include('../widgets/header') %>
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
+<%- include('../widgets/userinfo') %>
 
 <link rel="stylesheet" href="/css/landing/lobby.css">
     <div class="main">
@@ -10,17 +11,6 @@
         <%- include('../widgets/chat') %>
     </div>
     <div class="footer">
-        <div class="user-info">
-            <ul class="user-info-list">
-                <li>sessionID: <%= userInfo.sessionID %></li>
-                <li>userID: <%= userInfo.userID %></li>
-                <li>name: <%= userInfo.name %></li>
-                <li>room: <%= userInfo.room %></li>
-                <li>route: <%= userInfo.route %></li>
-                <li>game: <%= userInfo.game %></li>
-                <li>socket: <%= userInfo.socket %></li>
-            </ul>
-        </div>
         <div class="footer-menu-right">
             <form method="post" class="create-game-form">
                 <button id="submit-button" class="button button_create" type="submit">Create Game</button>
@@ -28,10 +18,15 @@
         </div>
         <div class="footer-menu-left">
             <ul class="footer-menu-left-list">
-                <li class="header-menu-item">
-                    <button class="button button_game" type="submit">game</button>
-                </li>
-                <!-- <li class="footer-menu-item button button_leave">Leave</li> -->
+                
+                <% if(userInfo.game != 'null'){ %>
+                    <li class="footer-menu-item">
+                        <form id="back-to-game" action="/game" method="get">
+                            <button class="button button_game" type="submit">back to game</button>
+                        </form>
+                    </li>
+                <% } %>  
+
                 <li class="footer-menu-item">
                     <form id="logout" action="/logout" method="post">
                         <button class="button button_logout" type="submit">logout</button>
