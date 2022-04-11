@@ -63,7 +63,7 @@
   }
   
   function ocean() {
-          geometry = new THREE.PlaneGeometry( 20000, 20000, worldWidth - 1, worldDepth - 1 );
+        geometry = new THREE.PlaneGeometry( 20000, 20000, worldWidth - 1, worldDepth - 1 );
       	geometry.rotateX( - Math.PI / 2 );
       	const position = geometry.attributes.position;
       	position.usage = THREE.DynamicDrawUsage;
