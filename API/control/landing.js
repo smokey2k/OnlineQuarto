@@ -2,28 +2,18 @@ const ejs = require('ejs');
 const db = require('../model/model-mysql');
 const share = require('../tools/share');
 
-exports.GET_lobby = (req,res)=>{
-    const userInfo = getUserInfo(req);
-    req.session.room = 'lobby';
-    req.session.route = req.session.room;
-    userInfo.room = req.session.room;
-    userInfo.route = req.session.room;
-    ejs.renderFile('./API/view/landing/lobby.ejs', {userInfo} , (err, data)=>{
-        if (err) throw err;
-        res.send(data);
-    });
-}
-
 exports.GET_game = (req,res)=>{
-    const userInfo = getUserInfo(req);
-    if (req.session.game != 'null') {
-        req.session.route = 'game';
-        userInfo.route = req.session.route;
-        ejs.renderFile('./API/view/game/game.ejs',{userInfo}, (err, data)=>{
-            if (err) throw err;
-            res.send(data);
-        });    
-    }
+    set_userGamePath(req,res,'game')
+    //const userInfo = getUserInfo(req);
+    //if (req.session.game != 'null') {
+    //    req.session.route = 'game';
+    //    
+    //    userInfo.route = req.session.route;
+    //    ejs.renderFile('./API/view/landing/game.ejs',{userInfo}, (err, data)=>{
+    //        if (err) throw err;
+    //        res.send(data);
+    //    });    
+    //}
 }
 
 exports.POST_game = (req,res)=>{
@@ -32,39 +22,52 @@ exports.POST_game = (req,res)=>{
     res.redirect('/game')
 }
 
+exports.GET_lobby = (req,res)=>{
+    set_userPath(req,res,'lobby')
+}
+
 exports.GET_highscore = (req,res)=>{
-    const userInfo = getUserInfo(req);
-    req.session.room = 'highscore';
-    req.session.route = req.session.room;
-    userInfo.room = req.session.room;
-    userInfo.route = req.session.room;
-    ejs.renderFile('./API/view/landing/highscore.ejs', {userInfo} , (err, data)=>{
-        if (err) throw err;
-        res.send(data);
-    });
+    set_userPath(req,res,'highscore')
 }
 
 exports.GET_help = (req,res)=>{
-    const userInfo = getUserInfo(req);
-    req.session.room = 'help';
-    req.session.route = req.session.room;
-    userInfo.room = req.session.room;
-    userInfo.route = req.session.room;
-    ejs.renderFile('./API/view/landing/help.ejs', {userInfo} , (err, data)=>{
-        if (err) throw err;
-        res.send(data);
-    });
+    set_userPath(req,res,'help')
 }
 
 exports.GET_about = (req,res)=>{
+    set_userPath(req,res,'about')
+}
+
+function set_userPath(req,res,path) {
     const userInfo = getUserInfo(req);
-    req.session.room = 'about';
-    req.session.route = req.session.room;
-    userInfo.room = req.session.room;
-    ejs.renderFile('./API/view/landing/about.ejs', {userInfo} , (err, data)=>{
+    req.session.room = path;
+    req.session.route = path;
+    userInfo.room = path;
+    userInfo.route = path;
+    db.query(`UPDATE rooms SET room='${path}', route='${path}' WHERE userID=${req.session.userID};`, (err)=>{
         if (err) throw err;
-        res.send(data);
+        ejs.renderFile(`./API/view/landing/${path}.ejs`, {userInfo} , (err, data)=>{
+            if (err) throw err;
+            res.send(data);
+        });
     });
+}
+
+function set_userGamePath(req,res,path) {
+    const userInfo = getUserInfo(req);
+    if (req.session.game == 'null') {
+       path = 'lobby'
+    }
+    req.session.route = path;
+    userInfo.route = req.session.route;
+    db.query(`UPDATE rooms SET route='${path}' WHERE userID=${req.session.userID};`, (err)=>{
+        if (err) throw err;
+        ejs.renderFile(`./API/view/landing/${path}.ejs`, {userInfo} , (err, data)=>{
+            if (err) throw err;
+            res.send(data);
+        });
+    });
+
 }
 
 
@@ -82,11 +85,5 @@ function getUserInfo(req){
     if (req.session.socket) {
         userInfo.socket = req.session.socket;
     }
-
-   // db.query(`UPDATE rooms SET room='${userInfo.room}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
-   //     if (err) throw err;
-   // });
-
-
     return userInfo
 } 

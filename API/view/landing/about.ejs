@@ -2,28 +2,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
 <%- include('../widgets/userinfo') %>
-<link rel="stylesheet" href="/css/game/game.css">
-<div class="main">
-    <div class="about">
-        <h1>Userinfo:</h1>
-        <span> <%= userInfo.room %></span>
-    </div>
-    <%- include('../widgets/chat') %>
-</div>
-
-
-<div class="footer">
-    <div class="footer-menu-left">
-        <ul class="footer-menu-left-list">
-            <li class="footer-menu-item">
-                <form id="logout" action="/logout" method="post">
-                    <button class="button button_logout" type="submit">logout</button>
-                </form>
-            </li>
-        </ul>
-    </div>
-</div>
-
-
+<div class="main"></div>
+<%- include('../widgets/footer') %>
 <script type="module" src="/js/quarto/landing/about.js"></script>
 <%- include('../footer') %>

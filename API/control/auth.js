@@ -29,7 +29,7 @@ exports.POST_login = (req,res)=>{
             db_login(username,password,req,res);
         } else {
             sendError(`Missing Username and/or Password !`,res,'/login');
-            res.redirect('/login');
+            //res.redirect('/login');
         }
     } else {
         if (username != req.session.username) {
@@ -71,9 +71,7 @@ exports.POST_register = (req,res)=>{
 }
 
 exports.POST_logout = (req,res)=>{
-    db.query('DELETE FROM rooms WHERE userID = ?', [req.session.userID], (err)=>{
-        if (err) throw err;
-    });
+    //db_logout(req);
     req.session.destroy( err => {
         if (err) throw err;
         res.clearCookie(process.env.SESSION_NAME);
@@ -95,7 +93,7 @@ function sendError(msg,res,route) {
 }
 
 function db_reggister(name,email,passwd1,req,res) {
-    db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0)`, (err)=>{
+    db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0,1)`, (err)=>{
         if (err) throw err;
         if (!req.session.userID) {
             db.query(`SELECT * FROM users WHERE email='${email}'`, (err, results)=>{
@@ -105,8 +103,8 @@ function db_reggister(name,email,passwd1,req,res) {
                 req.session.route = baseRoom;
                 req.session.game = 'null';
                 db.query(`INSERT INTO rooms VALUES(null,
-                    '${req.session.room}','${req.session.userID}', '${req.session.username}',
-                    '${req.session.route}','${req.session.game}',
+                    '${req.session.userID}', '${req.session.username}',
+                    '${req.session.room}','${req.session.route}','${req.session.game}',
                     null)`, (err)=>{
                     if (err) throw err;
                     return res.redirect(`/${req.session.route}`);
@@ -122,9 +120,18 @@ function db_login(username, password,req,res) {
     db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results)=> {
         if (err) throw err;
         if (results.length > 0) {
+            //if (results[0].status == 1) {
+            //    sendError(`User: ${results[0].username} already logged in !`,res,'/login');
+            //    return;    
+            //}
             req.session.userID = results[0].id;
             req.session.username = results[0].username;
-            db.query('SELECT * FROM rooms WHERE userID = ?', [req.session.userID], (err, results)=> {
+            //console.log(req.session.userID);
+            //db.query(`UPDATE users SET status = 1 WHERE users.id = '${req.session.userID}'`, (err)=>{
+            //    if (err) throw err;
+            //});
+                db.query('SELECT * FROM rooms WHERE userID = ?', [req.session.userID], (err, results)=> {
+                if (err) throw err;
                 if (results.length > 0) {
                     req.session.room = results[0].room;
                     req.session.route = results[0].route;
@@ -134,8 +141,8 @@ function db_login(username, password,req,res) {
                     req.session.route = baseRoute;
                     req.session.game = 'null';
                     db.query(`INSERT INTO rooms VALUES(null, 
-                        '${req.session.room}','${req.session.userID}', '${req.session.username}',
-                        '${req.session.route}','${req.session.game}',
+                        '${req.session.userID}', '${req.session.username}',
+                        '${req.session.room}','${req.session.route}','${req.session.game}',
                         null
                         )`, (err)=>{
                         if (err) throw err;
@@ -143,9 +150,19 @@ function db_login(username, password,req,res) {
                 }
                 return res.redirect(`/${req.session.route}`);
             });
+            
         } else {
-            errorMsg = `Incorrect Username and/or Password !`;
-            res.redirect('/login');
+            sendError(`Incorrect Username and/or Password !`,res,'/login');
         }			
+    });
+}
+
+function db_logout(req) {
+    const userID = req.session.userID;
+    db.query(`UPDATE users SET status = 0 WHERE users.id = '${userID}'`, (err)=>{
+        if (err) throw err;
+        //db.query('DELETE FROM rooms WHERE userID = ?', [userID], (err)=>{
+        //    if (err) throw err;
+        //});
     });
 }

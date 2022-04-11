@@ -1,4 +1,7 @@
 require('dotenv').config();
+const ansi = require('../tools/miscalenous');
+
+
 const mysql = require('mysql');
 
 const db = mysql.createPool({
@@ -10,7 +13,7 @@ const db = mysql.createPool({
 
 db.getConnection((err, connection)=>{
     if (err) throw err;
-    console.log(`Connected to MySQL database: ${process.env.DBNAME} ! ConnectioID: ${connection.threadId}`);
+    console.log(`Connected to ${ansi.bgYellow}${ansi.fgBlack }MySQL database${ansi.reset}: ${ansi.fgYellow}${process.env.DBNAME}${ansi.reset} ! ConnectioID: ${connection.threadId}`);
     
 });
 

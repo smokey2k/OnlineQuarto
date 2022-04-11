@@ -21,11 +21,13 @@ html, body, .wrapper {
     background-color: transparent;
     width: 100%;
     height: 100%;
-    display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
+}
 
+html, body, .wrapper, .main, .webgl-container {
+    display: flex;
 }
 
 .webgl-container {
@@ -55,12 +57,15 @@ html, body, .wrapper {
 .wrapper {
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
-    min-width: 200px;
-    
 }
 
+.main {
+    flex: auto;
+    flex-flow: row;
+    overflow: auto;
+    width: 100%;
+    padding: 0.5vh;
+}
 
 .header, .footer {
     width: 100%;

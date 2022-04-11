@@ -1,4 +1,4 @@
-import { socket,display,initChat,outputMessage } from '/js/quarto/widgets/chat.js'
+import { socket,chat_display,initChat,outputMessage,displayChatHistory } from '/js/quarto/widgets/chat.js'
 import { updateGameList,gameListDOM } from '/js/quarto/widgets/gamelist.js'
 
 $( document ).ready( INIT() );
@@ -28,6 +28,7 @@ function INIT() {
     socket.on("connect", () => {
         const userDisplay = document.querySelector('#socket');
         userDisplay.innerHTML = socket.id;
+        
       });
 
       socket.on("disconnect", () => {
@@ -36,12 +37,12 @@ function INIT() {
 
     socket.on(`joinedToRoom`, (msg)=>{
         if (msg !== "") {
-            outputMessage(msg,display);    
+            outputMessage(msg,chat_display);    
         }
     });
     
     socket.on('message', (msg)=>{
-        outputMessage(msg,display);
+        outputMessage(msg,chat_display);
     })
 
     socket.on(`updateLobby`, (games)=>{
@@ -51,5 +52,13 @@ function INIT() {
     socket.on('gameCreated', (games)=>{
         updateGameList(games,gameListDOM,socket);
     })
+
+    socket.on('chat-history', (data)=>{
+        displayChatHistory(data);
+    })
+
 }
+
+
+
 

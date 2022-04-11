@@ -1,13 +1,5 @@
-.main, .main-tools, .create-button, .create-button-form {
+.main-tools, .create-button, .create-button-form {
     display: flex;
-}
-
-.main {
-    flex: auto;
-    flex-flow: row;
-    overflow: auto;
-    width: 100%;
-    padding: 0.5vh;
 }
 
 .main-tools {
@@ -43,6 +35,8 @@
         flex-flow: column;
         justify-content: center;
         align-items: center;
+        height: fit-content;
+        min-height: 9vh;
     }
 }
   

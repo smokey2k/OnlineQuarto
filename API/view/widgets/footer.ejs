@@ -1,0 +1,32 @@
+<div class="footer">
+    <div class="footer-menu-left">
+        <ul class="footer-menu-left-list">
+            <% if(userInfo.route == 'lobby'){ %>
+            <li class="footer-menu-item">
+                <form method="post" class="create-game-form">
+                    <button id="submit-button" class="button button_create" type="submit">Create Game</button>
+                </form>
+            </li>
+            <% } %>
+            <% if(userInfo.game != 'null' && userInfo.route != 'game'){ %>
+                <li class="footer-menu-item">
+                    <form id="back-to-game" action="/game" method="get">
+                        <button class="button button_game" type="submit">back to game</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+    <div class="footer-menu-right">
+        <ul class="footer-menu-left-list">
+            <% if(userInfo.route == 'game'){ %>
+                <li class="footer-menu-item button button_leave">Leave</li>
+            <% } %>
+            <li class="footer-menu-item">
+                <form id="logout" action="/logout" method="post">
+                    <button class="button button_logout" type="submit">logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>

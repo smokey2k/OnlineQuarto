@@ -2,7 +2,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
 <%- include('../widgets/userinfo') %>
-
 <link rel="stylesheet" href="/css/landing/lobby.css">
     <div class="main">
         <div class="main-tools">
@@ -10,30 +9,6 @@
         </div>
         <%- include('../widgets/chat') %>
     </div>
-    <div class="footer">
-        <div class="footer-menu-right">
-            <form method="post" class="create-game-form">
-                <button id="submit-button" class="button button_create" type="submit">Create Game</button>
-            </form>
-        </div>
-        <div class="footer-menu-left">
-            <ul class="footer-menu-left-list">
-                
-                <% if(userInfo.game != 'null'){ %>
-                    <li class="footer-menu-item">
-                        <form id="back-to-game" action="/game" method="get">
-                            <button class="button button_game" type="submit">back to game</button>
-                        </form>
-                    </li>
-                <% } %>  
-
-                <li class="footer-menu-item">
-                    <form id="logout" action="/logout" method="post">
-                        <button class="button button_logout" type="submit">logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <%- include('../widgets/footer') %>
     <script type="module" src="/js/quarto/landing/lobby.js"></script>
 <%- include('../footer') %>

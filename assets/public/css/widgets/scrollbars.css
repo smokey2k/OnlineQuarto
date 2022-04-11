@@ -18,3 +18,20 @@
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(192, 191, 191) 20%, rgb(107, 107, 107) 100%);
 }
+
+::-webkit-scrollbar {
+  width: 2vh;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.695);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 20%, rgb(61, 61, 61) 100%);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(192, 191, 191) 20%, rgb(107, 107, 107) 100%);
+}
