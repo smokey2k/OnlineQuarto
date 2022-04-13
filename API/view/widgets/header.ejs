@@ -1,4 +1,59 @@
 <%- include('../header') %>
+<style>
+.header, .header-menu, .header-menu-list {
+    display: flex;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    border-radius: 0.7vw 0.7vw 0 0;
+    background: radial-gradient(circle, rgba(103, 103, 103, 0.698) 0%, rgba(94, 94, 94, 0.703) 20%, rgba(0, 0, 0, 0.66) 100%);
+    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.459) 0.3vw 0.3vw 0;
+    padding: 0;
+    padding-left: 1vh;
+    font-size: var(--small-font-size);
+}
+    .header-menu {
+        flex: auto;
+        flex-flow: row;
+    }
+    .header-menu-list {
+        align-items: flex-start;
+        flex-flow: row wrap-reverse;
+        list-style: none;
+        width: fit-content;
+        padding: 0;
+    }
+    .header-menu-item {
+        margin: 1vh;
+        margin-bottom: 1vw;
+    }
+
+@media screen and (orientation: portrait) {
+    .header {
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .header-menu-list {
+        justify-content: center;
+    }
+}
+  
+@media screen and (orientation: landscape) {
+    .header {
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .header-menu-list {
+        justify-content: flex-start;
+    }
+} 
+
+</style>
 <div class="header">
     <%- include('logo') %>
     <div class="header-menu">

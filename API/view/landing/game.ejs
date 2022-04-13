@@ -2,16 +2,19 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
 <%- include('../widgets/userinfo') %>
-<link rel="stylesheet" href="/css/game/game.css">
+<style>
+    .main {
+    flex-flow: column;
+    }
+    .chat {
+        min-height: 30%;
+        max-height: 30%;
+    }
+</style>
 <div class="main">
-    <div class="game">
-        <div class="game-board">
-            <div class="game-board-header">game board</div>
-            <div class="game-board-content"></div>
-        </div>
-    </div>
+    <%- include('../widgets/game') %>
     <%- include('../widgets/chat') %>
 </div>
 <%- include('../widgets/footer') %>
-<script type="module" src="/js/quarto/game/game.js"></script>
+<script type="module" src="/js/quarto/landing/game.js"></script>
 <%- include('../footer') %>

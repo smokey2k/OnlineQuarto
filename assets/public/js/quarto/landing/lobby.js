@@ -6,8 +6,6 @@ $( document ).ready( INIT() );
 function INIT() {
     initChat();
 
-    
-
     $(".create-game-form").submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -20,18 +18,13 @@ function INIT() {
             }
         });
     });
-    
-
 
     socket.emit(`joinToRoom`);
-    
     socket.on("connect", () => {
         const userDisplay = document.querySelector('#socket');
         userDisplay.innerHTML = socket.id;
-        
       });
-
-      socket.on("disconnect", () => {
+    socket.on("disconnect", () => {
         console.log(socket.id); // undefined
       });
 
@@ -40,22 +33,11 @@ function INIT() {
             outputMessage(msg,chat_display);    
         }
     });
-    
-    socket.on('message', (msg)=>{
-        outputMessage(msg,chat_display);
-    })
-
-    socket.on(`updateLobby`, (games)=>{
-        updateGameList(games,gameListDOM,socket);
-    });
 
     socket.on('gameCreated', (games)=>{
         updateGameList(games,gameListDOM,socket);
-    })
+    });
 
-    socket.on('chat-history', (data)=>{
-        displayChatHistory(data);
-    })
 
 }
 

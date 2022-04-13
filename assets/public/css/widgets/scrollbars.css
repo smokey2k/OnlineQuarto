@@ -1,37 +1,23 @@
 .scrollbar {
-    scrollbar-color: gray rgba(255, 255, 255, 0.695);
+    scrollbar-color: rgb(202, 201, 201) rgba(112, 112, 112, 0.695);
     scrollbar-width: 2vh;
-}
-.scrollbar::-webkit-scrollbar {
-    width: 2vh;
-}
-/* Track */
-.scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.695);
-}
-/* Handle */
-.scrollbar::-webkit-scrollbar-thumb {
-  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 20%, rgb(61, 61, 61) 100%);
-}
-  
-/* Handle on hover */
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(192, 191, 191) 20%, rgb(107, 107, 107) 100%);
-}
+    min-height: 10vh;
+  }
 
 ::-webkit-scrollbar {
-  width: 2vh;
+  min-width: 3vh;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.695);
+  background: rgba(112, 112, 112, 0.695);
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 20%, rgb(61, 61, 61) 100%);
+  min-height: 10vh;
+  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 50%, rgb(61, 61, 61) 100%);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(192, 191, 191) 20%, rgb(107, 107, 107) 100%);
+background: radial-gradient(circle, rgb(246, 255, 160) 0%, rgb(196, 196, 136) 50%, rgb(115, 117, 52) 100%);
 }

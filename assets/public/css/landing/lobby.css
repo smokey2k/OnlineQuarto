@@ -23,6 +23,8 @@
     white-space: nowrap;
     height: fit-content;
     width: fit-content;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (orientation: portrait) {
@@ -50,8 +52,4 @@
         align-items: flex-start;
         width: fit-content;
     }
-    .create-button {
-        justify-content: center;
-        align-items: center;
-    }
-} 
+ } 

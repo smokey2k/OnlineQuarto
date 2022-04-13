@@ -48,7 +48,7 @@ CREATE TABLE if not exists chat (
     room varchar(100),
     username varchar(100),
     text text,
-    date date
+    date varchar(32)
 );
 
 

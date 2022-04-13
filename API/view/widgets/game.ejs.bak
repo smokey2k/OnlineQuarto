@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="/css/widgets/game.css">
+<div class="game-container">
+    <!-- <div class="game-container-header">GAME BOARD</div> -->
+    <div class="game-container-content">
+        <div class="game-status">status</div>
+        <div class="game-board">
+            <div class="game-tools">
+                <div class="game-preview">
+                    <div class="game-preview-header">SELECTED</div>
+                    <div class="game-preview-selected">
+                        <img src = "/media/quarto/figures/blue-big-square-hole.svg"/>
+                    </div>
+                    
+                </div>
+                <div class="game-figures-container">
+                    <div class="game-figures-header">FIGURES</div>
+                    <div class="game-figures">
+                        <div id="figure-0" class="game-figure"><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div>
+                        <div id="figure-1" class="game-figure"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
+                        <div id="figure-2" class="game-figure"><img src = "/media/quarto/figures/blue-big-square-full.svg"/></div>
+                        <div id="figure-3" class="game-figure"><img src = "/media/quarto/figures/blue-big-square-hole.svg"/></div>
+                        <div id="figure-4" class="game-figure"><img src = "/media/quarto/figures/blue-small-round-full.svg"/></div>
+                        <div id="figure-5" class="game-figure"><img src = "/media/quarto/figures/blue-small-round-hole.svg"/></div>
+                        <div id="figure-6" class="game-figure"><img src = "/media/quarto/figures/blue-small-square-full.svg"/></div>
+                        <div id="figure-7" class="game-figure"><img src = "/media/quarto/figures/blue-small-square-hole.svg"/></div>
+                        <div id="figure-8" class="game-figure"><img src = "/media/quarto/figures/red-big-round-full.svg"/></div>
+                        <div id="figure-9" class="game-figure"><img src = "/media/quarto/figures/red-big-round-hole.svg"/></div>
+                        <div id="figure-10" class="game-figure"><img src = "/media/quarto/figures/red-big-square-full.svg"/></div>
+                        <div id="figure-11" class="game-figure"><img src = "/media/quarto/figures/red-big-square-hole.svg"/></div>
+                        <div id="figure-12" class="game-figure"><img src = "/media/quarto/figures/red-small-round-full.svg"/></div>
+                        <div id="figure-13" class="game-figure"><img src = "/media/quarto/figures/red-small-round-hole.svg"/></div>
+                        <div id="figure-14" class="game-figure"><img src = "/media/quarto/figures/red-small-square-full.svg"/></div>
+                        <div id="figure-15" class="game-figure"><img src = "/media/quarto/figures/red-small-square-hole.svg"/></div>
+                    
+                </div>
+                </div>
+                
+            </div>
+            <div class="game-playfield-container">
+                <div class="game-playfield">
+                    <div class="game-cell"><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <div class="game-cell"></div>
+                    <!-- <div id="cell-0" class="game-cell"><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div>
+                    <div id="cell-1" class="game-cell"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
+                    <div id="cell-2" class="game-cell"><img src = "/media/quarto/figures/blue-big-square-full.svg"/></div>
+                    <div id="cell-3" class="game-cell"><img src = "/media/quarto/figures/blue-big-square-hole.svg"/></div>
+                    <div id="cell-4" class="game-cell"><img src = "/media/quarto/figures/blue-small-round-full.svg"/></div>
+                    <div id="cell-5" class="game-cell"><img src = "/media/quarto/figures/blue-small-round-hole.svg"/></div>
+                    <div id="cell-6" class="game-cell"><img src = "/media/quarto/figures/blue-small-square-full.svg"/></div>
+                    <div id="cell-7" class="game-cell"><img src = "/media/quarto/figures/blue-small-square-hole.svg"/></div>
+                    <div id="cell-8" class="game-cell"><img src = "/media/quarto/figures/red-big-round-full.svg"/></div>
+                    <div id="cell-9" class="game-cell"><img src = "/media/quarto/figures/red-big-round-hole.svg"/></div>
+                    <div id="cell-10" class="game-cell"><img src = "/media/quarto/figures/red-big-square-full.svg"/></div>
+                    <div id="cell-11" class="game-cell"><img src = "/media/quarto/figures/red-big-square-hole.svg"/></div>
+                    <div id="cell-12" class="game-cell"><img src = "/media/quarto/figures/red-small-round-full.svg"/></div>
+                    <div id="cell-14" class="game-cell"><img src = "/media/quarto/figures/red-small-round-hole.svg"/></div>
+                    <div id="cell-15" class="game-cell"><img src = "/media/quarto/figures/red-small-square-full.svg"/></div>
+                    <div id="cell-16" class="game-cell"><img src = "/media/quarto/figures/red-small-square-hole.svg"/></div> -->
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

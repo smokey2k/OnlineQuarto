@@ -11,17 +11,14 @@
 .games-header {
     height: fit-content;
     width: 100%;
-    
     padding: 0.5vh;
     padding-left: 4vh;
     padding-right: 4vh;
-    
     justify-content: center;
     align-items: center;
-    
     text-align: center;
+    font-size: var(--small-font-size);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    
     color: white;
     background-color: #2b2828;
     background: radial-gradient(circle, rgb(103, 103, 103) 0%, rgb(94, 94, 94) 20%, rgb(0, 0, 0) 100%);
@@ -31,7 +28,7 @@
      1px -1px 0 #000,
     -1px  1px 0 #000,
      1px  1px 0 #000;
-    }
+}
 
 .games-list {
     width: 100%;

@@ -1,7 +1,7 @@
 :root {
     --message-bg-color: silver;
     --tiny-font-size: max(0.5em, 0.5vw);
-    --small-font-size: max(0.8em, 1vw);
+    --small-font-size: max(0.7em, 0.7vw);
     --base-font-size: max(1em, 2vw);
     --big-font-size: max(1.2em, 2.2vw);
     --logo-font-size: max(4em, 6vw);
@@ -40,23 +40,13 @@ html, body, .wrapper, .main, .webgl-container {
     padding: 0;
     z-index: -1;
     background-color:#556;
-    /*
-    
-    background-image: linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(30deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(150deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a),
-    linear-gradient(60deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
-    background-size:80px 140px;
-    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-    */
     overflow: hidden;
 }
 
 .wrapper {
     justify-content: center;
     align-items: center;
+    min-width: 320px;
 }
 
 .main {
@@ -65,88 +55,5 @@ html, body, .wrapper, .main, .webgl-container {
     overflow: auto;
     width: 100%;
     padding: 0.5vh;
+   
 }
-
-.header, .footer {
-    width: 100%;
-    display: flex;
-    border: 1px solid black;
-    box-shadow: rgba(0, 0, 0, 0.459) 0.3vw 0.3vw 0;
-    padding: 0.5vw;
-    font-size: var(--small-font-size);
-}
-
-.header, .header-logo, .header-menu, .header-menu-list, 
-.footer, .footer-menu-left-list, .footer-menu-right-list, .footer-menu {
-    display: flex;
-}
-
-.header {
-    width: 100%;
-    border-radius: 0.7vw 0.7vw 0 0;
-    background: radial-gradient(circle, rgba(103, 103, 103, 0.698) 0%, rgba(94, 94, 94, 0.703) 20%, rgba(0, 0, 0, 0.66) 100%);
-}
-    .header-logo {
-        height: auto;
-        min-width: 25%;
-    }
-    .header-menu {
-        flex: auto;
-        flex-flow: row;
-    }
-    .header-menu-list {
-        flex-flow: row wrap-reverse;
-        list-style: none;
-        padding: 0.5vw;
-        
-        width: fit-content;
-    }
-    .header-menu-item {
-        margin: 1vh;
-        margin-bottom: 1vw;
-    }
-
-.footer {
-    border-radius: 0 0 0.7vw 0.7vw;
-    background: radial-gradient(circle, rgba(103, 103, 103, 0.698) 0%, rgba(94, 94, 94, 0.703) 20%, rgba(0, 0, 0, 0.66) 100%);
-    color: lightgray;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-.footer-menu-left-list {
-    flex-flow: row wrap;
-    list-style: none;
-}
-.footer-menu-item {
-    margin: 1vh;
-}
-
-
-@media screen and (orientation: portrait) {
-    .header {
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .header-logo {
-        width: 75%;
-    }
-    .header-menu-list {
-        justify-content: center;
-    }
-}
-  
-@media screen and (orientation: landscape) {
-    .header {
-        flex-flow: row;
-        justify-content: center;
-        align-items: center;
-    }
-    .header-logo {
-        width: 30%;
-    }
-    
-} 
