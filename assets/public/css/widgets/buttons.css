@@ -6,7 +6,7 @@
     width: fit-content;
     text-transform: uppercase;
     border-radius: 1vw 0 0 1vw;
-    border-style: none;
+    border: 1px solid black;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     padding: 0.5vh;
     padding-left: 2vh;
@@ -28,7 +28,7 @@
     width: fit-content;
     text-transform: uppercase;
     border-radius: 0 0.7ch 0 0.7ch;
-    border-style: none;
+    border: 1px solid black;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     padding: 2vw;
     padding-left: 1vw;

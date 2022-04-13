@@ -52,8 +52,7 @@ html, body, .wrapper, .main, .webgl-container {
 .main {
     flex: auto;
     flex-flow: row;
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
     padding: 0.5vh;
-   
 }

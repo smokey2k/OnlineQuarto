@@ -63,3 +63,12 @@
         </ul>
     </div>
 </div>
+<script>
+    $( document ).ready( glowRoute() );
+
+    function glowRoute() {
+        if (userInfo.route != 'game') {
+            document.querySelector(`.button_${userInfo.route}`).style.boxShadow = "0px 0px 20px yellow";    
+        }
+    }
+</script>

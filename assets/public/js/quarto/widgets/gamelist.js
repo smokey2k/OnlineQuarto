@@ -6,18 +6,20 @@ function rndColor() {
 
 export const gameListDOM = document.querySelector('.games-list');
 
-function updateGameList(games,DOMelement,socket) {
+function updateGameList(gamesList,DOMelement) {
+    console.log(gamesList);
+        
     DOMelement.innerHTML = '';
-    for (let i = 0; i < games.length; i++) {
+    for (let i = 0; i < gamesList.length; i++) {
         const li = document.createElement('li');
         var form = document.createElement("form");
         form.setAttribute('id','join-game-form');
         form.setAttribute("method", "post");
         var submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
-        submitButton.value = games[i].split('-').pop();
+        submitButton.value = gamesList[i].split('-').pop();
         submitButton.classList.add("button","button_logout",rndColor());
-        submitButton.setAttribute('id',`${games[i]}`);
+        submitButton.setAttribute('id',`${gamesList[i]}`);
         form.appendChild(submitButton);
         li.appendChild(form);
         DOMelement.appendChild(li);
@@ -27,9 +29,8 @@ function updateGameList(games,DOMelement,socket) {
             $.ajax({
                 url: "/game",
                 type: "POST",
-                data: {'gameroom': `${games[i]}`},
+                data: {'gameroom': `${gamesList[i]}`},
                 success: function(data){
-                    //socket.emit('joinGame',`${games[i]}`);
                     location.href = '/game';
                 }
             });

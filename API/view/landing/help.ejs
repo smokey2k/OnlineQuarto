@@ -1,8 +1,104 @@
 <%- include('../widgets/header') %>
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
-<%- include('../widgets/userinfo') %>
-<div class="main"></div>
+<!-- <%- include('../widgets/userinfo') %> -->
+<div class="main">
+    <style>
+        .main {
+            flex-flow: column;
+            overflow: auto;
+            
+        }
+        .help-main {
+            padding: 1em;
+            overflow: auto;
+            display: flex;
+            flex-flow: column;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-shadow:
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000;
+            background-color: rgba(134, 134, 134, 0.466);
+            flex: auto;
+        }
+        
+        .help-figures-list {
+            list-style: none;
+            width: fit-content;
+        }
+        .help-figures {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+        }
+        .help-figures > div {
+            width: fit-content;
+            height: fit-content;
+            width: 4em;
+            height: 4em;
+            border: 1px solid black;
+            background: linear-gradient(180deg, rgba(95, 95, 95, 0.7) 0%, rgba(117, 117, 117, 0.7) 70%,rgba(0, 0, 0, 0.7) 100%);
+            padding: 0.5em;
+            border-radius: 1em 0 1em 0;
+            margin: 1em;
+            
+        }
+        .help-pic-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;    
+        }
+        .help-pic-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 2em;
+        }
+    </style>
+    <div class="help-main">
+        <h1>Quarto</h1>
+        <p>A quarto egy táblás stratégiai játék, két személy játssza. Blaise Müller (született 1948-ban) svájci matematikus találta ki.</p><br>
+        <p>A játék gyorsnak és egyszerűnek látszik, mégis összpontosított figyelmet igényel.</p><br>
+        <p>A tábla 4×4 egyforma mezőből áll.</p><br>
+        <p>Az összesen 16 figura mindegyike különbözik valamiben a többitől. A figurák négy szempont alapján is két egyforma csoportra oszthatók:</p>
+        <ul>
+            <li>magas vagy alacsony</li>
+            <li>piros vagy kék</li>
+            <li>kerek vagy szögletes</li>
+            <li>lyukas vagy teli</li>
+        </ul><br>
+        <p>A figurák mindkét játékos által használhatóak, nincsenek a játékosok között szétosztva.</p><br>
+        <h1>A játék</h1><br>
+        <p>Kezdéskor a tábla üres. A kezdési jogot megszerzett játékos nem lép, hanem megjelöli, hogy az ellenfélnek melyik figurával kell lépnie.</p><br>
+        <p>Ezután a játékosok felváltva lépnek. A soron következő játékos az ellenfele által kijelölt figurával köteles lépni, azt a tábla valamelyik szabad mezőjére kell tennie. Ütés a játékban nincs. A lépés megtétele után ő jelöli ki, hogy az ellenfele melyik figurával lépjen. A figura kijelölése a játék lényeges eleme, és nem bírálható felül. A játékosok felváltva következnek, a játék végéig.</p><br>
+        <p>A győzelemhez a következő szükséges: a tábla egyenesen, keresztben vagy átlósan négy egyvonalban levő mezőjén négy olyan figurának kell állnia, amelyek a felsorolt négy jellemző valamelyikét nézve egy csoportba tartoznak (például négy szögletes figura). Amelyik játékos a lépésével ezt a helyzetet létrehozta, az nyerte a partit.</p><br>
+        <p>Ha az összes figura felhelyezésével sem alakult ki nyerő állás, akkor a parti döntetlenre végződött.</p><br>
+        <p>A taktika alapja az, hogy miközben a helyzetet építgetjük, mindig olyan figurát jelöljünk ki az ellenfél számára, amellyel nem tudja ezt a maga hasznára fordítani. Egyben a kijelöléssel kényszeríthetjük is olyan lépés megtételére, amely majd nekünk adja meg a győztes lépés lehetőségét.</p><br>
+        <h1>Figura magyarázat:</h1><br>
+        <ul class="help-figures-list">
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-big-round-full.svg"/></div><span>piros - nagy - kerek - teli</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-big-round-hole.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-big-square-full.svg"/></div><span>piros - nagy - szögletes - teli</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-big-square-hole.svg"/></div><span>piros - nagy - szögletes - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-small-round-full.svg"/></div><span>piros - kicsi - kerek - teli</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-small-round-hole.svg"/></div><span>piros - kicsi - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-small-square-full.svg"/></div><span>piros - kicsi - szögletes - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/red-small-square-hole.svg"/></div><span>piros - kicsi - szögletes - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-big-square-full.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-big-square-hole.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-small-round-full.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-small-round-hole.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-small-square-full.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+            <li class="help-figures"><div><img src = "/media/quarto/figures/blue-small-square-hole.svg"/></div><span>piros - nagy - kerek - lukas</span></li>
+        </ul>
+        <div class="help-pic-container"><img src = "/media/quarto/help.png"/></div>
+    </div>
+</div>
 <%- include('../widgets/footer') %>
 <script type="module" src="/js/quarto/landing/help.js"></script>
 <%- include('../footer') %>

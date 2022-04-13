@@ -1,35 +1,91 @@
 <style>
-.game-container {  
-   height: 70%;
-   display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-   grid-auto-columns: 1fr;
-   gap: 0px 0px;
-   grid-auto-flow: row;
-   grid-template-areas:
-      "status-container status-container status-container status-container status-container status-container status-container status-container status-container status-container"
-      "selected-container selected-container figures figures figures figures figures figures figures figures"
-      "selected-container selected-container figures figures figures figures figures figures figures figures"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board"
-      "board board board board board board board board board board";
+.chat {
+    min-height: 30%;
+}
+.game-container {
+    max-height: 70%;  
+    flex: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row;
 }
 
-.figures-container {  display: grid;
+img {
+    background-color: aqua;
+}
+.selected-container, .figure-container, .cell-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background: radial-gradient(circle, rgba(103, 103, 103, 0.345) 0%, rgba(94, 94, 94, 0.356) 20%, rgba(0, 0, 0, 0.362) 100%);
+    border-radius: 1vh;
+}
+
+.status-container {
+  padding-left: 1em;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  border: 1px solid black;
+  background: radial-gradient(circle, rgba(103, 103, 103, 0.345) 0%, rgba(94, 94, 94, 0.356) 20%, rgba(0, 0, 0, 0.362) 100%);
+  border-radius: 1vh;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  overflow-wrap: break-word;
+  
+}
+
+@media screen and (orientation: portrait) {
+    .selected-container img{
+        max-width: 4em;
+        min-width: 2em;
+        height: auto;
+    }
+    .figure-container img {
+        max-width: 2em;
+        min-width: 1em;
+        height: auto;
+    }
+    .cell-container img{
+        max-width: 4em;
+        min-width: 2em;
+        height: auto;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .selected-container img{
+        max-height: 2em;
+        min-height: 1em;
+        height: auto;
+    }
+    .figure-container img {
+        max-height: 1em;
+        min-height: 1em;
+        width: auto;
+    }
+    .cell-container img{
+        max-height: 2em;
+        min-height: 1em;
+        width: auto;
+    }
+}
+
+.selected-container { 
+    grid-area: 1 / 1 / 3 / 3;
+}
+
+.figures-container-1 {  display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "figure-container-0 figure-container-1 figure-container-2 figure-container-3 figure-container-4 figure-container-5 figure-container-6 figure-container-7"
     "figure-container-8 figure-container-9 figure-container-10 figure-container-11 figure-container-12 figure-container-13 figure-container-14 figure-container-15";
-  grid-area: figures;
+  grid-area: 2 / 3 / 3 / 10;
 }
 
 .figure-container-0 { grid-area: figure-container-0; }
@@ -49,75 +105,82 @@
 .figure-container-14 { grid-area: figure-container-14; }
 .figure-container-15 { grid-area: figure-container-15; }
 
-.board-container {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+.board { grid-area: 3 / 2 / 11 / 10; }
+.cell-container-0 { grid-area: 3 / 2 / 5 / 4; }
+.cell-container-1 { grid-area: 3 / 4 / 5 / 6; }
+.cell-container-3 { grid-area: 3 / 6 / 5 / 8; }
+.cell-container-4 { grid-area: 3 / 8 / 5 / 10; }
+.cell-container-5 { grid-area: 5 / 2 / 7 / 4; }
+.cell-container-6 { grid-area: 5 / 4 / 7 / 6; }
+.cell-container-7 { grid-area: 5 / 6 / 7 / 8; }
+.cell-container-8 { grid-area: 5 / 8 / 7 / 10; }
+.cell-container-9 { grid-area: 7 / 2 / 9 / 4; }
+.cell-container-10 { grid-area: 7 / 4 / 9 / 6; }
+.cell-container-11 { grid-area: 7 / 6 / 9 / 8; }
+.cell-container-12 { grid-area: 7 / 8 / 9 / 10; }
+.cell-container-13 { grid-area: 9 / 2 / 11 / 4; }
+.cell-container-14 { grid-area: 9 / 4 / 11 / 6; }
+.cell-container-15 { grid-area: 9 / 6 / 11 / 8; }
+.cell-container-16 { grid-area: 9 / 8 / 11 / 10; }
+.status-container { grid-area: 1 / 3 / 2 / 10; }
+.figures-container-0 {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "cell-container-0 cell-container-1 cell-container-2 cell-container-4"
-    "cell-container-5 cell-container-6 cell-container-7 cell-container-8"
-    "cell-container-9 cell-container-10 cell-container-11 cell-container-12"
-    "cell-container-13 cell-container-14 cell-container-15 cell-container-16";
-  grid-area: board;
+    "figure-container-0"
+    "figure-container-1"
+    "figure-container-2"
+    "figure-container-3"
+    "figure-container-4"
+    "figure-container-5"
+    "figure-container-6"
+    "figure-container-7";
+  grid-area: 3 / 1 / 11 / 2;
 }
-.cell-container-1 { grid-area: cell-container-1; }
-.cell-container-0 { grid-area: cell-container-0; }
-.cell-container-2 { grid-area: cell-container-2; }
-.cell-container-4 { grid-area: cell-container-4; }
-.cell-container-5 { grid-area: cell-container-5; }
-.cell-container-6 { grid-area: cell-container-6; }
-.cell-container-7 { grid-area: cell-container-7; }
-.cell-container-8 { grid-area: cell-container-8; }
-.cell-container-9 { grid-area: cell-container-9; }
-.cell-container-10 { grid-area: cell-container-10; }
-.cell-container-11 { grid-area: cell-container-11; }
-.cell-container-12 { grid-area: cell-container-12; }
-.cell-container-13 { grid-area: cell-container-13; }
-.cell-container-14 { grid-area: cell-container-14; }
-.cell-container-15 { grid-area: cell-container-15; }
-.cell-container-16 { grid-area: cell-container-16; }
-.selected-container { grid-area: selected-container; }
-.status-container { grid-area: status-container; }
+
+
 </style>
 
 <div class="game-container">
-   <div class="status-container">status</div>
-   <div class="selected-container">S</div>
-   <div class="figures-container">
-     <div class="figure-container-0">f</div>
-     <div class="figure-container-1">f</div>
-     <div class="figure-container-2">f</div>
-     <div class="figure-container-3">f</div>
-     <div class="figure-container-4">f</div>
-     <div class="figure-container-5">f</div>
-     <div class="figure-container-6">f</div>
-     <div class="figure-container-7">f</div>
-     <div class="figure-container-8">f</div>
-     <div class="figure-container-9">f</div>
-     <div class="figure-container-10">f</div>
-     <div class="figure-container-11">f</div>
-     <div class="figure-container-12">f</div>
-     <div class="figure-container-13">f</div>
-     <div class="figure-container-14">f</div>
-     <div class="figure-container-15">f</div>
-   </div>
-   <div class="board-container">
-     <div class="cell-container-1">c</div>
-     <div class="cell-container-0">c</div>
-     <div class="cell-container-2">c</div>
-     <div class="cell-container-4">c</div>
-     <div class="cell-container-5">c</div>
-     <div class="cell-container-6">c</div>
-     <div class="cell-container-7">c</div>
-     <div class="cell-container-8">c</div>
-     <div class="cell-container-9">c</div>
-     <div class="cell-container-10">c</div>
-     <div class="cell-container-11">c</div>
-     <div class="cell-container-12">c</div>
-     <div class="cell-container-13">c</div>
-     <div class="cell-container-14">c</div>
-     <div class="cell-container-15">c</div>
-     <div class="cell-container-16">c</div>
-   </div>
+    <div class="selected-container"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
+    <div class="figures-container-1">
+      <div class="figure-container-8 figure-container"><img src = "/media/quarto/figures/red-big-round-full.svg"/></div>
+      <div class="figure-container-9 figure-container"><img src = "/media/quarto/figures/red-big-round-hole.svg"/></div>
+      <div class="figure-container-10 figure-container"><img src = "/media/quarto/figures/red-big-square-full.svg"/></div>
+      <div class="figure-container-11 figure-container"><img src = "/media/quarto/figures/red-big-square-hole.svg"/></div>
+      <div class="figure-container-12 figure-container"><img src = "/media/quarto/figures/red-small-round-full.svg"/></div>
+      <div class="figure-container-13 figure-container"><img src = "/media/quarto/figures/red-small-round-hole.svg"/></div>
+      <div class="figure-container-14 figure-container"><img src = "/media/quarto/figures/red-small-square-full.svg"/></div>
+      <div class="figure-container-15 figure-container"><img src = "/media/quarto/figures/red-small-square-hole.svg"/></div>
+    </div>
+    <div class="board"></div>
+    <div class="cell-container-0 cell-container"></div>
+    <div class="cell-container-1 cell-container"></div>
+    <div class="cell-container-3 cell-container"></div>
+    <div class="cell-container-4 cell-container"></div>
+    <div class="cell-container-5 cell-container"></div>
+    <div class="cell-container-6 cell-container"></div>
+    <div class="cell-container-7 cell-container"></div>
+    <div class="cell-container-8 cell-container"></div>
+    <div class="cell-container-9 cell-container"></div>
+    <div class="cell-container-10 cell-container"></div>
+    <div class="cell-container-11 cell-container"></div>
+    <div class="cell-container-12 cell-container"></div>
+    <div class="cell-container-13 cell-container"></div>
+    <div class="cell-container-14 cell-container"></div>
+    <div class="cell-container-15 cell-container"></div>
+    <div class="cell-container-16 cell-container"></div>
+    <div class="status-container">0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789</div>
+    <div class="figures-container-0">
+      <div class="figure-container-0 figure-container"><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div>
+      <div class="figure-container-1 figure-container"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
+      <div class="figure-container-2 figure-container"><img src = "/media/quarto/figures/blue-big-square-full.svg"/></div>
+      <div class="figure-container-3 figure-container"><img src = "/media/quarto/figures/blue-big-square-hole.svg"/></div>
+      <div class="figure-container-4 figure-container"><img src = "/media/quarto/figures/blue-small-round-full.svg"/></div>
+      <div class="figure-container-5 figure-container"><img src = "/media/quarto/figures/blue-small-round-hole.svg"/></div>
+      <div class="figure-container-6 figure-container"><img src = "/media/quarto/figures/blue-small-square-full.svg"/></div>
+      <div class="figure-container-7 figure-container"><img src = "/media/quarto/figures/blue-small-square-hole.svg"/></div>
+    </div>
   </div>

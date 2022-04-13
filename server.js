@@ -54,22 +54,4 @@ io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
 });
 
-SocketIO = require('./API/tools/socketIO')(io)
-
-
-
-const testGames = {
-    '12345': {
-        player1: 'dani',
-        player2: 'jani',
-        table: [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-        ]
-    }
-}
-
-
-console.log(testGames['12345'].table)
+SocketIO = require('./API/tools/socketIO')(io);
