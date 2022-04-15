@@ -2,8 +2,8 @@
     --message-bg-color: silver;
     --tiny-font-size: max(0.5em, 0.5vw);
     --small-font-size: max(0.7em, 0.7vw);
-    --base-font-size: max(1em, 2vw);
-    --big-font-size: max(1.2em, 2.2vw);
+    --base-font-size: max(1em, 1vw);
+    --big-font-size: max(1.3em, 1.3vw);
     --logo-font-size: max(4em, 6vw);
 }
   

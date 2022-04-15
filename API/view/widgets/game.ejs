@@ -1,186 +1,68 @@
 <style>
-.chat {
-    min-height: 30%;
-}
-.game-container {
-    max-height: 70%;  
-    flex: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-auto-flow: row;
-}
-
-img {
-    background-color: aqua;
-}
-.selected-container, .figure-container, .cell-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    background: radial-gradient(circle, rgba(103, 103, 103, 0.345) 0%, rgba(94, 94, 94, 0.356) 20%, rgba(0, 0, 0, 0.362) 100%);
-    border-radius: 1vh;
-}
-
-.status-container {
-  padding-left: 1em;
-  overflow: hidden;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: white;
-  border: 1px solid black;
-  background: radial-gradient(circle, rgba(103, 103, 103, 0.345) 0%, rgba(94, 94, 94, 0.356) 20%, rgba(0, 0, 0, 0.362) 100%);
-  border-radius: 1vh;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  overflow-wrap: break-word;
-  
-}
-
-@media screen and (orientation: portrait) {
-    .selected-container img{
-        max-width: 4em;
-        min-width: 2em;
-        height: auto;
+    .game-board-container {
+        display: flex;
+        flex-flow: column;
+        min-height: 70%;
+        max-height: 70%;
+        width: 100%;
+        justify-content: stretch;
     }
-    .figure-container img {
-        max-width: 2em;
-        min-width: 1em;
-        height: auto;
-    }
-    .cell-container img{
-        max-width: 4em;
-        min-width: 2em;
-        height: auto;
-    }
-}
-
-@media screen and (orientation: landscape) {
-    .selected-container img{
+    .game-status {
+        width: 100%;
+        min-height: 2em;
         max-height: 2em;
-        min-height: 1em;
-        height: auto;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        color: white;
+        border: 1px solid black;
+        border-radius: 1vh;
+        text-shadow:
+        -2px -2px 0 #000,  
+        2px -2px 0 #000,
+        -2px  2px 0 #000,
+        2px  2px 0 #000;
+        font-size: var(--small-font-size);
+        background: radial-gradient(circle, rgb(0, 174, 255) 0%, rgb(37, 134, 179) 20%, rgb(9, 62, 87) 100%);
     }
-    .figure-container img {
-        max-height: 1em;
-        min-height: 1em;
-        width: auto;
+    #gameTable{
+        align-self: center;
+        flex: auto;
+        display: grid;
+        grid-template-columns: repeat(15, minmax(2vh,4vh));
+        grid-template-rows: repeat(15, auto);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px; 
+        border: 1px solid black;
+        border-radius: 5px;
+        width: fit-content;
     }
-    .cell-container img{
-        max-height: 2em;
-        min-height: 1em;
-        width: auto;
+    #player1, #player2, #status {
+        padding: 1em;
     }
-}
 
-.selected-container { 
-    grid-area: 1 / 1 / 3 / 3;
-}
+    .cell{
+        border: 1px solid black;
+        text-align: center;
+        cursor: pointer;
+        background: linear-gradient(0deg, rgb(78, 189, 121) 0%, rgb(50, 119, 76) 100%);
+    }
 
-.figures-container-1 {  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "figure-container-8 figure-container-9 figure-container-10 figure-container-11 figure-container-12 figure-container-13 figure-container-14 figure-container-15";
-  grid-area: 2 / 3 / 3 / 10;
-}
-
-.figure-container-0 { grid-area: figure-container-0; }
-.figure-container-1 { grid-area: figure-container-1; }
-.figure-container-2 { grid-area: figure-container-2; }
-.figure-container-3 { grid-area: figure-container-3; }
-.figure-container-4 { grid-area: figure-container-4; }
-.figure-container-5 { grid-area: figure-container-5; }
-.figure-container-6 { grid-area: figure-container-6; }
-.figure-container-7 { grid-area: figure-container-7; }
-.figure-container-8 { grid-area: figure-container-8; }
-.figure-container-9 { grid-area: figure-container-9; }
-.figure-container-10 { grid-area: figure-container-10; }
-.figure-container-11 { grid-area: figure-container-11; }
-.figure-container-12 { grid-area: figure-container-12; }
-.figure-container-13 { grid-area: figure-container-13; }
-.figure-container-14 { grid-area: figure-container-14; }
-.figure-container-15 { grid-area: figure-container-15; }
-
-.board { grid-area: 3 / 2 / 11 / 10; }
-.cell-container-0 { grid-area: 3 / 2 / 5 / 4; }
-.cell-container-1 { grid-area: 3 / 4 / 5 / 6; }
-.cell-container-3 { grid-area: 3 / 6 / 5 / 8; }
-.cell-container-4 { grid-area: 3 / 8 / 5 / 10; }
-.cell-container-5 { grid-area: 5 / 2 / 7 / 4; }
-.cell-container-6 { grid-area: 5 / 4 / 7 / 6; }
-.cell-container-7 { grid-area: 5 / 6 / 7 / 8; }
-.cell-container-8 { grid-area: 5 / 8 / 7 / 10; }
-.cell-container-9 { grid-area: 7 / 2 / 9 / 4; }
-.cell-container-10 { grid-area: 7 / 4 / 9 / 6; }
-.cell-container-11 { grid-area: 7 / 6 / 9 / 8; }
-.cell-container-12 { grid-area: 7 / 8 / 9 / 10; }
-.cell-container-13 { grid-area: 9 / 2 / 11 / 4; }
-.cell-container-14 { grid-area: 9 / 4 / 11 / 6; }
-.cell-container-15 { grid-area: 9 / 6 / 11 / 8; }
-.cell-container-16 { grid-area: 9 / 8 / 11 / 10; }
-.status-container { grid-area: 1 / 3 / 2 / 10; }
-.figures-container-0 {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "figure-container-0"
-    "figure-container-1"
-    "figure-container-2"
-    "figure-container-3"
-    "figure-container-4"
-    "figure-container-5"
-    "figure-container-6"
-    "figure-container-7";
-  grid-area: 3 / 1 / 11 / 2;
-}
+    .cell:hover{
+        box-shadow: inset 0 0 8px red;
+    }
 
 
 </style>
-
-<div class="game-container">
-    <div class="selected-container"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
-    <div class="figures-container-1">
-      <div class="figure-container-8 figure-container"><img src = "/media/quarto/figures/red-big-round-full.svg"/></div>
-      <div class="figure-container-9 figure-container"><img src = "/media/quarto/figures/red-big-round-hole.svg"/></div>
-      <div class="figure-container-10 figure-container"><img src = "/media/quarto/figures/red-big-square-full.svg"/></div>
-      <div class="figure-container-11 figure-container"><img src = "/media/quarto/figures/red-big-square-hole.svg"/></div>
-      <div class="figure-container-12 figure-container"><img src = "/media/quarto/figures/red-small-round-full.svg"/></div>
-      <div class="figure-container-13 figure-container"><img src = "/media/quarto/figures/red-small-round-hole.svg"/></div>
-      <div class="figure-container-14 figure-container"><img src = "/media/quarto/figures/red-small-square-full.svg"/></div>
-      <div class="figure-container-15 figure-container"><img src = "/media/quarto/figures/red-small-square-hole.svg"/></div>
+<div class="game-board-container">
+    <div id="gameTable">
+        <% for(let i=0; i<225; i++) { %>
+        <div class="cell" id="cell<%= i %>" onclick="setPos('<%= i %>')"></div>
+        <% } %> 
     </div>
-    <div class="board"></div>
-    <div class="cell-container-0 cell-container"></div>
-    <div class="cell-container-1 cell-container"></div>
-    <div class="cell-container-3 cell-container"></div>
-    <div class="cell-container-4 cell-container"></div>
-    <div class="cell-container-5 cell-container"></div>
-    <div class="cell-container-6 cell-container"></div>
-    <div class="cell-container-7 cell-container"></div>
-    <div class="cell-container-8 cell-container"></div>
-    <div class="cell-container-9 cell-container"></div>
-    <div class="cell-container-10 cell-container"></div>
-    <div class="cell-container-11 cell-container"></div>
-    <div class="cell-container-12 cell-container"></div>
-    <div class="cell-container-13 cell-container"></div>
-    <div class="cell-container-14 cell-container"></div>
-    <div class="cell-container-15 cell-container"></div>
-    <div class="cell-container-16 cell-container"></div>
-    <div class="status-container">0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789</div>
-    <div class="figures-container-0">
-      <div class="figure-container-0 figure-container"><img src = "/media/quarto/figures/blue-big-round-full.svg"/></div>
-      <div class="figure-container-1 figure-container"><img src = "/media/quarto/figures/blue-big-round-hole.svg"/></div>
-      <div class="figure-container-2 figure-container"><img src = "/media/quarto/figures/blue-big-square-full.svg"/></div>
-      <div class="figure-container-3 figure-container"><img src = "/media/quarto/figures/blue-big-square-hole.svg"/></div>
-      <div class="figure-container-4 figure-container"><img src = "/media/quarto/figures/blue-small-round-full.svg"/></div>
-      <div class="figure-container-5 figure-container"><img src = "/media/quarto/figures/blue-small-round-hole.svg"/></div>
-      <div class="figure-container-6 figure-container"><img src = "/media/quarto/figures/blue-small-square-full.svg"/></div>
-      <div class="figure-container-7 figure-container"><img src = "/media/quarto/figures/blue-small-square-hole.svg"/></div>
+    <div class="game-status">
+        <p id="player1">player 1</p><p id="status">status text</p> <p id="player1">player 2</p>
     </div>
-  </div>
+</div>
