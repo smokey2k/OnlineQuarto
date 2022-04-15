@@ -74,8 +74,8 @@
 .rootError {
     text-align: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    -webkit-animation: fadeOut 8s;
-    animation: fadeOut 8s;
+    -webkit-animation: fadeOut 12s;
+    animation: fadeOut 12s;
     animation-fill-mode: forwards;
 }
 

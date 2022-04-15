@@ -3,7 +3,8 @@ import { socket,chat_display,initChat,outputMessage,displayChatHistory } from '/
 let currentPlayer;
 let game = false;
 let userindex;
-let waiting = setInterval(()=>{waitingForPlayes2()}, 500);
+
+//let waiting = setInterval(()=>{waitingForPlayes2()}, 500);
 
 
 $( document ).ready( INIT() );
@@ -22,10 +23,10 @@ function INIT() {
             outputMessage(msg,chat_display);    
         }
     });
+
+
+
 }
-
-
-
 
 
 
@@ -42,17 +43,9 @@ function addNextArrow(){
     }
 }
 
-function setPos(id){
-     if (currentPlayer == userindex)
-    {
-        socket.emit('putCell', id); 
-    }    
-    else
-    {
-        alert('A másik játékos jön!');
-    }
-}
 
+
+/*
 function waitingForPlayes2()
 {
     let str = document.querySelector('#plyr2').innerHTML;
@@ -70,11 +63,6 @@ function waitingForPlayes2()
     document.querySelector('#plyr2').innerHTML = str;
 }
 
-
-
-const socket = io();
-
-socket.emit('joinToGame');
 
 socket.on('UserIndex', (index)=>{
     userindex = index;
@@ -117,3 +105,4 @@ socket.on('win', (winner)=>{
     window.alert(winner + ' nyert!');
     game = false;
 });
+*/

@@ -1,6 +1,5 @@
 require('dotenv').config();
-const ansi = require('../tools/miscalenous');
-
+const ansi = require('../tools/ansi');
 
 const mysql = require('mysql');
 

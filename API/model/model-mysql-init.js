@@ -1,5 +1,5 @@
 require('dotenv').config();
-const ansi = require('../tools/miscalenous');
+const ansi = require('../tools/ansi');
 
 const mysql = require('mysql');
 const util = require('util');
@@ -52,7 +52,6 @@ CREATE TABLE if not exists chat (
 );
 
 
-
 CREATE TABLE if not exists rooms (
     id int AUTO_INCREMENT primary key,
     userID int,
@@ -60,9 +59,9 @@ CREATE TABLE if not exists rooms (
     room varchar(100),
     route varchar(100),
     game varchar(100),
+    playerIndex int,
     socket varchar(20)
 );
-
 
 
 CREATE TABLE if not exists games (

@@ -64,9 +64,22 @@ exports.POST_register = (req,res)=>{
             }
             else
             {
-                db_reggister(name,email,passwd1,req,res);
+                db.query(`SELECT id FROM users WHERE username='${name}'`, (err, results)=>{
+                    if (err) throw err;
+                    if (results.length > 0)
+                    {
+                        sendError(`The given user name already registered !`,res,'/register');
+                    }
+                    else
+                    {
+                        db_reggister(name,email,passwd1,req,res);
+                    }
+                });
+
+                //db_reggister(name,email,passwd1,req,res);
             }
         });
+        
     }
 }
 
@@ -102,10 +115,12 @@ function db_reggister(name,email,passwd1,req,res) {
                 req.session.room = baseRoom;
                 req.session.route = baseRoom;
                 req.session.game = 'null';
+                req.session.playerIndex = 0;
                 db.query(`INSERT INTO rooms VALUES(null,
                     '${req.session.userID}', '${req.session.username}',
-                    '${req.session.room}','${req.session.route}','${req.session.game}',
-                    null)`, (err)=>{
+                        '${req.session.room}','${req.session.route}',
+                        '${req.session.game}','${req.session.playerIndex}',
+                        null)`, (err)=>{
                     if (err) throw err;
                     return res.redirect(`/${req.session.route}`);
                 });
@@ -136,15 +151,17 @@ function db_login(username, password,req,res) {
                     req.session.room = results[0].room;
                     req.session.route = results[0].route;
                     req.session.game = results[0].game;
+                    req.session.playerIndex = results[0].playerIndex;
                 } else {
                     req.session.room = baseRoom;
                     req.session.route = baseRoute;
                     req.session.game = 'null';
+                    req.session.playerIndex = 0;
                     db.query(`INSERT INTO rooms VALUES(null, 
                         '${req.session.userID}', '${req.session.username}',
-                        '${req.session.room}','${req.session.route}','${req.session.game}',
-                        null
-                        )`, (err)=>{
+                        '${req.session.room}','${req.session.route}',
+                        '${req.session.game}','${req.session.playerIndex}',
+                        null)`, (err)=>{
                         if (err) throw err;
                     });
                 }

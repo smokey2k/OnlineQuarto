@@ -1,19 +1,8 @@
 const ejs = require('ejs');
 const db = require('../model/model-mysql');
-const share = require('../tools/share');
 
 exports.GET_game = (req,res)=>{
     set_userGamePath(req,res,'game')
-    //const userInfo = getUserInfo(req);
-    //if (req.session.game != 'null') {
-    //    req.session.route = 'game';
-    //    
-    //    userInfo.route = req.session.route;
-    //    ejs.renderFile('./API/view/landing/game.ejs',{userInfo}, (err, data)=>{
-    //        if (err) throw err;
-    //        res.send(data);
-    //    });    
-    //}
 }
 
 exports.POST_game = (req,res)=>{
@@ -77,7 +66,9 @@ function getUserInfo(req){
         userID: req.session.userID,
         name: req.session.username,
         room: req.session.room,
-        route: req.session.route
+        route: req.session.route,
+        playerIndex: req.session.playerIndex 
+        
     };
     if (req.session.game) {
         userInfo.game = req.session.game;
