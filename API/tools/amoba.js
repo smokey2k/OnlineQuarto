@@ -1,5 +1,6 @@
 const session = require('express-session');
-const { games } = require('./rooms');
+const db = require('../model/model-mysql');
+const { games,getGamePlayers } = require('./rooms');
 
 function checkFive(row, col, user,session)
 {   
@@ -27,7 +28,7 @@ function checkFive(row, col, user,session)
                     {
                         amoba.push({'x':k, 'y':row, 'u': user });
                     }
-                    console.log(amoba)
+                    //console.log(amoba)
 
                     win = true;
                     return win;
@@ -130,8 +131,63 @@ function checkFive(row, col, user,session)
         }
         j--;
     }
-   
     return win;
 }
 
-module.exports = { checkFive };
+
+function proccesWin(userIndex,session,type) {
+    var game = games.findIndex(game => game.gamename === `${session.game}`);
+    let score;
+    let results = {
+        nogame: false,
+        status: 0,
+        winner: {},
+        loser: {}
+    }
+    let playerCount = getGamePlayers(session.game,session).length;
+    if (playerCount < 2 && type == 1) {
+        results.nogame = true;
+        db.query(` UPDATE rooms SET game='null' WHERE userID=${games[game].users[0].id};`, (err)=>{
+            if (err) throw err;
+        });
+    } else {
+        games[game].gameState = false;
+        if (type == 0) {
+            score = 20;
+            results.status = 0;
+           if (userIndex == 0) {
+                results.winner = games[game].users[0];
+                results.loser = games[game].users[1];
+            } else {
+                results.winner = games[game].users[1];
+                results.loser = games[game].users[0]; 
+            }    
+        } else {
+            score = 5;
+            results.status = 1;
+            if (userIndex == 0) {
+                results.winner = games[game].users[1];
+                results.loser = games[game].users[0];
+            } else {
+                results.winner = games[game].users[0];
+                results.loser = games[game].users[1]; 
+            }
+        }
+        var queries = [
+            `UPDATE users SET score = score + ${score}, playedGames = playedGames + 1 WHERE id=${results.winner.id};`,
+            `UPDATE users SET playedGames = playedGames + 1 WHERE id=${results.loser.id};`,
+            `UPDATE rooms SET game='null' WHERE userID=${results.winner.id};`,
+            `UPDATE rooms SET game='null' WHERE userID=${results.loser.id};`
+        ]
+        for (let i = 0; i < queries.length; i++) {
+            db.query(queries[i], (err)=>{
+                if (err) throw err;
+            });
+        }
+    }
+   
+
+    return results;
+}
+
+module.exports = { checkFive, proccesWin };

@@ -1,8 +1,8 @@
 require('dotenv').config();
 const ansi = require('../tools/ansi');
-
 const mysql = require('mysql');
 const util = require('util');
+const db = require('./model-mysql');
 
 var init = mysql.createPool({
     host: process.env.DBHOST,
@@ -16,32 +16,38 @@ init.getConnection((err, connection)=>{
 });
 
 const users = {
-    's2k': ['datas2k@gmail.com','d',3123,220],
-    'jan': ['jan@gmail.com','d',4234,300],
-    'dan': ['dan@gmail.com','d',4234,310],
-    'cili': ['cili@gmail.com','d',30,30],
-    '0123456789abc': ['csubi@csubi.com','d',550,70]
+    's2k': ['datas2k@gmail.com','d',200,20],
+    'jan': ['jan@gmail.com','d',100,5],
+    'dan': ['dan@gmail.com','d',40,3],
+    'cili': ['cili@gmail.com','d',100,6],
+    'blabla': ['blabla@csubi.com','d',40,10],
+    'yolo': ['yolo@gmail.com','d',200,20],
+    'nyuszi': ['nyuszi@gmail.com','d',100,5],
+    'csöves': ['csoves@gmail.com','d',40,3],
+    'csubakka': ['csubakka@gmail.com','d',100,6],
+    'határozott': ['hatarozott@csubi.com','d',40,10],
+    'jázmin': ['jazmin@gmail.com','d',200,20],
+    'júliánusz': ['julianusz@gmail.com','d',100,5],
+    'dandan': ['dandan@gmail.com','d',40,3],
+    'fred': ['fred@gmail.com','d',100,6],
+    '0123456789abc': ['csubi@csubi.com','d',40,10]
 }
 
 var initDB = `
-CREATE DATABASE IF NOT EXISTS ${process.env.DBNAME};
 USE ${process.env.DBNAME};
 CREATE TABLE if not exists users (
     id int AUTO_INCREMENT primary key, 
-    username varchar(100) UNIQUE,
-    email  varchar(100),
+    username varchar(100),
+    email varchar(100),
     password varchar(100),
-    score int UNIQUE,
-    playedGames int UNIQUE
+    score int,
+    playedGames int
 );
 CREATE TABLE if not exists highscore (
     id int AUTO_INCREMENT primary key,
     username varchar(100),
     score int,
-    playedGames int,
-    FOREIGN KEY (username) REFERENCES users(username),
-    FOREIGN KEY (score) REFERENCES users(score)
-    
+    playedGames int
 );
 CREATE TABLE if not exists chat (
     id int AUTO_INCREMENT primary key,
@@ -50,7 +56,6 @@ CREATE TABLE if not exists chat (
     text text,
     date varchar(32)
 );
-
 
 CREATE TABLE if not exists rooms (
     id int AUTO_INCREMENT primary key,
@@ -62,7 +67,6 @@ CREATE TABLE if not exists rooms (
     playerIndex int,
     socket varchar(20)
 );
-
 
 CREATE TABLE if not exists games (
     id int AUTO_INCREMENT primary key,
@@ -84,7 +88,6 @@ TRUNCATE TABLE rooms;
 
 init.query(initDB, function (err, result) {
     if (err) throw err;
-    const db = require('./model-mysql');
     for (const [key, value] of Object.entries(users)) {
         db.query(`INSERT IGNORE INTO users (username, email, password, score, playedGames ) VALUES ('${key}', '${value[0]}', '${value[1]}','${value[2]}','${value[3]}')`, (err)=>{
             if (err) throw err;

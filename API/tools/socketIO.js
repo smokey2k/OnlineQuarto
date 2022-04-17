@@ -1,12 +1,10 @@
 const session = require('express-session');
 const db = require('../model/model-mysql');
-//const roomUsers = [];
-//const games = [];
 const gamesList = [];
 const { games,joinRoomUser,playerJoinGame,getCurrentPlayer,gePlayerIndex,
         playerLeaveGame,getGamePlayers,roomHistory,formatTime,formatMessage
     } = require('./rooms');
-const { checkFive } = require('./amoba');
+const { checkFive, proccesWin } = require('./amoba');
 
 
 exports = module.exports = function(io) {
@@ -18,7 +16,6 @@ exports = module.exports = function(io) {
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
             socket.emit('updateLobby', gamesList);
-            //socket.to(session.room).emit('updateRoom');
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
@@ -41,27 +38,36 @@ exports = module.exports = function(io) {
                     io.to('lobby').emit('updateLobby', gamesList);
                     let rnd = Math.round(Math.random()+1);
                     games[index].currPlayer = rnd;
+                    games[index].gameState = true;
                     socket.join(session.game);
-                    
                     io.in(session.game).emit('gameStarted',rnd, games[index] );
                     
                 }   
             }
             roomHistory(session.game,io);
-            
-            socket.join(session.game);    
-            
-            
+            socket.join(session.game);
+            console.log(gePlayerIndex(session.userID,session)+1);    
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
-            
             io.in(session.game).emit('updateGameRoom', games[index]);
-
             db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
                 if (err) throw err;
             });
-            socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.game}!`) );            
-            socket.broadcast.to(session.game).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.game} !`) );
-            
+            socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.game}!`) );
+            io.in(session.game).emit('joinedToGame', formatMessage('System', `${session.username} joined to room: ${session.game} !`) );
+        });
+
+        socket.on('logoutFromGame', (id)=>{
+            var index = games.findIndex(game => game.gamename === `${session.game}`);
+            let userIndex = gePlayerIndex(session.userID,session);
+            games[index].gameState = false;
+            socket.emit('message',formatMessage('System', `Player: ${session.username}, has left the game !`) );
+            results = proccesWin(userIndex,session,1);
+            for( var i = 0; i < games.length; i++){ 
+                if ( games[i].gamename === session.game ) { 
+                    games.splice(i, 1); 
+                }
+            }
+            io.in(session.game).emit('gameAborted');
         });
 
         socket.on('message', (msg)=>{
@@ -86,6 +92,7 @@ exports = module.exports = function(io) {
                 users: [],
                 full: 0,
                 currPlayer: 0,
+                gameState: false,
                 table: [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -110,26 +117,32 @@ exports = module.exports = function(io) {
             let user = { id, username, room};
             game.users.push(user);
             games.push(game);
-            //console.table(game);
             gamesList.push(game.gamename);
             socket.to('lobby').emit('gameCreated',gamesList);
         });
 
         socket.on('putCell', (id)=>{
-            
             var game = games.findIndex(game => game.gamename === `${session.game}`);
-            var table = games[game].table;
             let currUser = gePlayerIndex(session.userID,session)+1;
-            
-            //table.currPlayer = currUser;
+            games[game].currPlayer = currUser;
             let row = Math.floor(id / 15);
             let col = id % 15;
-            table[row][col] = currUser;
+            games[game].table[row][col] = currUser;
             io.emit('drawCell', id,  currUser );
-            
             let win = checkFive(row, col, currUser,session);
             if (win) {
-                io.emit('win', getCurrentPlayer(session.userID,session).username);
+                let userIndex = gePlayerIndex(session.userID,session);
+                let results = proccesWin(userIndex,session,0);
+                let gameState = games[game].gameState;
+                let playername = getCurrentPlayer(results.winner.id,session).username;
+                for( var i = 0; i < games.length; i++){ 
+                    if ( games[i].gamename === session.game ) { 
+                        games.splice(i, 1); 
+                    }
+                }
+
+                io.emit('win', playername, gameState);
+                //session.game = 'null';
             }
         })
     });

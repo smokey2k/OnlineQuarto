@@ -14,10 +14,6 @@
     font-size: var(--base-font-size);
 }
 
-html {
-    padding: 0.5vw;
-}
-
 html, body, .wrapper {
     background-color: transparent;
     width: 100%;
@@ -42,12 +38,15 @@ html, body, .wrapper, .main, .webgl-container {
     z-index: -1;
     background-color:#556;
     overflow: hidden;
+    
 }
 
 .wrapper {
     justify-content: center;
     align-items: center;
     min-width: 320px;
+    position: relative;
+    padding: 4px;
 }
 
 .main {
@@ -56,4 +55,5 @@ html, body, .wrapper, .main, .webgl-container {
     overflow: hidden;
     width: 100%;
     padding: 0.5vh;
+    position: relative;
 }

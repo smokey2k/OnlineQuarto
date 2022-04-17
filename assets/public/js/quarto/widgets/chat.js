@@ -60,7 +60,6 @@ function displayChatHistory(data) {
         history.appendChild(mesage);
     }
     chat_display.appendChild(history);
-    chat_display.scrollIntoView({behavior: "smooth"});
     chat_display.scrollTop = chat_display.scrollHeight - chat_display.clientHeight;
 }
 

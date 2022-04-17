@@ -81,12 +81,14 @@ exports.POST_register = (req,res)=>{
 }
 
 exports.POST_logout = (req,res)=>{
-    //db_logout(req);
-    req.session.destroy( err => {
+    db.query('DELETE FROM rooms WHERE userID = ?', [req.session.userID], (err)=>{
         if (err) throw err;
-        res.clearCookie(process.env.SESSION_NAME);
-        res.redirect('/')
-    })
+        req.session.destroy( err => {
+            if (err) throw err;
+            res.clearCookie(process.env.SESSION_NAME);
+            res.redirect('/')
+        });
+    });
 }
 
 exports.GET_sessionOccupied = (req,res)=>{
@@ -103,7 +105,7 @@ function sendError(msg,res,route) {
 }
 
 function db_reggister(name,email,passwd1,req,res) {
-    db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0,1)`, (err)=>{
+    db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0,0)`, (err)=>{
         if (err) throw err;
         if (!req.session.userID) {
             db.query(`SELECT * FROM users WHERE email='${email}'`, (err, results)=>{
@@ -160,15 +162,5 @@ function db_login(username, password,req,res) {
         } else {
             sendError(`Incorrect Username and/or Password !`,res,'/login');
         }			
-    });
-}
-
-function db_logout(req) {
-    const userID = req.session.userID;
-    db.query(`UPDATE users SET status = 0 WHERE users.id = '${userID}'`, (err)=>{
-        if (err) throw err;
-        //db.query('DELETE FROM rooms WHERE userID = ?', [userID], (err)=>{
-        //    if (err) throw err;
-        //});
     });
 }

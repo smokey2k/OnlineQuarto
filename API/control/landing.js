@@ -11,12 +11,27 @@ exports.POST_game = (req,res)=>{
     res.redirect('/game')
 }
 
+
 exports.GET_lobby = (req,res)=>{
     set_userPath(req,res,'lobby')
 }
 
+exports.POST_lobby = (req,res)=>{
+    req.session.game = 'null';
+    res.redirect('/lobby')
+}
+
 exports.GET_highscore = (req,res)=>{
-    set_userPath(req,res,'highscore')
+    const userInfo = getUserInfo(req);
+    req.session.route = 'highscore';
+    userInfo.route = req.session.route;
+    db.query(`SELECT username , score  , playedGames  FROM users ORDER BY score DESC;`, (err,results)=>{
+        if (err) throw err;
+        ejs.renderFile(`./API/view/landing/highscore.ejs`, {userInfo,results} , (err, data)=>{
+            if (err) throw err;
+            res.send(data);
+        });
+    });
 }
 
 exports.GET_help = (req,res)=>{

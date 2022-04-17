@@ -97,7 +97,28 @@
         background-color: white;
         color: rgb(79, 79, 255);    
     }
-    
+
+.button_ok {
+    color: white;
+    background: radial-gradient(circle, rgb(71, 226, 79) 0%, rgb(50, 158, 77) 20%, rgb(28, 87, 38) 100%);
+}
+    .button_ok::before{
+        content: "O";
+        background-color: white;
+        color: rgb(71, 226, 79);    
+
+    }
+
+.button_cancel {
+    color: white;
+    background: radial-gradient(circle, rgb(255, 0, 0) 0%, rgb(179, 37, 37) 20%, rgb(87, 9, 9) 100%);
+}
+    .button_cancel::before{
+        content: "C";
+        background-color: white;
+        color: red;    
+    }
+
 .button_leave {
     color: white;
     background: radial-gradient(circle, rgb(71, 226, 184) 0%, rgb(50, 158, 129) 20%, rgb(28, 87, 71) 100%);

@@ -2,7 +2,30 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
 <!-- <%- include('../widgets/userinfo') %> -->
-<div class="main"></div>
+<div class="main">
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Games</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%for(var i=0;i<results.length;i++){%>
+            <td><%= i+1 %></td>
+            <td><%=results[i].username%></td>
+            <td><%=results[i].score%></td>
+            <td><%=results[i].playedGames%></td>
+        </tbody><%}%>
+        <tfoot>
+            <td>Players: <%=results.length%></td>
+        </tfoot>
+    </table>
+
+</div>
 <%- include('../widgets/footer') %>
 <script type="module" src="/js/quarto/landing/highscore.js"></script>
 <%- include('../footer') %>
+

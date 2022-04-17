@@ -28,6 +28,7 @@ router.post('/logout', redirectLogin, auth.POST_logout);
 router.get('/sessionOccupied', auth.GET_sessionOccupied);
 
 router.get('/lobby', redirectLogin, landing.GET_lobby);
+router.post('/lobby', redirectLogin, landing.POST_lobby);
 router.get('/highscore', redirectLogin, landing.GET_highscore);
 router.get('/help', redirectLogin, landing.GET_help);
 router.get('/about', redirectLogin, landing.GET_about);

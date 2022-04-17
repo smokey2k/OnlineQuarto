@@ -11,7 +11,6 @@
     justify-content: space-between;
     width: 100%;
     border: 1px solid black;
-    box-shadow: rgba(0, 0, 0, 0.459) 0.3vw 0.3vw 0;
     padding: 0.5vw;
     font-size: var(--small-font-size);
 }
@@ -56,19 +55,64 @@
                 <li class="footer-menu-item button button_leave">Leave</li>
             <% } %>
             <li class="footer-menu-item">
-                <form id="logout" action="/logout" method="post">
-                    <button class="button button_logout" type="submit">logout</button>
-                </form>
+                <button class="button button_logout">logout</button>
             </li>
         </ul>
     </div>
 </div>
-<script>
-    $( document ).ready( glowRoute() );
+<script type="module">
+    import { socket } from '/js/quarto/widgets/chat.js'
+    $( document ).ready( footerInit() );
 
-    function glowRoute() {
+    function footerInit() {
+        document.querySelector(`.button_logout`).addEventListener('click', (event)=>{
+            logout();
+        }); 
+        
         if (userInfo.route != 'game') {
             document.querySelector(`.button_${userInfo.route}`).style.boxShadow = "0px 0px 20px yellow";    
         }
     }
+
+    function logout() {
+        var container = document.querySelector('.modal-ok-container');
+        container.innerHTML = '';
+        var content = document.querySelector('.modal-content');
+        if (userInfo.game != 'null') {
+            content.innerHTML = '<h1>You are in a active game !</h1>';
+            content.innerHTML += '<br>';
+            content.innerHTML += '<h1>Realy want to logout ?</h1>';
+        } else {
+            content.innerHTML = `<h1>Realy want to logout ?</h1>`    
+        }
+        var form = document.createElement("form");
+        form.setAttribute('id','logout-form');
+        form.setAttribute("method", "post");
+        var submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute('id','logout-button');
+        submitButton.value = 'logout';
+        submitButton.classList.add('button','button_logout','button_green');
+        form.appendChild(submitButton);
+        container.appendChild(form);
+        $("#logout-form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/logout",
+                type: "POST",
+                data: '', //{'gameroom': `${gamesList[i]}`}
+                success: function(data){
+                    if (userInfo.game != 'null') {
+                        socket.emit('logoutFromGame',userInfo.userID)    
+                    }
+                    
+                    location.href = '/';
+                }
+            });
+        });
+        document.querySelector('.modal-wrapper').style.display = 'flex';
+    };
+
+
+
 </script>

@@ -39,10 +39,7 @@ app.set('views', './API/view/');
 app.set('view engine','ejs');
 app.use(logger('dev'));
 
-
-
 app.use('/',router);
-
 
 var httpServer = http.createServer(app).listen(process.env.PORTHTTP,()=>{
     console.log(`=========== ${moment().format('MMMM Do YYYY, h:mm:ss a')} ===========`);

@@ -1,30 +1,28 @@
 import { socket,chat_display,initChat,outputMessage,displayChatHistory } from '/js/quarto/widgets/chat.js'
 
 let currentPlayer;
-let game = false;
+let gameState;
 let userindex;
+let player1;
+let player2;
 
 $( document ).ready( INIT() );
 
 function INIT() {
     initChat();
-
-    let waiting = setInterval(()=>{waitingForPlayes2()}, 500);
+    player1 = document.querySelector('#player1');
+    player2 = document.querySelector('#player2');
 
     for(let i=0; i<225; i++) {
         document.querySelector(`#cell${i}`).addEventListener('click', (event)=>{
              setPos(i);
         }); 
     }
-
-    socket.on("connect", () => {
-        
-    });
-
     socket.emit(`joinToGame`);
-    
-    socket.on("disconnect", () => {
-    });
+
+    socket.on("connect", () => {});
+    socket.on("disconnect", () => {});
+
 
     socket.on(`joinedToGame`, (msg)=>{
         if (msg !== "") {
@@ -36,7 +34,6 @@ function INIT() {
         updateGameRoom(game);
     })
 
-
     socket.on('UserIndex', (index)=>{
         userindex = index;
     })
@@ -46,82 +43,74 @@ function INIT() {
         currentCell.classList.add('takeP'+userNr);
         if (userNr == 1)
         {
-            userNr = 2;
-        }
+            currentPlayer = 2;}
+
         else
         {
-            userNr = 1;
+            currentPlayer = 1;
         }
-        currentPlayer = userNr;
         displayCurrentPlayer();
      });
 
-     socket.on('gameStarted', (rnd)=>{
-            
-        //clearInterval(waiting);
+     socket.on('gameStarted', (rnd,game)=>{
             currentPlayer = rnd;
             userindex = currentPlayer;
-            game = true;
-            clearInterval(waiting);
+            game.game = gameState;
             displayCurrentPlayer();
-            rednerStatus(`A játék elindult !`)
-            
-    })
+            renderStatus(`A játék elindult !`,3000)
+        })
 
 
-    socket.on('win', (winner)=>{
+    socket.on('win', (winner,state)=>{
         let status = document.querySelector('#status');
-        //window.alert(winner + ' nyert!');
-        //status.innerHTML = `<h1>${winner} nyert !</h1>`
-        rednerStatus(`${winner} nyert !`)
-        game = false;
+        renderStatus(`${winner} nyert !`,6000)
+        renderWin(winner);
+        gameState = state;
+    });
+    
+    socket.on('gameAborted', ()=>{
+        $.ajax('/lobby', {
+            type: 'POST',
+            data: '',
+            success: function(data){
+                location.href = '/lobby';
+            }
+        });
+        console.log(`gameAborted > ${currentPlayer} :: ${userindex}`);
     });
 }
 
-function waitingForPlayes2()
-{
-    let str = document.querySelector('#player2').innerHTML;
-    if (str == '') {
-        str = 'Várjuk a másik játékost';
-        if (str.length < 29)
-        {
-            str += '.';
-        }
-    } else {
-        rednerStatus(`${str} csatlakozott a játékhoz !`)
-        return;
-    }
-    document.querySelector('#status').innerHTML = str;
-}
-
-
-
 
 function setPos(id){
-    if (game == false) {
+    console.log(currentPlayer,userindex)
+    if (gameState == false) {
         return;
     }
-    //let status = document.querySelector('#status');
     if (currentPlayer == userindex) {
        socket.emit('putCell', id); 
     } else {
-        rednerStatus('A másik játékos lép !')
-        //status.innerHTML = '<h1>A másik játékos lép !</h1>'
+        renderStatus('A másik játékos lép !',4000);
     }
 }
 
-function rednerStatus(msg) {
+function renderStatus(msg,timeout) {
     let status = document.querySelector('#status');
     status.innerHTML = `<h1>${msg}</h1>`;
-    setTimeout(() => status.innerHTML = '', 3000);
+    setTimeout(() => status.innerHTML = '', timeout);
 }
+
 
 function updateGameRoom(game) {
     document.querySelector(`#player1`).innerHTML = game['player1'][0];
     document.querySelector(`#player2`).innerHTML = game['player2'][0];
-    let table = game.table;
-    console.log(game['player1'][0]);
+    let str = document.querySelector('#player2').innerHTML;
+    if (str == '') {
+        document.querySelector('#status').innerHTML = `<h1>Várjuk a másik játékost !</h1>`;
+    }
+    currentPlayer = game.currPlayer
+    gameState = game.gameState;
     displayCurrentPlayer();
+    let table = game.table;
     let counter = 0;
     for(let y = 0; y < 15; y++) {
         for(let x = 0; x < 15; x++) {
@@ -132,14 +121,50 @@ function updateGameRoom(game) {
 }
 
 function displayCurrentPlayer(){
-    if (currentPlayer == 2)
-    {
+    if (player2.innerHTML != '') {
+        if (currentPlayer == 2) {
+            renderStatus(`${player2.innerHTML} lép !`,4000);
+        } else {
+            renderStatus(`${player1.innerHTML} lép !`,4000);
+        }
+    }
+    
+    if (currentPlayer == 2) {
         document.querySelector('.player1-container').classList.remove('player1anim');
         document.querySelector('.player2-container').classList.add('player2anim');
-    }
-    else
-    {
+    } else {
         document.querySelector('.player2-container').classList.remove('player2anim');
         document.querySelector('.player1-container').classList.add('player1anim');
     }
+}
+
+function renderWin(winner) {
+    var container = document.querySelector('.modal-ok-container');
+    document.querySelector('.button_cancel').style.display = 'none';
+    container.innerHTML = '';
+    var content = document.querySelector('.modal-content');
+    content.innerHTML = `<h1>${winner} won the game !</h1>`;
+    var form = document.createElement("form");
+    form.setAttribute('id','to-lobby');
+    form.setAttribute("method", "get");
+    var submitButton = document.createElement("input");
+    submitButton.setAttribute("type", "submit");
+    submitButton.setAttribute('id','logout-button');
+    submitButton.value = 'OK';
+    submitButton.classList.add('button','button_lobby');
+    form.appendChild(submitButton);
+    container.appendChild(form);
+    
+    $("#to-lobby").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/lobby",
+            type: "POST",
+            data: '',
+            success: function(data){
+                location.href = '/lobby';
+            }
+        });
+    });
+    document.querySelector('.modal-wrapper').style.display = 'flex';
 }
