@@ -29,7 +29,6 @@ exports.POST_login = (req,res)=>{
             db_login(username,password,req,res);
         } else {
             sendError(`Missing Username and/or Password !`,res,'/login');
-            //res.redirect('/login');
         }
     } else {
         if (username != req.session.username) {
@@ -75,9 +74,7 @@ exports.POST_register = (req,res)=>{
                         db_reggister(name,email,passwd1,req,res);
                     }
                 });
-
-                //db_reggister(name,email,passwd1,req,res);
-            }
+           }
         });
         
     }
@@ -135,16 +132,8 @@ function db_login(username, password,req,res) {
     db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results)=> {
         if (err) throw err;
         if (results.length > 0) {
-            //if (results[0].status == 1) {
-            //    sendError(`User: ${results[0].username} already logged in !`,res,'/login');
-            //    return;    
-            //}
             req.session.userID = results[0].id;
             req.session.username = results[0].username;
-            //console.log(req.session.userID);
-            //db.query(`UPDATE users SET status = 1 WHERE users.id = '${req.session.userID}'`, (err)=>{
-            //    if (err) throw err;
-            //});
                 db.query('SELECT * FROM rooms WHERE userID = ?', [req.session.userID], (err, results)=> {
                 if (err) throw err;
                 if (results.length > 0) {

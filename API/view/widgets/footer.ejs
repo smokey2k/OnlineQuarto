@@ -34,7 +34,7 @@
 <div class="footer">
     <div class="footer-menu-left">
         <ul class="footer-menu-left-list">
-            <% if(userInfo.route == 'lobby'){ %>
+            <% if(userInfo.route == 'lobby' && userInfo.game == 'null'){ %>
             <li class="footer-menu-item">
                 <form method="post" action="/game" class="create-game-form">
                     <button id="submit-button" class="button button_create" type="submit">Create Game</button>

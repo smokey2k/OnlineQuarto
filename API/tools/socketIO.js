@@ -6,6 +6,8 @@ const gamesList = [];
 const { games,joinRoomUser,playerJoinGame,getCurrentPlayer,gePlayerIndex,
         playerLeaveGame,getGamePlayers,roomHistory,formatTime,formatMessage
     } = require('./rooms');
+const { checkFive } = require('./amoba');
+
 
 exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
@@ -37,21 +39,29 @@ exports = module.exports = function(io) {
                         }
                     }
                     io.to('lobby').emit('updateLobby', gamesList);
-                    io.in(session.game).emit('gameStarted');
+                    let rnd = Math.round(Math.random()+1);
+                    games[index].currPlayer = rnd;
+                    socket.join(session.game);
+                    
+                    io.in(session.game).emit('gameStarted',rnd, games[index] );
+                    
                 }   
             }
             roomHistory(session.game,io);
-            socket.join(session.game);
+            
+            socket.join(session.game);    
+            
             
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
-            //io.emit('playerConnected', getGamePlayers(session.game,session), rnd);
+            
+            io.in(session.game).emit('updateGameRoom', games[index]);
 
             db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
                 if (err) throw err;
             });
             socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.game}!`) );            
             socket.broadcast.to(session.game).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.game} !`) );
-            console.table(games[index].users)
+            
         });
 
         socket.on('message', (msg)=>{
@@ -75,6 +85,7 @@ exports = module.exports = function(io) {
                 player2: ['',-1],
                 users: [],
                 full: 0,
+                currPlayer: 0,
                 table: [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -99,19 +110,23 @@ exports = module.exports = function(io) {
             let user = { id, username, room};
             game.users.push(user);
             games.push(game);
+            //console.table(game);
             gamesList.push(game.gamename);
             socket.to('lobby').emit('gameCreated',gamesList);
         });
 
         socket.on('putCell', (id)=>{
+            
             var game = games.findIndex(game => game.gamename === `${session.game}`);
             var table = games[game].table;
-
             let currUser = gePlayerIndex(session.userID,session)+1;
+            
+            //table.currPlayer = currUser;
             let row = Math.floor(id / 15);
             let col = id % 15;
             table[row][col] = currUser;
             io.emit('drawCell', id,  currUser );
+            
             let win = checkFive(row, col, currUser,session);
             if (win) {
                 io.emit('win', getCurrentPlayer(session.userID,session).username);

@@ -85,15 +85,6 @@ function formatMessage(username, text) {
   }
 }
 
-/*
-function joinPlayer(userID,name,room,game,socketID) {
-  db.query(`UPDATE rooms SET room='${game}', game='${game}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
-      if (err) throw err;
-  });
-}
-*/
-
-
 module.exports = {
   games,
   chatHistory,

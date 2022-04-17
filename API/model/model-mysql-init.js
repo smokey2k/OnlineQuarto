@@ -78,10 +78,9 @@ CREATE TABLE if not exists highscore (
     playerName varchar(100),
     score int
 );
-`
-//TRUNCATE TABLE games;
-//TRUNCATE TABLE rooms;
 
+TRUNCATE TABLE rooms;
+`
 
 init.query(initDB, function (err, result) {
     if (err) throw err;

@@ -7,8 +7,9 @@ function rndColor() {
 export const gameListDOM = document.querySelector('.games-list');
 
 function updateGameList(gamesList,DOMelement) {
-    console.log(gamesList);
-        
+    if (userInfo.game != 'null') {
+        return;
+    }
     DOMelement.innerHTML = '';
     for (let i = 0; i < gamesList.length; i++) {
         const li = document.createElement('li');

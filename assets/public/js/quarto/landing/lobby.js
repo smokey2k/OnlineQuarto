@@ -20,13 +20,8 @@ function INIT() {
     });
 
     socket.emit(`joinToRoom`);
-    socket.on("connect", () => {
-        //const userDisplay = document.querySelector('#socket');
-        //userDisplay.innerHTML = socket.id;
-      });
-    socket.on("disconnect", () => {
-        console.log(socket.id); // undefined
-      });
+    socket.on("connect", () => {});
+    socket.on("disconnect", () => {});
 
     socket.on(`joinedToRoom`, (msg)=>{
         if (msg !== "") {
@@ -35,9 +30,8 @@ function INIT() {
     });
 
     socket.on('gameCreated', (gamesList)=>{
-        updateGameList(gamesList,gameListDOM,socket);
+        updateGameList(gamesList,gameListDOM,socket);        
     });
-
 
 }
 

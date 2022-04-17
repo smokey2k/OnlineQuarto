@@ -134,3 +134,4 @@ function checkFive(row, col, user,session)
     return win;
 }
 
+module.exports = { checkFive };

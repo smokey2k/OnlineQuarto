@@ -4,6 +4,7 @@
     --small-font-size: max(0.7em, 0.7vw);
     --base-font-size: max(1em, 1vw);
     --big-font-size: max(1.3em, 1.3vw);
+    --bigger-font-size: max(2em, 2vw);
     --logo-font-size: max(4em, 6vw);
 }
   

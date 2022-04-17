@@ -4,9 +4,11 @@
 <!-- <%- include('../widgets/userinfo') %> -->
 <link rel="stylesheet" href="/css/landing/lobby.css">
     <div class="main">
-        <div class="main-tools">
-            <%- include('../widgets/gamelist') %>
-        </div>
+        <% if(userInfo.game == 'null' ){ %>
+            <div class="main-tools">
+                <%- include('../widgets/gamelist') %>
+            </div>
+        <% } %>
         <%- include('../widgets/chat') %>
     </div>
     <%- include('../widgets/footer') %>

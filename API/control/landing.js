@@ -56,9 +56,7 @@ function set_userGamePath(req,res,path) {
             res.send(data);
         });
     });
-
 }
-
 
 function getUserInfo(req){
     var userInfo = {
