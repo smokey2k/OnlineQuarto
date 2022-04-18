@@ -130,6 +130,8 @@ exports = module.exports = function(io) {
             let col = id % 15;
             console.log(`server: ${id}/${currUser}`)
             games[game].table[row][col] = currUser;
+            
+            //io.emit('drawCell', id,  currUser );
             io.in(session.game).emit('drawCell', id,  currUser );
             let win = checkFive(row, col, currUser,session);
             if (win) {
