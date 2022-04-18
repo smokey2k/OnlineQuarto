@@ -4,26 +4,30 @@
 <!-- <%- include('../widgets/userinfo') %> -->
 <div class="main">
     <table>
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Games</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%for(var i=0;i<results.length;i++){%>
-            <td><%= i+1 %></td>
-            <td><%=results[i].username%></td>
-            <td><%=results[i].score%></td>
-            <td><%=results[i].playedGames%></td>
-        </tbody><%}%>
-        <tfoot>
-            <td>Players: <%=results.length%></td>
-        </tfoot>
-    </table>
-
+        <div class="highscore-wrapper">
+            <div class="highscore-header"></div>
+            <div class="highscore-container">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Games</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(var i=0;i<results.length;i++){%>
+                    <td><%= i+1 %></td>
+                    <td><%=results[i].username%></td>
+                    <td><%=results[i].score%></td>
+                    <td><%=results[i].playedGames%></td>
+                </tbody><%}%>
+                <tfoot>
+                    <td>Players: <%=results.length%></td>
+                </tfoot>
+            </table>
+            </div>
+        </div>
 </div>
 <%- include('../widgets/footer') %>
 <script type="module" src="/js/quarto/landing/highscore.js"></script>
