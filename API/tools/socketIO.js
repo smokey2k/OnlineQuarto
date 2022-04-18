@@ -38,7 +38,6 @@ exports = module.exports = function(io) {
                         }
                     }
                     socket.to('lobby').emit('updateLobby', gamesList);
-                    //io.to('lobby').emit('updateLobby', gamesList);
                     let rnd = Math.round(Math.random()+1);
                     games[index].currPlayer = rnd;
                     games[index].gameState = true;
@@ -52,7 +51,10 @@ exports = module.exports = function(io) {
             console.log(gePlayerIndex(session.userID,session)+1);    
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
             io.in(session.game).emit('updateGameRoom', games[index]);
-            db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
+            //db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
+            //    if (err) throw err;
+            //});
+            db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}' WHERE userID=${session.userID};`, (err)=>{
                 if (err) throw err;
             });
             socket.emit('message',formatMessage('System', `${session.username}, wellcome in the game room: ${session.game}!`) );
@@ -72,6 +74,21 @@ exports = module.exports = function(io) {
             }
             io.in(session.game).emit('gameAborted');
         });
+
+        socket.on('leaveFromGame', (id)=>{
+            var index = games.findIndex(game => game.gamename === `${session.game}`);
+            let userIndex = gePlayerIndex(session.userID,session);
+            games[index].gameState = false;
+            socket.emit('message',formatMessage('System', `Player: ${session.username}, has left the game !`) );
+            results = proccesWin(userIndex,session,1);
+            for( var i = 0; i < games.length; i++){ 
+                if ( games[i].gamename === session.game ) { 
+                    games.splice(i, 1); 
+                }
+            }
+            io.in(session.game).emit('gameAborted');
+        });
+
 
         socket.on('message', (msg)=>{
             let room = '';
@@ -133,8 +150,6 @@ exports = module.exports = function(io) {
             games[game].table[row][col] = currUser;
             console.log(session.game);
             io.in(session.game).emit('drawCell', id,  currUser );
-            //io.emit('drawCell', id,  currUser );
-            
             let win = checkFive(row, col, currUser,session);
             if (win) {
                 let userIndex = gePlayerIndex(session.userID,session);
@@ -146,8 +161,6 @@ exports = module.exports = function(io) {
                         games.splice(i, 1); 
                     }
                 }
-
-                //io.emit('win', playername, gameState);
                 io.in(session.game).emit('win', playername, gameState);
             }
         })

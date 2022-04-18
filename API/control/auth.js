@@ -151,8 +151,8 @@ function db_login(username, password,req,res) {
                     db.query(`INSERT INTO rooms VALUES(null, 
                         '${req.session.userID}', '${req.session.username}',
                         '${req.session.room}','${req.session.route}',
-                        '${req.session.game}','${req.session.playerIndex}',
-                        null)`, (err)=>{
+                        '${req.session.game}','${req.session.playerIndex}'
+                        )`, (err)=>{
                         if (err) throw err;
                     });
                 }

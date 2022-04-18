@@ -1,8 +1,63 @@
 <%- include('../widgets/header') %>
 <script src="/socket.io/socket.io.js"></script>
 <script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
-<!-- <%- include('../widgets/userinfo') %> -->
-<link rel="stylesheet" href="/css/landing/lobby.css">
+<style>
+    .main-tools, .create-button, .create-button-form {
+    display: flex;
+}
+
+.main-tools {
+    overflow: auto;
+    margin: 0.5vh;
+    box-shadow: rgba(0, 0, 0, 0.459) 4px 6px 0; 
+    border-radius: 1.5vw 1.5vw 0 0;
+    min-width: 16ch
+}
+
+.create-button-form {
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    white-space: nowrap;
+    padding: 1vw;
+}
+
+.create-button {
+    white-space: nowrap;
+    height: fit-content;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (orientation: portrait) {
+    .main {
+        flex-flow: column;
+        justify-content: flex-start;
+        flex: auto;
+    }
+    .main-tools {
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        height: fit-content;
+        min-height: 9vh;
+    }
+}
+  
+@media screen and (orientation: landscape) {
+    .main {
+        flex-flow: row;
+        justify-content: flex-start;
+    }
+    .main-tools {
+        flex-flow: column;
+        align-items: flex-start;
+        width: fit-content;
+    }
+ } 
+</style>
     <div class="main">
         <% if(userInfo.game == 'null' ){ %>
             <div class="main-tools">

@@ -52,7 +52,9 @@
     <div class="footer-menu-right">
         <ul class="footer-menu-right-list">
             <% if(userInfo.route == 'game'){ %>
-                <li class="footer-menu-item button button_leave">Leave</li>
+                <li class="footer-menu-item">
+                    <button class="button button_leave">leave</button>
+                </li>
             <% } %>
             <li class="footer-menu-item">
                 <button class="button button_logout">logout</button>
@@ -69,6 +71,12 @@
             logout();
         }); 
         
+        if(userInfo.route == 'game'){
+            document.querySelector(`.button_leave`).addEventListener('click', (event)=>{
+                leave();
+            }); 
+        }
+
         if (userInfo.route != 'game') {
             document.querySelector(`.button_${userInfo.route}`).style.boxShadow = "0px 0px 20px yellow";    
         }
@@ -113,6 +121,35 @@
         document.querySelector('.modal-wrapper').style.display = 'flex';
     };
 
-
-
+    function leave() {
+        var container = document.querySelector('.modal-ok-container');
+        container.innerHTML = '';
+        var content = document.querySelector('.modal-content');
+        content.innerHTML = '<h1>You are in a active game !</h1>';
+        content.innerHTML += '<br>';
+        content.innerHTML += '<h1>Realy want to leave ?</h1>';
+        var form = document.createElement("form");
+        form.setAttribute('id','leave-form');
+        form.setAttribute("method", "post");
+        var submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute('id','logout-button');
+        submitButton.value = 'leave';
+        submitButton.classList.add('button','button_leave');
+        form.appendChild(submitButton);
+        container.appendChild(form);
+        $("#leave-form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/lobby",
+                type: "POST",
+                data: '',
+                success: function(data){
+                    socket.emit('leaveFromGame',userInfo.userID)
+                    location.href = '/lobby';
+                }
+            });
+        });
+        document.querySelector('.modal-wrapper').style.display = 'flex';
+    };
 </script>

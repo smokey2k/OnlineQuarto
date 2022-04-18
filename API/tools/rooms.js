@@ -8,9 +8,12 @@ const chatHistory = [];
 //
     // User join to chat room
     function joinRoomUser(userID,name,room,socketID,firstTime) {
-      db.query(`UPDATE rooms SET room='${room}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
-          if (err) throw err;
-      });
+      //db.query(`UPDATE rooms SET room='${room}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
+      //    if (err) throw err;
+      //});
+      db.query(`UPDATE rooms SET room='${room}' WHERE userID=${userID};`, (err)=>{
+        if (err) throw err;
+    });
       const user = {userID,name,room,socketID,firstTime};
       return user;
   }

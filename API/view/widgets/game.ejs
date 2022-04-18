@@ -58,12 +58,6 @@
         height: 100%;
         border: 2px solid black;
     }
-    #player1 {
-        
-    }
-    #player2 {
-        
-    }
 
     .cell{
         border: 1px solid black;
@@ -114,73 +108,69 @@
             background-color: #222;
         }
     }
-.takeP1{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-.takeP1::after{
-    content: '';
-    border: 2px inset rgb(46, 0, 0);
-    background-color: red;
-    background: radial-gradient(circle, rgb(255, 0, 0) 0%, rgb(179, 37, 37) 20%, rgb(87, 9, 9) 100%);
-    animation: put 0.5s ease-out forwards;
-    width: 85%;
-    height: 85%;
-    border-radius: 50%;
-}
-
-.player2-container {
-    background-color: rgb(86, 183, 248);
-    margin-top: 0.25em;
-}
-.player2anim {
-    background-color: rgb(86, 183, 248);
-    animation-name: color2;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-}
-    @keyframes color2 {
-        0% {
-            background-color: #222;
-        }
-        50% {
-            background-color: #4285f4;
-        }
-        100% {
-            background-color: #222;
-        }
+    .takeP1{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        cursor: not-allowed;
+        pointer-events: none;
     }
-.takeP2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;   
-    position: relative;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-.takeP2::after{
-    content: '';
-    border: 2px inset rgb(0, 0, 63);
-    background-color: blue;
-    background: radial-gradient(circle, rgb(0, 174, 255) 0%, rgb(37, 134, 179) 20%, rgb(9, 62, 87) 100%);
-    animation: put 0.5s ease-out forwards;
-    width: 85%;
-    height: 85%;
-    border-radius: 50%;
-}
+    .takeP1::after{
+        content: '';
+        border: 2px inset rgb(46, 0, 0);
+        background-color: red;
+        background: radial-gradient(circle, rgb(255, 0, 0) 0%, rgb(179, 37, 37) 20%, rgb(87, 9, 9) 100%);
+        animation: put 0.5s ease-out forwards;
+        width: 85%;
+        height: 85%;
+        border-radius: 50%;
+    }
 
-
-
+    .player2-container {
+        background-color: rgb(86, 183, 248);
+        margin-top: 0.25em;
+    }
+    .player2anim {
+        background-color: rgb(86, 183, 248);
+        animation-name: color2;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+        @keyframes color2 {
+            0% {
+                background-color: #222;
+            }
+            50% {
+                background-color: #4285f4;
+            }
+            100% {
+                background-color: #222;
+            }
+        }
+    .takeP2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;   
+        position: relative;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .takeP2::after{
+        content: '';
+        border: 2px inset rgb(0, 0, 63);
+        background-color: blue;
+        background: radial-gradient(circle, rgb(0, 174, 255) 0%, rgb(37, 134, 179) 20%, rgb(9, 62, 87) 100%);
+        animation: put 0.5s ease-out forwards;
+        width: 85%;
+        height: 85%;
+        border-radius: 50%;
+    }
 </style>
-
 <div class="game-board-container">
     <div id="gameTable">
         <% for(let i=0; i<225; i++) { %>
@@ -188,13 +178,6 @@
         <% } %> 
     </div>
     <div class="game-status">
-
-        <!-- <div class="col-12 col-sm-6 offset-sm-3 text-start">
-            <h3><span id="ply1" class=""></span><span class="badge bg-danger">Player 1: <span id="plyr1"></span></span></h3>
-            <h3><span id="ply2" class=""></span><span class="badge bg-primary">Player 2: <span id="plyr2"></span></span></h3>
-        </div> -->
-
-        
         <div class="status-players">
             <span class="player1-container">Player 1&ensp;:&emsp;<span id="player1"></span></span>
             <span class="player2-container">Player 2&ensp;:&emsp;<span id="player2"></span></span>

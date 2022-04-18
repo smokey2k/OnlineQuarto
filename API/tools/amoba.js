@@ -185,8 +185,6 @@ function proccesWin(userIndex,session,type) {
             });
         }
     }
-   
-
     return results;
 }
 
