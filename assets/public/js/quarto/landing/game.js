@@ -23,7 +23,6 @@ function INIT() {
     socket.on("connect", () => {});
     socket.on("disconnect", () => {});
 
-
     socket.on(`joinedToGame`, (msg)=>{
         if (msg !== "") {
             outputMessage(msg,chat_display);    
@@ -43,12 +42,13 @@ function INIT() {
         currentCell.classList.add('takeP'+userNr);
         if (userNr == 1)
         {
-            currentPlayer = 2;}
-
+            userNr = 2;
+        }
         else
         {
-            currentPlayer = 1;
+            userNr = 1;
         }
+        currentPlayer = userNr;
         displayCurrentPlayer();
      });
 
@@ -56,6 +56,7 @@ function INIT() {
             currentPlayer = rnd;
             userindex = currentPlayer;
             game.game = gameState;
+//            updateGameRoom(game);
             displayCurrentPlayer();
             renderStatus(`A játék elindult !`,3000)
         })
@@ -87,8 +88,9 @@ function setPos(id){
         return;
     }
     if (currentPlayer == userindex) {
-       socket.emit('putCell', id); 
+       socket.emit('putCell', id);
     } else {
+        console.log(currentPlayer,userindex)
         renderStatus('A másik játékos lép !',4000);
     }
 }

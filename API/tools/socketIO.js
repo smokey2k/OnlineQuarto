@@ -40,14 +40,15 @@ exports = module.exports = function(io) {
                     games[index].currPlayer = rnd;
                     games[index].gameState = true;
                     socket.join(session.game);
+                    //console.table(games[index].users)
                     io.in(session.game).emit('gameStarted',rnd, games[index] );
                     
                 }   
             }
             roomHistory(session.game,io);
             socket.join(session.game);
-            console.log(gePlayerIndex(session.userID,session)+1);    
-            socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
+            
+            io.in(session.game).emit('UserIndex', gePlayerIndex(session.userID,session)+1);
             io.in(session.game).emit('updateGameRoom', games[index]);
             db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
                 if (err) throw err;
@@ -60,7 +61,7 @@ exports = module.exports = function(io) {
             var index = games.findIndex(game => game.gamename === `${session.game}`);
             let userIndex = gePlayerIndex(session.userID,session);
             games[index].gameState = false;
-            socket.emit('message',formatMessage('System', `Player: ${session.username}, has left the game !`) );
+            io.in(session.game).emit('message',formatMessage('System', `Player: ${session.username}, has left the game !`) );
             results = proccesWin(userIndex,session,1);
             for( var i = 0; i < games.length; i++){ 
                 if ( games[i].gamename === session.game ) { 
@@ -127,8 +128,9 @@ exports = module.exports = function(io) {
             games[game].currPlayer = currUser;
             let row = Math.floor(id / 15);
             let col = id % 15;
+            console.log(`server: ${id}/${currUser}`)
             games[game].table[row][col] = currUser;
-            io.emit('drawCell', id,  currUser );
+            io.in(session.game).emit('drawCell', id,  currUser );
             let win = checkFive(row, col, currUser,session);
             if (win) {
                 let userIndex = gePlayerIndex(session.userID,session);
@@ -140,9 +142,7 @@ exports = module.exports = function(io) {
                         games.splice(i, 1); 
                     }
                 }
-
-                io.emit('win', playername, gameState);
-                //session.game = 'null';
+                io.in(session.game).emit('win', playername, gameState);
             }
         })
     });

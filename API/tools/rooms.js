@@ -32,7 +32,9 @@ const chatHistory = [];
   // Get current userindex
   function gePlayerIndex(id,session) { //, index
       var game = games.findIndex(game => game.gamename === `${session.game}`);
-      return games[game].users.findIndex(user => user.id === id);
+      var index = games[game].users.findIndex(user => user.id === id) 
+      console.log(index);
+      return index;
   }
   // User leaves the game
   function playerLeaveGame(id,session) {

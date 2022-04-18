@@ -25,7 +25,7 @@ exports.GET_highscore = (req,res)=>{
     const userInfo = getUserInfo(req);
     req.session.route = 'highscore';
     userInfo.route = req.session.route;
-    db.query(`SELECT username , score  , playedGames  FROM users ORDER BY score DESC;`, (err,results)=>{
+    db.query(`SELECT username, score, playedGames FROM users ORDER BY score DESC;`, (err,results)=>{
         if (err) throw err;
         ejs.renderFile(`./API/view/landing/highscore.ejs`, {userInfo,results} , (err, data)=>{
             if (err) throw err;
