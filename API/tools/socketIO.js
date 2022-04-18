@@ -15,7 +15,9 @@ exports = module.exports = function(io) {
             roomHistory(session.room,io);
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
-            socket.emit('updateLobby', gamesList);
+            //socket.emit('updateLobby', gamesList);
+            socket.to('lobby').emit('updateLobby', gamesList);
+            //socket.emit('updateLobby', gamesList);
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
@@ -35,7 +37,8 @@ exports = module.exports = function(io) {
                             gamesList.splice(i, 1); 
                         }
                     }
-                    io.to('lobby').emit('updateLobby', gamesList);
+                    socket.to('lobby').emit('updateLobby', gamesList);
+                    //io.to('lobby').emit('updateLobby', gamesList);
                     let rnd = Math.round(Math.random()+1);
                     games[index].currPlayer = rnd;
                     games[index].gameState = true;
@@ -128,7 +131,10 @@ exports = module.exports = function(io) {
             let row = Math.floor(id / 15);
             let col = id % 15;
             games[game].table[row][col] = currUser;
-            io.emit('drawCell', id,  currUser );
+            console.log(session.game);
+            io.in(session.game).emit('drawCell', id,  currUser );
+            //io.emit('drawCell', id,  currUser );
+            
             let win = checkFive(row, col, currUser,session);
             if (win) {
                 let userIndex = gePlayerIndex(session.userID,session);
@@ -141,8 +147,8 @@ exports = module.exports = function(io) {
                     }
                 }
 
-                io.emit('win', playername, gameState);
-                //session.game = 'null';
+                //io.emit('win', playername, gameState);
+                io.in(session.game).emit('win', playername, gameState);
             }
         })
     });

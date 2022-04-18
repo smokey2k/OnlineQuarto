@@ -4,6 +4,10 @@
 <!-- <%- include('../widgets/userinfo') %> -->
 <div class="main">
 <style>
+        h1{
+            font-size: var(--big-font-size);
+            color: chartreuse;
+        }
         a {
           color: yellow;
         }
@@ -38,7 +42,7 @@
                  1px -1px 0 #000,
                 -1px  1px 0 #000,
                  1px  1px 0 #000;
-            background-color: rgba(134, 134, 134, 0.466);
+            
             flex: auto;
         }
         
@@ -73,9 +77,10 @@
             height: auto;
             border-radius: 2em;
         }
+
     </style>
     <div class="help-main">
-        <h1>Amőba</h1><br>
+        <h1>Amőba</h1>
         <p>Az amőba kétszemélyes <a href="https://hu.wikipedia.org/wiki/T%C3%A1rsasj%C3%A1t%C3%A9k#A_t%C3%A1rsasj%C3%A1t%C3%A9kok_oszt%C3%A1lyoz%C3%A1sa" target="_blank">absztrakt stratégiai táblás játék</a>, a <a href="https://hu.wikipedia.org/wiki/Gomoku" target="_blank">gomoku</a> változata.</p>
         <p>A győzelemhez (legalább) öt bábunkat kell egy vonalba lerakni.</p>
         <p>A standard gomokutól eltérően (amelyben az 5-nél hosszabb sor nem nyer) az amőbában különleges virtusnak számít a hosszabb (legalább 6 bábut tartalmazó) győztes sor kirakása.</p>
@@ -83,13 +88,16 @@
         <p>A tábla mérete nem kötött, a játék a füzetlap széléig, a még szabad területen folyik.</p>
         <p>A játék a nevét onnan kapta, hogy a győztesé az a „megtiszteltetés”, hogy a végül létrejött alakzatot (szögletes vagy görbe vonallal) szorosan körberajzolja</p>
         <p>Az így létrejött vonal egy állábakat növesztett amőbára hasonlít.</p><br>
-        <h1>Játékmenet</h1><br>
-        <p>A játék nem sokban különbözik a gomokutól, csak nincs rögzítve a tábla mérete, és így nem is kerülhet sorra a bábuk tologatásával játszott második játékszakasz.</p><br>
+        <h1>Játékmenet</h1>
+        <p>A játék nem sokban különbözik a gomokutól, csak nincs rögzítve a tábla mérete, és így nem is kerülhet sorra a bábuk tologatásával játszott második játékszakasz.</p>
         <p>A két játékos felváltva tesz egy-egy bábut a táblára. A játék célja, hogy vízszintes, függőleges vagy átlós irányban megszakítás nélkül öt saját bábut sikerüljön letenni. </p>
-        <p>Az ellenfél ezt a kialakulni látszó vonal végére tett bábukkal próbálja megakadályozni.</p><br>
+        <p>Az ellenfél ezt a kialakulni látszó vonal végére tett bábukkal próbálja megakadályozni.</p>
         <p>A papíron játszott, legjellemzőbb változatban az egyik játékos X, a másik O jelekkel helyettesíti a bábukat, a játék Ox elnevezése innen ered, bár azt a Tic-tac-toe-ra is használják. </p>
         <p>A kétféle jelet szokták kétféle színnel is jelölni, ahogy az a fényképen is látható.</p><br>
-        <h1>Hasonló játékok</h1><br>
+        <h1>Quarto Online amőba</h1>
+        <p>A lejátszott és megnyert játékok után a nyertes 20 pontot kap.</p>
+        <p>Ha játék közben az ellenfél kilép, akkor a játékban maradt játékos nyer, de csak 5 pontot kap.</p><br>
+        <h1>Hasonló játékok</h1>
         <ul class="help-figures-list">
             <li>Gomoku</li>
             <li>Rendzsu</li>

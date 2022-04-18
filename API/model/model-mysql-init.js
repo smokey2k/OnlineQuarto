@@ -14,7 +14,7 @@ var init = mysql.createPool({
 init.getConnection((err, connection)=>{
     if (err) throw err;
 });
-
+/*
 const users = {
     's2k': ['datas2k@gmail.com','d',200,20],
     'jan': ['jan@gmail.com','d',100,5],
@@ -32,6 +32,26 @@ const users = {
     'fred': ['fred@gmail.com','d',100,6],
     '0123456789abc': ['csubi@csubi.com','d',40,10]
 }
+*/
+
+const users = [
+    ['s2k','datas2k@gmail.com','d',200,20],
+    ['jan','jan@gmail.com','d',100,5],
+    ['dan','dan@gmail.com','d',40,3],
+    ['cili','cili@gmail.com','d',100,6],
+    ['blabla','blabla@csubi.com','d',40,10],
+    ['yolo','yolo@gmail.com','d',200,20],
+    ['nyuszi','nyuszi@gmail.com','d',100,5],
+    ['csöves','csoves@gmail.com','d',40,3],
+    ['csubakka','csubakka@gmail.com','d',100,6],
+    ['határozott','hatarozott@csubi.com','d',40,10],
+    ['jázmin','jazmin@gmail.com','d',200,20],
+    ['júliánusz','julianusz@gmail.com','d',100,5],
+    ['dandan','dandan@gmail.com','d',40,3],
+    ['fred','fred@gmail.com','d',100,6],
+    ['0123456789abc','csubi@csubi.com','d',40,10]
+]
+
 
 var initDB = `
 USE ${process.env.DBNAME};
@@ -86,14 +106,24 @@ CREATE TABLE if not exists highscore (
 TRUNCATE TABLE rooms;
 `
 
+//init.query(initDB, function (err, result) {
+//    if (err) throw err;
+//    for (const [key, value] of Object.entries(users)) {
+//        db.query(`INSERT IGNORE INTO users (username, email, password, score, playedGames ) VALUES ('${key}', '${value[0]}', '${value[1]}','${value[2]}','${value[3]}')`, (err)=>{
+//            if (err) throw err;
+//        });
+//    }
+//    console.log(`MySQL Database: '${process.env.DBNAME} initialised.`);
+// });
+
 init.query(initDB, function (err, result) {
     if (err) throw err;
-    for (const [key, value] of Object.entries(users)) {
-        db.query(`INSERT IGNORE INTO users (username, email, password, score, playedGames ) VALUES ('${key}', '${value[0]}', '${value[1]}','${value[2]}','${value[3]}')`, (err)=>{
+/*
+    for (let y = 0; y < users.length; y++) {
+        db.query(`INSERT IGNORE INTO users (username, email, password, score, playedGames ) VALUES ('${users[y][0]}', '${users[y][1]}', '${users[y][2]}','${users[y][3]}','${users[y][4]}')`, (err)=>{
             if (err) throw err;
-        });
+        });    
     }
+*/
     console.log(`MySQL Database: '${process.env.DBNAME} initialised.`);
- });
-
- 
+});
