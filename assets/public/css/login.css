@@ -1,0 +1,89 @@
+.root {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    z-index: 2;
+}
+
+.root * {
+    padding: 0.5ch;
+    margin: 0.5ch;
+    color: #fff;
+    text-shadow: #000 5px 10px 5px;
+    -webkit-font-smoothing: antialiased;
+    font-size: 3vh;
+}
+
+.quarto-logo {
+    width: 100%;
+}
+
+.root > h1 {
+    font-size: 4vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.rootForm {
+    width: fit-content;
+    display: flex;
+    flex-flow: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.Form {
+    display: flex;
+    flex-flow: column;
+}
+
+.Form * {
+    width: fit-content;
+    text-shadow: none;
+    color: rgb(70, 81, 87);
+    border-radius: 0 0 0 1ch;
+    border: 2px solid rgb(37, 37, 37);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    box-shadow: 5px 10px #00000080;
+}
+
+.Form button {
+    color: black;
+}
+
+.rootButtons {
+    display: flex;
+    background-color: red;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.rootButtons a {
+    align-self: center;
+     text-decoration: none;
+    width: fit-content;
+    
+}
+
+.rootError {
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    -webkit-animation: fadeOut 12s;
+    animation: fadeOut 12s;
+    animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes fadeOut {
+    0% { opacity: 1;}
+    100% { opacity: 0; content: '';}
+}  
+@keyframes fadeOut {
+    0% { opacity: 1;}
+    100% { opacity: 0;content: '';}
+}
