@@ -20,9 +20,8 @@ function INIT() {
     }
     socket.emit(`joinToGame`);
 
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
-
+    // socket.on("connect", () => {});
+    // socket.on("disconnect", () => {});
 
     socket.on(`joinedToGame`, (msg)=>{
         if (msg !== "") {
@@ -41,12 +40,9 @@ function INIT() {
     socket.on('drawCell', (id, userNr)=>{
         let currentCell = document.getElementById('cell'+id);
         currentCell.classList.add('takeP'+userNr);
-        if (userNr == 1)
-        {
-            currentPlayer = 2;}
-
-        else
-        {
+        if (userNr == 1) {
+            currentPlayer = 2;
+        } else {
             currentPlayer = 1;
         }
         displayCurrentPlayer();
@@ -76,13 +72,11 @@ function INIT() {
                 location.href = '/lobby';
             }
         });
-        console.log(`gameAborted > ${currentPlayer} :: ${userindex}`);
     });
 }
 
 
 function setPos(id){
-    console.log(currentPlayer,userindex)
     if (gameState == false) {
         return;
     }
