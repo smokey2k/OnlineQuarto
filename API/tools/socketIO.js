@@ -17,7 +17,6 @@ exports = module.exports = function(io) {
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
             if (gamesList.length > 0) {
-                //socket.to('lobby').emit('updateLobby', gamesList);
                 socket.emit('updateLobby', gamesList);    
             }
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
