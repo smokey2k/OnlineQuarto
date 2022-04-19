@@ -1,0 +1,82 @@
+<%- include('../header') %>
+<style>
+.header, .header-menu, .header-menu-list {
+    display: flex;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    border-radius: 0.7vw 0.7vw 0 0;
+    background: radial-gradient(circle, rgba(103, 103, 103, 0.698) 0%, rgba(94, 94, 94, 0.703) 20%, rgba(0, 0, 0, 0.66) 100%);
+    border: 1px solid black;
+    padding: 0;
+    padding-left: 1vh;
+    font-size: var(--small-font-size);
+}
+    .header-menu {
+        flex: auto;
+        flex-flow: row;
+    }
+    .header-menu-list {
+        align-items: flex-start;
+        flex-flow: row wrap-reverse;
+        list-style: none;
+        width: fit-content;
+        padding: 0;
+    }
+    .header-menu-item {
+        margin: 1vh;
+        margin-bottom: 1vw;
+    }
+
+@media screen and (orientation: portrait) {
+    .header {
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .header-menu-list {
+        justify-content: center;
+    }
+}
+  
+@media screen and (orientation: landscape) {
+    .header {
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .header-menu-list {
+        justify-content: flex-start;
+    }
+} 
+
+</style>
+<div class="header">
+    <%- include('logo') %>
+    <div class="header-menu">
+        <ul class="header-menu-list">
+            <li class="header-menu-item">
+                <form id="lobby-link" action="/lobby" method="get">
+                    <button class="button button_lobby" type="submit">lobby</button>
+                </form>
+            </li>
+            <li class="header-menu-item">
+                <form id="highscore-link" action="/highscore" method="get">
+                    <button class="button button_highscore" type="submit">highscore</button>
+                </form>
+            </li>
+            <li class="header-menu-item">
+                <form id="help-link" action="/help" method="get">
+                    <button class="button button_help" type="submit">help</button>
+                </form>
+            </li>
+            <li class="header-menu-item">
+                <form id="about-link" action="/about" method="get">
+                    <button class="button button_about" type="submit">about</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>

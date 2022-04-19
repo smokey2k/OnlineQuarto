@@ -1,0 +1,155 @@
+<style>
+.footer, .footer-menu-left-list, .footer-menu-right-list {
+    display: flex;
+}
+.footer {
+    border-radius: 0 0 0.7vw 0.7vw;
+    background: radial-gradient(circle, rgba(103, 103, 103, 0.698) 0%, rgba(94, 94, 94, 0.703) 20%, rgba(0, 0, 0, 0.66) 100%);
+    color: lightgray;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid black;
+    padding: 0.5vw;
+    font-size: var(--small-font-size);
+}
+
+.footer-menu-left-list, .footer-menu-right-list {
+    flex-flow: row wrap;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-menu-item {
+    margin: 0.5vh;
+}
+@media screen and (orientation: portrait) {
+}
+
+@media screen and (orientation: landscape) {
+} 
+</style>
+<div class="footer">
+    <div class="footer-menu-left">
+        <ul class="footer-menu-left-list">
+            <% if(userInfo.route == 'lobby' && userInfo.game == 'null'){ %>
+            <li class="footer-menu-item">
+                <form method="post" action="/game" class="create-game-form">
+                    <button id="submit-button" class="button button_create" type="submit">Create Game</button>
+                </form>
+            </li>
+            <% } %>
+            <% if(userInfo.game != 'null' && userInfo.route != 'game'){ %>
+                <li class="footer-menu-item">
+                    <form id="back-to-game" action="/game" method="get">
+                        <button class="button button_game" type="submit">back to game</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+    <div class="footer-menu-right">
+        <ul class="footer-menu-right-list">
+            <% if(userInfo.route == 'game'){ %>
+                <li class="footer-menu-item">
+                    <button class="button button_leave">leave</button>
+                </li>
+            <% } %>
+            <li class="footer-menu-item">
+                <button class="button button_logout">logout</button>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="module">
+    import { socket } from '/js/quarto/widgets/chat.js'
+    $( document ).ready( footerInit() );
+
+    function footerInit() {
+        document.querySelector(`.button_logout`).addEventListener('click', (event)=>{
+            logout();
+        }); 
+        
+        if(userInfo.route == 'game'){
+            document.querySelector(`.button_leave`).addEventListener('click', (event)=>{
+                leave();
+            }); 
+        }
+
+        if (userInfo.route != 'game') {
+            document.querySelector(`.button_${userInfo.route}`).style.boxShadow = "0px 0px 20px yellow";    
+        }
+    }
+
+    function logout() {
+        var container = document.querySelector('.modal-ok-container');
+        container.innerHTML = '';
+        var content = document.querySelector('.modal-content');
+        if (userInfo.game != 'null') {
+            content.innerHTML = '<h1>You are in a active game !</h1>';
+            content.innerHTML += '<br>';
+            content.innerHTML += '<h1>Realy want to logout ?</h1>';
+        } else {
+            content.innerHTML = `<h1>Realy want to logout ?</h1>`    
+        }
+        var form = document.createElement("form");
+        form.setAttribute('id','logout-form');
+        form.setAttribute("method", "post");
+        var submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute('id','logout-button');
+        submitButton.value = 'logout';
+        submitButton.classList.add('button','button_logout','button_green');
+        form.appendChild(submitButton);
+        container.appendChild(form);
+        $("#logout-form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/logout",
+                type: "POST",
+                data: '', //{'gameroom': `${gamesList[i]}`}
+                success: function(data){
+                    if (userInfo.game != 'null') {
+                        socket.emit('logoutFromGame',userInfo.userID)    
+                    }
+                    
+                    location.href = '/';
+                }
+            });
+        });
+        document.querySelector('.modal-wrapper').style.display = 'flex';
+    };
+
+    function leave() {
+        var container = document.querySelector('.modal-ok-container');
+        container.innerHTML = '';
+        var content = document.querySelector('.modal-content');
+        content.innerHTML = '<h1>You are in a active game !</h1>';
+        content.innerHTML += '<br>';
+        content.innerHTML += '<h1>Realy want to leave ?</h1>';
+        var form = document.createElement("form");
+        form.setAttribute('id','leave-form');
+        form.setAttribute("method", "post");
+        var submitButton = document.createElement("input");
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute('id','logout-button');
+        submitButton.value = 'leave';
+        submitButton.classList.add('button','button_leave');
+        form.appendChild(submitButton);
+        container.appendChild(form);
+        $("#leave-form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/lobby",
+                type: "POST",
+                data: '',
+                success: function(data){
+                    socket.emit('leaveFromGame',userInfo.userID)
+                    location.href = '/lobby';
+                }
+            });
+        });
+        document.querySelector('.modal-wrapper').style.display = 'flex';
+    };
+</script>

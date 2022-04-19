@@ -1,0 +1,19 @@
+<%- include('../widgets/header') %>
+<script src="/socket.io/socket.io.js"></script>
+<script>const userInfo = <%- JSON.stringify(userInfo) %>;</script>
+<style>
+    .main {
+    flex-flow: column;
+    }
+    .chat {
+        min-height: 30%;
+        max-height: 30%;
+    }
+</style>
+<div class="main">
+    <%- include('../widgets/game') %>
+    <%- include('../widgets/chat') %>
+</div>
+<%- include('../widgets/footer') %>
+<script type="module" src="/js/quarto/landing/game.js"></script>
+<%- include('../footer') %>

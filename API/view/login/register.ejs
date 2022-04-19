@@ -1,0 +1,20 @@
+<%- include('../header') %>
+<link rel="stylesheet" href="/css/login.css">
+    <div class="root">
+        <%- include('../widgets/login-logo') %>
+        <h1>Register</h1>
+        <div class="rootError"><%= errorMsg %></div>
+        <div class="rootForm">
+            <form class="Form" method='post' action='/register'>
+                <input type='text' name='name' placeholder='Username..' required />
+                <input type='email' name='email' placeholder='Email..' required />
+                <input type='password' name='passwd1' placeholder='Password..' required />
+                <input type='password' name='passwd2' placeholder='Retype password..' required />
+                <button type='submit'>SUBMIT</button>
+            </form>
+        </div>
+        <div class="rootButtons">
+            <a href='/'>Back</a>
+        </div>
+    </div>
+<%- include('../footer') %>

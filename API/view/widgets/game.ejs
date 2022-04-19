@@ -1,0 +1,187 @@
+<style>
+    .game-board-container {
+        display: flex;
+        flex-flow: column;
+        min-height: 70%;
+        max-height: 70%;
+        width: 100%;
+        justify-content: stretch;
+
+    }
+    .game-status {
+        width: 100%;
+        height: fit-content;
+        align-self: center;
+        padding: 0.5em;
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        color: white;
+        border: 1px solid black;
+        border-radius: 1vh;
+        text-shadow:
+        -2px -2px 0 #000,  
+        2px -2px 0 #000,
+        -2px  2px 0 #000,
+        2px  2px 0 #000;
+        font-size: var(--small-font-size);
+        background: radial-gradient(circle, rgb(0, 174, 255) 0%, rgb(37, 134, 179) 20%, rgb(9, 62, 87) 100%);
+    }
+    #gameTable{
+        align-self: center;
+        flex: auto;
+        display: grid;
+        grid-template-columns: repeat(15, minmax(2vh,4vh));
+        grid-template-rows: repeat(15, auto);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px; 
+        
+        background: linear-gradient(0deg, rgb(78, 189, 121) 0%, rgb(50, 119, 76) 100%);
+        border-radius: 5px;
+        width: fit-content;
+    }
+    
+    #status {
+        flex: auto;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-flow: row wrap;
+        background: rgb(58,103,138);
+        background: linear-gradient(0deg, rgba(58,103,138,1) 0%, rgba(255,255,255,0) 100%);
+        font-size: var(--bigger-font-size);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        padding: 0.2em;
+        height: 100%;
+        border: 2px solid black;
+    }
+
+    .cell{
+        border: 1px solid black;
+        text-align: center;
+        cursor: pointer;
+        background: linear-gradient(0deg, rgb(78, 189, 121) 0%, rgb(50, 119, 76) 100%);
+    }
+
+    .cell:hover{
+        box-shadow: inset 0 0 8px red;
+    }
+    .status-players {
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-right: 1em;
+    }
+
+    .player1-container, .player2-container {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: fit-content;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        border: 2px solid black;
+    }
+    .player1-container {
+        background-color: rgb(255, 81, 50);
+        margin-bottom: 0.25em;
+    }
+    .player1anim {
+        background-color: rgb(255, 81, 50);
+        animation-name: color1;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes color1 {
+        0% {
+            background-color: #222;
+        }
+        50% {
+            background-color: #f44242;
+        }
+        100% {
+            background-color: #222;
+        }
+    }
+    .takeP1{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .takeP1::after{
+        content: '';
+        border: 2px inset rgb(46, 0, 0);
+        background-color: red;
+        background: radial-gradient(circle, rgb(255, 0, 0) 0%, rgb(179, 37, 37) 20%, rgb(87, 9, 9) 100%);
+        animation: put 0.5s ease-out forwards;
+        width: 85%;
+        height: 85%;
+        border-radius: 50%;
+    }
+
+    .player2-container {
+        background-color: rgb(86, 183, 248);
+        margin-top: 0.25em;
+    }
+    .player2anim {
+        background-color: rgb(86, 183, 248);
+        animation-name: color2;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+        @keyframes color2 {
+            0% {
+                background-color: #222;
+            }
+            50% {
+                background-color: #4285f4;
+            }
+            100% {
+                background-color: #222;
+            }
+        }
+    .takeP2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;   
+        position: relative;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .takeP2::after{
+        content: '';
+        border: 2px inset rgb(0, 0, 63);
+        background-color: blue;
+        background: radial-gradient(circle, rgb(0, 174, 255) 0%, rgb(37, 134, 179) 20%, rgb(9, 62, 87) 100%);
+        animation: put 0.5s ease-out forwards;
+        width: 85%;
+        height: 85%;
+        border-radius: 50%;
+    }
+</style>
+<div class="game-board-container">
+    <div id="gameTable">
+        <% for(let i=0; i<225; i++) { %>
+        <div class="cell" id="cell<%= i %>"></div>
+        <% } %> 
+    </div>
+    <div class="game-status">
+        <div class="status-players">
+            <span class="player1-container">Player 1&ensp;:&emsp;<span id="player1"></span></span>
+            <span class="player2-container">Player 2&ensp;:&emsp;<span id="player2"></span></span>
+        </div>
+        <p id="status"></p>
+    </div>
+</div>

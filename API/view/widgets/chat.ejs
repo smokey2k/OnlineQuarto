@@ -1,0 +1,134 @@
+<style>
+    .chat,.chat-display, .chat-history, .chat-input {
+    display: flex;
+} 
+.chat {
+    padding-top: 0.4vh;
+    padding-bottom: 0.4vh;
+    flex-flow: column;
+    flex: auto;
+    width: 100%;
+    overflow: auto;
+}
+.chat-display {
+    width: 100%;
+    padding: 0.5vh;
+    display: flex; 
+    flex-flow: column;
+    align-items: stretch;
+    flex: auto;
+    overflow: auto;
+    overflow-x: hidden;
+    background: linear-gradient(180deg, rgba(95, 95, 95, 0.7) 0%, rgba(117, 117, 117, 0.7) 70%,rgba(0, 0, 0, 0.7) 100%);
+    border: 1px solid black;
+    border-radius: 1vw 0 0 0;
+    box-shadow: rgba(0, 0, 0, 0.459) 0.3vw 0.3vw 0;
+}
+.chat-input {
+    flex-flow: row;
+    padding: 1vh;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-items: center;
+    justify-content: flex-start;
+}
+.chat-input * {
+    font-size: var(--small-font-size);
+}
+.chat-history {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: column wrap;
+    flex: auto;
+}
+
+.chat-room {
+    border: 1px solid white;
+    width: fit-content;
+}
+.chat-input-box {
+    flex: auto;
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0.545);
+    color: white;
+    margin-right: 1vh;
+    border-radius: 0 1vw 1vw 0;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    border: 1px solid white;
+    height: 100%;
+    min-width: 4ch;
+}
+.chat-input-button {
+    width: fit-content;
+    height: fit-content;
+}
+.chatInputBox::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(54, 54, 54);
+    opacity: 1; /* Firefox */
+    text-shadow: none;
+  }
+  .chatInputBox:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(54, 54, 54);
+    text-shadow: none;
+  }
+  .chatInputBox::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(54, 54, 54);
+    text-shadow: none;
+  }
+
+.message {
+    width: 100%;
+    margin: 0.2vw;
+    padding: 0.4vh;
+    font-family:'Arial Narrow';
+    border-radius: 0.5vw;
+    background-color: rgba(0, 0, 0, 0.267);
+    border: 1px solid black;
+}
+.message * {
+    text-shadow:
+    -2px -2px 0 #000,  
+    2px -2px 0 #000,
+    -2px  2px 0 #000,
+    2px  2px 0 #000;
+    word-break: break-all;
+}
+.message-date {
+    padding: 0.5vh;
+    padding-left: 1vh;
+    padding-top: 1vh;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: var(--small-font-size);
+    color: rgb(255, 183, 0);
+    background-color: rgba(255, 0, 0, 0.637);
+    border-radius: 0.5vw;
+}
+.message-uname {
+    padding-right: 1vh;
+    font-size: var(--base-font-size);
+    color: yellow;
+}
+.message-text {
+    font-size: var(--small-font-size);
+    line-height: 3vh;
+    color: white;
+}
+
+
+</style>
+<div class="chat">
+    <div class="chat-display scrollbar"></div>
+    <div class="chat-input">
+        <button class="chat-room button_room button_red">
+            <% if(userInfo.route == 'game'){ %>
+                <%= userInfo.game %>
+            <% } else{ %>  
+                <%= userInfo.room %>
+            <% } %>
+        </button>
+        <input class="chat-input-box" type="text" name="chatMsg" placeholder='type..'>
+        <button class="chat-input-button button button_send">SEND</button>
+    </div>
+</div>
