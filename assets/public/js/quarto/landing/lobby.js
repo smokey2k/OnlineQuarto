@@ -20,8 +20,8 @@ function INIT() {
     });
 
     socket.emit(`joinToRoom`);
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
+    // socket.on("connect", () => {});
+    // socket.on("disconnect", () => {});
 
     socket.on(`joinedToRoom`, (msg)=>{
         if (msg !== "") {
