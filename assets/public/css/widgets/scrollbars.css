@@ -1,0 +1,23 @@
+.scrollbar {
+    scrollbar-color: rgb(202, 201, 201) rgba(112, 112, 112, 0.695);
+    scrollbar-width: 2vh;
+    min-height: 10vh;
+  }
+
+::-webkit-scrollbar {
+  min-width: 3vh;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(112, 112, 112, 0.695);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  min-height: 10vh;
+  background: radial-gradient(circle, rgb(231, 231, 231) 0%, rgb(146, 146, 146) 50%, rgb(61, 61, 61) 100%);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: radial-gradient(circle, rgb(246, 255, 160) 0%, rgb(196, 196, 136) 50%, rgb(115, 117, 52) 100%);
+}
