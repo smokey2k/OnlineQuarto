@@ -11,11 +11,15 @@ exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
         const session = socket.request.session;
         session.socket = socket.id;
+
         socket.on('joinToRoom', ()=> {
             roomHistory(session.room,io);
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
-            socket.to('lobby').emit('updateLobby', gamesList);
+            if (gamesList.length > 0) {
+                //socket.to('lobby').emit('updateLobby', gamesList);
+                socket.emit('updateLobby', gamesList);    
+            }
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });

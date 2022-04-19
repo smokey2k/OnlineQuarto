@@ -27,7 +27,6 @@ function INIT() {
         if (msg !== "") {
             outputMessage(msg,chat_display);    
         }
-        updateGameList(gamesList,gameListDOM,socket);
     });
 
     socket.on('gameCreated', (gamesList)=>{
