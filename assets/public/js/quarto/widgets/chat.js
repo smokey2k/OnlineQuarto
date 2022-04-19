@@ -6,15 +6,11 @@ const chatInputBox = document.querySelector('.chat-input-box');
 const chatInputButton = document.querySelector('.chat-input-button');
 
 function initChat() {
-    
     chatInputButton.addEventListener('click', (event)=>{
-        sendMessage(chatInputBox,socket);
-    });
-    
+        sendMessage(chatInputBox,socket); });
     chatInputBox.addEventListener("keyup", (event)=> {
-        if (event.key === 'Enter') { sendMessage(chatInputBox,socket);}
-    });
-    
+        if (event.key === 'Enter') { sendMessage(chatInputBox,socket);} });
+
     socket.on('message', (msg)=>{
         outputMessage(msg);
     });
