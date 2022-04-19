@@ -16,9 +16,7 @@ exports = module.exports = function(io) {
             roomHistory(session.room,io);
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
-            if (gamesList.length > 0) {
-                socket.emit('updateLobby', gamesList);    
-            }
+            socket.emit('updateLobby', gamesList);
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
@@ -49,7 +47,6 @@ exports = module.exports = function(io) {
             }
             roomHistory(session.game,io);
             socket.join(session.game);
-            
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
             io.in(session.game).emit('updateGameRoom', games[index]);
             db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}' WHERE userID=${session.userID};`, (err)=>{
@@ -71,6 +68,12 @@ exports = module.exports = function(io) {
                 }
             }
             io.in(session.game).emit('gameAborted');
+            for( var i = 0; i < gamesList.length; i++){ 
+                if ( gamesList[i] === session.game ) { 
+                    gamesList.splice(i, 1); 
+                }
+            }
+            socket.to('lobby').emit('updateLobby', gamesList);
         });
 
         socket.on('leaveFromGame', (id)=>{
@@ -85,6 +88,12 @@ exports = module.exports = function(io) {
                 }
             }
             io.in(session.game).emit('gameAborted');
+            for( var i = 0; i < gamesList.length; i++){ 
+                if ( gamesList[i] === session.game ) { 
+                    gamesList.splice(i, 1); 
+                }
+            }
+            socket.to('lobby').emit('updateLobby', gamesList);
         });
 
 
@@ -102,7 +111,6 @@ exports = module.exports = function(io) {
         });
 
         socket.on('createGame', ()=>{
-            //var game = {};
             var game = {
                 gamename: `${session.userID}-${session.username}`,
                 player1: [session.username,session.userID],
