@@ -7,10 +7,8 @@ const chatHistory = [];
 // User management
 //
     // User join to chat room
-    function joinRoomUser(userID,name,room,socketID,firstTime) {
-      //db.query(`UPDATE rooms SET room='${room}', socket='${socketID}' WHERE userID=${userID};`, (err)=>{
-      //    if (err) throw err;
-      //});
+    
+  function joinRoomUser(userID,name,room,socketID,firstTime) {
       db.query(`UPDATE rooms SET room='${room}' WHERE userID=${userID};`, (err)=>{
         if (err) throw err;
     });
