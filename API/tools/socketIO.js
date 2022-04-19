@@ -15,16 +15,14 @@ exports = module.exports = function(io) {
             roomHistory(session.room,io);
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
-            //socket.emit('updateLobby', gamesList);
             socket.to('lobby').emit('updateLobby', gamesList);
-            //socket.emit('updateLobby', gamesList);
             socket.emit('message',formatMessage('System', `${user.name}, wellcome in the ${session.room} !`) );
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
 
         socket.on('joinToGame', ()=> {
             var index = games.findIndex(game => game.gamename === `${session.game}`);
-            if (games[index].full != 1) {
+            if (games[index].full != 1 && games[index].full != "undefined") {
                 if ( games[index].player1[0] != session.username &&
                     games[index].player1[1] != session.userID &&
                     games[index].player2[0] == '') {
@@ -48,12 +46,9 @@ exports = module.exports = function(io) {
             }
             roomHistory(session.game,io);
             socket.join(session.game);
-            console.log(gePlayerIndex(session.userID,session)+1);    
+            
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
             io.in(session.game).emit('updateGameRoom', games[index]);
-            //db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}', socket='${socket.id}' WHERE userID=${session.userID};`, (err)=>{
-            //    if (err) throw err;
-            //});
             db.query(`UPDATE rooms SET room='${session.game}', game='${session.game}' WHERE userID=${session.userID};`, (err)=>{
                 if (err) throw err;
             });
@@ -104,7 +99,7 @@ exports = module.exports = function(io) {
         });
 
         socket.on('createGame', ()=>{
-            var game = {};
+            //var game = {};
             var game = {
                 gamename: `${session.userID}-${session.username}`,
                 player1: [session.username,session.userID],
@@ -148,7 +143,6 @@ exports = module.exports = function(io) {
             let row = Math.floor(id / 15);
             let col = id % 15;
             games[game].table[row][col] = currUser;
-            console.log(session.game);
             io.in(session.game).emit('drawCell', id,  currUser );
             let win = checkFive(row, col, currUser,session);
             if (win) {
