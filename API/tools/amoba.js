@@ -2,6 +2,8 @@ const session = require('express-session');
 const db = require('../model/model-mysql');
 const { games,getGamePlayers } = require('./rooms');
 
+
+// checking the if the actual player has 5 pupets in a line (diagonal,vertical,horizontal)
 function checkFive(row, col, user,session)
 {   
     var game = games.findIndex(game => game.gamename === `${session.game}`);
@@ -9,7 +11,7 @@ function checkFive(row, col, user,session)
      let win = false;
     let amoba =[];
  
-    // vízszintes ellenőrzés
+    // horizontal check
     let count = 0;
     for(let i=col-4; i<=col+4;i++)
     {
@@ -41,7 +43,7 @@ function checkFive(row, col, user,session)
         }
     }
 
-   // függőleges ellenőrzés
+   // verticla check
    count = 0;
    for(let i=row-4; i<=row+4;i++)
    {
@@ -70,7 +72,7 @@ function checkFive(row, col, user,session)
         }
    }
 
-    // átlós ellenőrzés 1
+    // diagonal check 1.
     count = 0;
     let j = row-4;
     for(let i=col-4; i<=col+4;i++)
@@ -101,7 +103,7 @@ function checkFive(row, col, user,session)
         j++;
     }
 
-    // átlós ellenőrzés 2
+    // diagonal check 2.
     count = 0;
     j = row+4;
     for(let i=col-4; i<=col+4;i++)
@@ -134,7 +136,7 @@ function checkFive(row, col, user,session)
     return win;
 }
 
-
+// processing if a player win or any of the players left the game 
 function proccesWin(userIndex,session,type) {
     var game = games.findIndex(game => game.gamename === `${session.game}`);
     let score;

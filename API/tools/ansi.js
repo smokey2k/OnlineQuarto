@@ -1,3 +1,4 @@
+// some ansi escape sequences for formating the server console display messages
 const ansi = {
     reset:  "\x1b[0m",
     bright: "\x1b[1m",

@@ -4,6 +4,8 @@ const mysql = require('mysql');
 const util = require('util');
 const db = require('./model-mysql');
 
+
+// db pool for pre init the database
 var init = mysql.createPool({
     host: process.env.DBHOST,
     user: process.env.DBUSER,
@@ -11,10 +13,12 @@ var init = mysql.createPool({
     multipleStatements: true
 });
 
+// connect to mysql database
 init.getConnection((err, connection)=>{
     if (err) throw err;
 });
 
+// some predefined users for testing purpose
 const testUsers = [
     ['s2k','datas2k@gmail.com','d',200,20],
     ['jan','jan@gmail.com','d',100,5],
@@ -33,7 +37,7 @@ const testUsers = [
     ['0123456789abc','csubi@csubi.com','d',40,10]
 ]
 
-
+// the initialisation mysql query message
 var initDB = `
 USE ${process.env.DBNAME};
 CREATE TABLE if not exists users (
@@ -64,7 +68,7 @@ CREATE TABLE if not exists rooms (
 
 TRUNCATE TABLE rooms;
 `
-
+// initialise the database
 init.query(initDB, function (err, result) {
     if (err) throw err;
     db.query('SELECT * FROM users WHERE username = ?', ['s2k'], (err, results)=> {    

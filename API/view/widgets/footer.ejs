@@ -64,8 +64,10 @@
 </div>
 <script type="module">
     import { socket } from '/js/quarto/widgets/chat.js'
+    // wait till page fully loaded
     $( document ).ready( footerInit() );
 
+    // after page loaded run the next code
     function footerInit() {
         document.querySelector(`.button_logout`).addEventListener('click', (event)=>{
             logout();
@@ -82,6 +84,7 @@
         }
     }
 
+    // the client side log out function
     function logout() {
         var container = document.querySelector('.modal-ok-container');
         container.innerHTML = '';
@@ -121,6 +124,7 @@
         document.querySelector('.modal-wrapper').style.display = 'flex';
     };
 
+    // the client side leave the game function
     function leave() {
         var container = document.querySelector('.modal-ok-container');
         container.innerHTML = '';

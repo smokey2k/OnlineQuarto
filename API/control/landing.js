@@ -1,26 +1,31 @@
 const ejs = require('ejs');
 const db = require('../model/model-mysql');
 
+
+// game page path
 exports.GET_game = (req,res)=>{
     set_userGamePath(req,res,'game')
 }
 
+// post game
 exports.POST_game = (req,res)=>{
     req.session.room = req.body.gameroom;
     req.session.game = req.body.gameroom;
     res.redirect('/game')
 }
 
-
+// the main lobby path
 exports.GET_lobby = (req,res)=>{
     set_userPath(req,res,'lobby')
 }
 
+// post lobby
 exports.POST_lobby = (req,res)=>{
     req.session.game = 'null';
     res.redirect('/lobby')
 }
 
+// highscore path
 exports.GET_highscore = (req,res)=>{
     const userInfo = getUserInfo(req);
     req.session.route = 'highscore';
@@ -34,14 +39,17 @@ exports.GET_highscore = (req,res)=>{
     });
 }
 
+// help path
 exports.GET_help = (req,res)=>{
     set_userPath(req,res,'help')
 }
 
+// about path
 exports.GET_about = (req,res)=>{
     set_userPath(req,res,'about')
 }
 
+// set the path on GET requests 
 function set_userPath(req,res,path) {
     const userInfo = getUserInfo(req);
     req.session.room = path;
@@ -57,6 +65,7 @@ function set_userPath(req,res,path) {
     });
 }
 
+// set game page path on GET requests
 function set_userGamePath(req,res,path) {
     const userInfo = getUserInfo(req);
     if (req.session.game == 'null') {
@@ -73,6 +82,7 @@ function set_userGamePath(req,res,path) {
     });
 }
 
+// set user info
 function getUserInfo(req){
     var userInfo = {
         sessionID: req.session.id,

@@ -9,8 +9,10 @@
       geometry, material, clock,
       myWidth,myHeight,tanFOV;
   
+  // the scene dimension
   const worldWidth = 128, worldDepth = 128;
   
+  // initialising the threejs webgl content
   const init = () => {
     clock = new THREE.Clock();
     camera = new THREE.PerspectiveCamera(60, mapDimensions.width/mapDimensions.height, 1, 20000);
@@ -26,11 +28,13 @@
     ocean();
   }
   
+  // animate the content
   const animate = () => {
     requestAnimationFrame(animate);
     render();
   }
   
+  // render the content
   function render() {
       const delta = clock.getDelta();
       const time = clock.getElapsedTime() * 4;
@@ -43,6 +47,7 @@
       renderer.render( scene, camera );
   }
   
+  // initialising the renderer
   function myRenderer() {
       myWidth = mapDimensions.width;
       myHeight = mapDimensions.height;
@@ -57,10 +62,12 @@
   	  THREEx.WindowResize(renderer, camera, dimension, mesh, tanFOV);
   };
   
+  // returns a DOMRect object providing information about the size of an element and its position relative to the viewport.
   function getmapDimensions(container) {
     return container.getBoundingClientRect();
   }
   
+  // initialising the 'ocean' content
   function ocean() {
         geometry = new THREE.PlaneGeometry( 20000, 20000, worldWidth - 1, worldDepth - 1 );
       	geometry.rotateX( - Math.PI / 2 );

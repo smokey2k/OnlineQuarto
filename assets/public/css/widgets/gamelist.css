@@ -1,3 +1,7 @@
+/*
+    The game list style sheet
+*/
+
 .games, .games-header, .games-list {
     display: flex;
 } 

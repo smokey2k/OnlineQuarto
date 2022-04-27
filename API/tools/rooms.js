@@ -49,17 +49,15 @@ const chatHistory = [];
       return games[game].users.filter(user => user.room === room);
   }
 
-
-
 // Chat to database 
-function roomHistory(room,io) {
+function roomHistory(room,io,socket) {
   chatHistory[room] = [];
   db.query(`SELECT * FROM chat WHERE room='${room}'`)
   .on('result', (data)=>{
       chatHistory[room].push(data);
   })
   .on('end', ()=> {
-      io.to(room).emit('chat-history',chatHistory[room]);
+      socket.emit('chat-history',chatHistory[room]);
   })
 }
 

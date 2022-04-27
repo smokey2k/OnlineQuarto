@@ -1,3 +1,7 @@
+/*
+  Styling the scrollbars, only works with Chrome browser and its derivates
+*/
+
 .scrollbar {
     scrollbar-color: rgb(202, 201, 201) rgba(112, 112, 112, 0.695);
     scrollbar-width: 2vh;

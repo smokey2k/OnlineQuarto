@@ -6,14 +6,15 @@ const { games,joinRoomUser,playerJoinGame,getCurrentPlayer,gePlayerIndex,
     } = require('./rooms');
 const { checkFive, proccesWin } = require('./amoba');
 
-
+// export socket io to main server.js 
 exports = module.exports = function(io) {
     io.sockets.on('connection', (socket)=> {
         const session = socket.request.session;
         session.socket = socket.id;
 
+        // when user join to a room
         socket.on('joinToRoom', ()=> {
-            roomHistory(session.room,io);
+            roomHistory(session.room,io,socket);
             const user = joinRoomUser(session.userID, session.username, session.room, session.socket,1);
             socket.join(session.room);
             socket.emit('updateLobby', gamesList);
@@ -21,6 +22,7 @@ exports = module.exports = function(io) {
             socket.broadcast.to(session.room).emit('joinedToRoom', formatMessage('System', `${session.username} joined to room: ${session.room} !`) );
         });
 
+        // when user join to a game
         socket.on('joinToGame', ()=> {
             var index = games.findIndex(game => game.gamename === `${session.game}`);
             if (games[index].full != 1 && games[index].full != "undefined") {
@@ -45,7 +47,7 @@ exports = module.exports = function(io) {
                     
                 }   
             }
-            roomHistory(session.game,io);
+            roomHistory(session.game,io,socket);
             socket.join(session.game);
             socket.emit('UserIndex', gePlayerIndex(session.userID,session)+1);
             io.in(session.game).emit('updateGameRoom', games[index]);
@@ -56,6 +58,7 @@ exports = module.exports = function(io) {
             io.in(session.game).emit('joinedToGame', formatMessage('System', `${session.username} joined to room: ${session.game} !`) );
         });
 
+        // when a player logs out from a game
         socket.on('logoutFromGame', (id)=>{
             var index = games.findIndex(game => game.gamename === `${session.game}`);
             let userIndex = gePlayerIndex(session.userID,session);
@@ -76,6 +79,7 @@ exports = module.exports = function(io) {
             socket.to('lobby').emit('updateLobby', gamesList);
         });
 
+        // when a player leave the game
         socket.on('leaveFromGame', (id)=>{
             var index = games.findIndex(game => game.gamename === `${session.game}`);
             let userIndex = gePlayerIndex(session.userID,session);
@@ -96,7 +100,7 @@ exports = module.exports = function(io) {
             socket.to('lobby').emit('updateLobby', gamesList);
         });
 
-
+        // when a user send a message in chat
         socket.on('message', (msg)=>{
             let room = '';
             if (session.route != 'game') {
@@ -110,6 +114,7 @@ exports = module.exports = function(io) {
             
         });
 
+        // when a user create a game
         socket.on('createGame', ()=>{
             var game = {
                 gamename: `${session.userID}-${session.username}`,
@@ -147,6 +152,7 @@ exports = module.exports = function(io) {
             socket.to('lobby').emit('gameCreated',gamesList);
         });
 
+        // when a user put a cell on the game table
         socket.on('putCell', (id)=>{
             var game = games.findIndex(game => game.gamename === `${session.game}`);
             let currUser = gePlayerIndex(session.userID,session)+1;

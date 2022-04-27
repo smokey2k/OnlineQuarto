@@ -1,3 +1,4 @@
+// game list widget button colors
 var buttonColors = ['red','green','blue','orange','purple','brown','gray','teal'];
 function rndColor() { 
     let rnd = Math.floor(Math.random() * (7 - 0 + 1) + 0);
@@ -6,6 +7,7 @@ function rndColor() {
 
 export const gameListDOM = document.querySelector('.games-list');
 
+// update the game list widget
 function updateGameList(gamesList,DOMelement) {
     if (userInfo.game != 'null') {
         return;
@@ -19,12 +21,14 @@ function updateGameList(gamesList,DOMelement) {
         var submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
         submitButton.value = gamesList[i].split('-').pop();
+        // randomize the game list widget button colors
         submitButton.classList.add("button","button_logout",rndColor());
         submitButton.setAttribute('id',`${gamesList[i]}`);
         form.appendChild(submitButton);
         li.appendChild(form);
         DOMelement.appendChild(li);
         
+        // ajax function for joining to the game room
         $("#join-game-form").submit(function(e) {
             e.preventDefault();
             $.ajax({

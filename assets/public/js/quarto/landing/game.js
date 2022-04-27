@@ -6,37 +6,44 @@ let userindex;
 let player1;
 let player2;
 
+
+// wait till page fully loaded
 $( document ).ready( INIT() );
 
 function INIT() {
+    // initialise the chat window
     initChat();
     player1 = document.querySelector('#player1');
     player2 = document.querySelector('#player2');
 
+    // fill the game table cells with on click function
     for(let i=0; i<225; i++) {
         document.querySelector(`#cell${i}`).addEventListener('click', (event)=>{
              setPos(i);
         }); 
     }
+
+    // join to the game room
     socket.emit(`joinToGame`);
-
-    // socket.on("connect", () => {});
-    // socket.on("disconnect", () => {});
-
+    
+    // if we joined get the message from the server
     socket.on(`joinedToGame`, (msg)=>{
         if (msg !== "") {
             outputMessage(msg,chat_display);    
         }
     });
 
+    // update the game room on page refresh or any other situations
     socket.on('updateGameRoom', (game)=>{
         updateGameRoom(game);
     })
 
+    // get the user index number from the actual game object
     socket.on('UserIndex', (index)=>{
         userindex = index;
     })
 
+    // when the other player put his pupet on the table we got this message from the server
     socket.on('drawCell', (id, userNr)=>{
         let currentCell = document.getElementById('cell'+id);
         currentCell.classList.add('takeP'+userNr);
@@ -48,22 +55,23 @@ function INIT() {
         displayCurrentPlayer();
      });
 
+     // the game started message from the server side
      socket.on('gameStarted', (rnd,game)=>{
             currentPlayer = rnd;
-            userindex = currentPlayer;
             game.game = gameState;
             displayCurrentPlayer();
-            renderStatus(`A játék elindult !`,3000)
+            renderStatus(`The game has been started !`,3000)
         })
 
-
+    // if the server find out someone win we will get this message
     socket.on('win', (winner,state)=>{
         let status = document.querySelector('#status');
-        renderStatus(`${winner} nyert !`,6000)
+        renderStatus(`${winner} won the game !`,6000)
         renderWin(winner);
         gameState = state;
     });
     
+    // if a player leave the game the game is over
     socket.on('gameAborted', ()=>{
         $.ajax('/lobby', {
             type: 'POST',
@@ -75,7 +83,7 @@ function INIT() {
     });
 }
 
-
+// when on client side a plyer clicks on the table cell and put his pupet
 function setPos(id){
     if (gameState == false) {
         return;
@@ -83,23 +91,30 @@ function setPos(id){
     if (currentPlayer == userindex) {
        socket.emit('putCell', id); 
     } else {
-        renderStatus('A másik játékos lép !',4000);
+        var msg;
+        if (currentPlayer = 1) {
+            msg = player1.innerHTML;
+        } else {
+            msg = player2.innerHTML;
+        }
+        renderStatus(`It's ${msg} turn !`,4000);
     }
 }
 
+// the actual action to display on status section
 function renderStatus(msg,timeout) {
     let status = document.querySelector('#status');
     status.innerHTML = `<h1>${msg}</h1>`;
     setTimeout(() => status.innerHTML = '', timeout);
 }
 
-
+// updating the game room on page refresh or if a player logs back to server
 function updateGameRoom(game) {
     document.querySelector(`#player1`).innerHTML = game['player1'][0];
     document.querySelector(`#player2`).innerHTML = game['player2'][0];
     let str = document.querySelector('#player2').innerHTML;
     if (str == '') {
-        document.querySelector('#status').innerHTML = `<h1>Várjuk a másik játékost !</h1>`;
+        document.querySelector('#status').innerHTML = `<h1>Awaiting for other player....</h1>`;
     }
     currentPlayer = game.currPlayer
     gameState = game.gameState;
@@ -114,12 +129,13 @@ function updateGameRoom(game) {
     }
 }
 
+// displaying the actual player in status section and color animating his name tag
 function displayCurrentPlayer(){
     if (player2.innerHTML != '') {
         if (currentPlayer == 2) {
-            renderStatus(`${player2.innerHTML} lép !`,4000);
+            renderStatus(`It's ${player2.innerHTML} turn !`,4000);
         } else {
-            renderStatus(`${player1.innerHTML} lép !`,4000);
+            renderStatus(`It's ${player1.innerHTML} turn !`,4000);
         }
     }
     
@@ -132,6 +148,7 @@ function displayCurrentPlayer(){
     }
 }
 
+// if someone wins this wil render a modal window 
 function renderWin(winner) {
     var container = document.querySelector('.modal-ok-container');
     document.querySelector('.button_cancel').style.display = 'none';
@@ -149,6 +166,7 @@ function renderWin(winner) {
     form.appendChild(submitButton);
     container.appendChild(form);
     
+    // ajax submit 
     $("#to-lobby").submit(function(e) {
         e.preventDefault();
         $.ajax({

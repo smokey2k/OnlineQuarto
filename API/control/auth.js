@@ -7,6 +7,7 @@ const baseRoom = "lobby";
 const baseRoute = "lobby";
 var errorMsg = '';
 
+// the site main root path
 exports.GET_root = (req,res)=>{
     errorMsg = '';
     ejs.renderFile('./API/view/login/root.ejs', (err, data)=>{
@@ -14,6 +15,8 @@ exports.GET_root = (req,res)=>{
         res.send(data);
     });
 }
+
+// login path
 exports.GET_login = (req,res)=>{
     ejs.renderFile('./API/view/login/login.ejs',{errorMsg} , (err, data)=>{
         if (err) throw err;
@@ -21,6 +24,7 @@ exports.GET_login = (req,res)=>{
     });
 }
 
+// post login
 exports.POST_login = (req,res)=>{
     const { username, password } = req.body;
     errorMsg = '';
@@ -39,7 +43,7 @@ exports.POST_login = (req,res)=>{
     }
 }
 
-
+// register path
 exports.GET_register = (req,res)=>{
     ejs.renderFile('./API/view/login/register.ejs', {errorMsg} , (err, data)=>{
         if (err) throw err;
@@ -47,6 +51,7 @@ exports.GET_register = (req,res)=>{
     });
 }
 
+// post register
 exports.POST_register = (req,res)=>{
     const { name,email,passwd1,passwd2 } = req.body;
     errorMsg = '';
@@ -80,6 +85,7 @@ exports.POST_register = (req,res)=>{
     }
 }
 
+// post logout
 exports.POST_logout = (req,res)=>{
     db.query('DELETE FROM rooms WHERE userID = ?', [req.session.userID], (err)=>{
         if (err) throw err;
@@ -91,6 +97,7 @@ exports.POST_logout = (req,res)=>{
     });
 }
 
+// session occupied path
 exports.GET_sessionOccupied = (req,res)=>{
     ejs.renderFile('./API/view/login/sessionOccupied.ejs', (err, data)=>{
         if (err) throw err;
@@ -98,12 +105,13 @@ exports.GET_sessionOccupied = (req,res)=>{
     });
 }
 
-
+// error message
 function sendError(msg,res,route) {
     errorMsg = msg;
     res.redirect(route);
 }
 
+// register in MySql database and log in the user
 function db_reggister(name,email,passwd1,req,res) {
     db.query(`INSERT INTO users VALUES(null, '${name}', '${email}', '${passwd1}', 0,0)`, (err)=>{
         if (err) throw err;
@@ -129,7 +137,7 @@ function db_reggister(name,email,passwd1,req,res) {
         }                    
     });
 }
-
+// log in user by checking MySql databse
 function db_login(username, password,req,res) {
     db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results)=> {
         if (err) throw err;
