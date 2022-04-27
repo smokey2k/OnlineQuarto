@@ -11,6 +11,7 @@
     text-transform: uppercase;
     border-radius: 1vw 0 0 1vw;
     border: 1px solid black;
+    font-size: var(--big-font-size);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     padding: 0.5vh;
     padding-left: 2vh;
@@ -33,6 +34,7 @@
     text-transform: uppercase;
     border-radius: 0 0.7ch 0 0.7ch;
     border: 1px solid black;
+    font-size: var(--big-font-size);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     padding: 2vw;
     padding-left: 1vw;
