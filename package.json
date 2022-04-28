@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server",
     "start": "node server",
-    "test": "jest --verbose ./docs/tests"
+    "test": "jest --verbose ./assets/docs/tests"
   },
   "keywords": [],
   "author": "",
