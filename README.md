@@ -10,3 +10,5 @@ Felhazsnált technológiák:<br/>
 * Node.js: szerver oldali JavaScript futtatási környezet.<br/>
 * Socket.IO: Kétirányú és alacsony késleltetésű platform független kommunikációs web socket.<br/>
 * Three.js: böngészők közötti JavaScript-könyvtár és alkalmazásprogramozási felület (API), amely animált 3D számítógépes grafikák létrehozására és megjelenítésére szolgál webböngészőben a WebGL használatával.<br/>
+
+Az applikáció dokumentációja az ./assets/docs könytárban található.
