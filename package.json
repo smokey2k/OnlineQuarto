@@ -1,7 +1,7 @@
 {
-  "name": "session-authentication-in-express",
+  "name": "onlinequarto",
   "version": "1.0.0",
-  "description": "",
+  "description": "![Quarto Online](/assets/public/media/QUARTO-LOGO.svg)",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon server",
@@ -9,8 +9,8 @@
     "test": "jest --verbose ./assets/docs/tests"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Dechev Daniel Ivanov",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
@@ -31,5 +31,13 @@
     "jest": "^28.0.2",
     "nodemon": "^2.0.15",
     "standard": "^16.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TURR-21-22/OnlineQuarto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TURR-21-22/OnlineQuarto/issues"
+  },
+  "homepage": "https://github.com/TURR-21-22/OnlineQuarto#readme"
 }

@@ -3,12 +3,22 @@
 
 # Quarto Online
 
-Online, több felhasználós táblás játék instant chat alkalmazással egybekötve.<br/>
+An online, multi-user board game combined with an instant chat application.<br/>
 
-Felhazsnált technológiák:<br/>
+Technologies used:<br/>
 
-* Node.js: szerver oldali JavaScript futtatási környezet.<br/>
-* Socket.IO: Kétirányú és alacsony késleltetésű platform független kommunikációs web socket.<br/>
-* Three.js: böngészők közötti JavaScript-könyvtár és alkalmazásprogramozási felület (API), amely animált 3D számítógépes grafikák létrehozására és megjelenítésére szolgál webböngészőben a WebGL használatával.<br/>
+* Node.js: server-side JavaScript runtime environment.<br/>
+* Socket.IO: two-way and low latency platform for independent communication web socket.<br/>
+* Three.js: browser-to-browser JavaScript library and application programming interface (API) for creating and displaying animated 3D computer graphics in a web browser using WebGL.<br/>
 
-Az applikáció dokumentációja az ./assets/docs könytárban található.
+The application documentation can be found in the ./assets/docs directory.
+
+Installation:
+The application needs Node.js runtime environment and npm package manager.
+```
+npm init (initialise the application)
+npm install (installing node.js modules)
+
+npm start (for production environment)
+npm run dev (for developement)
+```
