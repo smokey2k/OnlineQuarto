@@ -1,0 +1,43 @@
+### Get /
+GET http://localhost:3000/
+
+### Get /login
+GET http://localhost:3000/login
+
+### POST to /login
+POST  http://localhost:3000/login HTTP/1.1
+Authorization: Basic someuser somekey
+Content-Type: application/x-www-form-urlencoded
+
+username=jan&password=d
+
+### Get /register
+GET http://localhost:3000/register
+
+### POST to /register
+POST  http://localhost:3000/register HTTP/1.1
+Authorization: Basic someuser somekey
+Content-Type: application/x-www-form-urlencoded
+
+name=newuser&email=newuser@gmail.com&passwd1=d&passwd2=d
+
+### Get /lobby
+GET http://localhost:3000/lobby
+
+### POST /game
+GET http://localhost:3000/game
+Content-Type: application/x-www-form-urlencoded
+
+gameroom=2-jan
+
+### Get /game
+GET http://localhost:3000/game
+
+### Get /highscore
+GET http://localhost:3000/highscore
+
+### Get /help
+GET http://localhost:3000/help
+
+### Get /about
+GET http://localhost:3000/about

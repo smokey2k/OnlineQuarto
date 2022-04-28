@@ -1,3 +1,6 @@
+
+![Quarto Online](/assets/public/media/QUARTO-LOGO.svg)
+
 # Quarto Online
 
 Online, több felhasználós táblás játék instant chat alkalmazással egybekötve.<br/>
