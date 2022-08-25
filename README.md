@@ -14,7 +14,21 @@ Technologies used:<br/>
 The application documentation can be found in the ./assets/docs directory.
 
 Installation:
-The application needs Node.js runtime environment and npm package manager.
+The application needs a runnig MySQL server, a Node.js runtime environment and npm package manager.
+
+Windows:
+Install Node.js version manager (NVM): [NVM-Windows](https://github.com/coreybutler/nvm-windows#installation--upgrades)
+
+Once the installation is complete. Open PowerShell (recommend opening with elevated Admin permissions) and try using windows-nvm to list which versions of Node are currently installed (should be none at this point):
+```nvm ls```
+
+Ask the system admin to create an empty database in MySQL database server or do on your own named as 'quartoonlinedb';
+```
+mysql -u root
+CREATE DATABASE IF NOT EXISTS quartoonlinedb;
+```
+
+
 ```
 npm init (initialise the application)
 npm install (installing node.js modules)
