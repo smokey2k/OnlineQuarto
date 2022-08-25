@@ -30,20 +30,22 @@ sudo pacman -Syu nodejs-lts-gallium npm
 sudo apt update
 sudo apt install nodejs npm -y
 ```
-<br><br>
+
+## Create empty database
 Ask the system admin to create an empty database in MySQL database server or do on your own named as 'quartoonlinedb';
 ```
 mysql -u root
 CREATE DATABASE IF NOT EXISTS quartoonlinedb;
 ```
 
+## Inittialize the project
 In the project local repository path, initialize the project and install the required modules with npm:
 ```
 npm init (initialise the application)
 npm install (installing node.js modules)
 ```
 
-Start the project:
+## Start the project
 ```
 npm start (for production environment)
 npm run dev (for developement)
