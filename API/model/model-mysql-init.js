@@ -39,6 +39,7 @@ const testUsers = [
 
 // the initialisation mysql query message
 var initDB = `
+CREATE DATABASE IF NOT EXISTS ${process.env.DBNAME};
 USE ${process.env.DBNAME};
 CREATE TABLE if not exists users (
     id int AUTO_INCREMENT primary key, 
