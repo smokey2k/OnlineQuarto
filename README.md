@@ -16,11 +16,21 @@ The application documentation can be found in the ./assets/docs directory.
 Installation:
 The application needs a runnig MySQL server, a Node.js runtime environment and npm package manager.
 
-Windows:
-Install Node.js version manager (NVM): [NVM-Windows](https://github.com/coreybutler/nvm-windows#installation--upgrades)
+Install Node.js (LTS version prefered) and npm package manager:
 
-Once the installation is complete. Open PowerShell (recommend opening with elevated Admin permissions) and try using windows-nvm to list which versions of Node are currently installed (should be none at this point):
-```nvm ls```
+Windows:
+Get the installer, it will install npm aswell: [Node.js](https://nodejs.org/en/)
+
+Linux:
+Arch Linux (For 16.X version):
+```
+sudo pacman -Syu nodejs-lts-gallium npm
+```
+Debian:
+```
+sudo apt update
+sudo apt install nodejs npm -y
+```
 
 Ask the system admin to create an empty database in MySQL database server or do on your own named as 'quartoonlinedb';
 ```
@@ -28,11 +38,14 @@ mysql -u root
 CREATE DATABASE IF NOT EXISTS quartoonlinedb;
 ```
 
-
+In the project local repository path, initialize the project and install the required modules with npm:
 ```
 npm init (initialise the application)
 npm install (installing node.js modules)
+```
 
+Start the project:
+```
 npm start (for production environment)
 npm run dev (for developement)
 ```
