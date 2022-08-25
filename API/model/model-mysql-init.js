@@ -12,15 +12,10 @@ var init = mysql.createPool({
     multipleStatements: true
 });
 
-
-
-
 // connect to mysql database
 init.getConnection((err, connection)=>{
     if (err) throw err;
 });
-
-
 
 // some predefined users for testing purpose
 const testUsers = [
