@@ -30,7 +30,7 @@ sudo pacman -Syu nodejs-lts-gallium npm
 sudo apt update
 sudo apt install nodejs npm -y
 ```
-
+<br><br>
 Ask the system admin to create an empty database in MySQL database server or do on your own named as 'quartoonlinedb';
 ```
 mysql -u root
