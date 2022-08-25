@@ -18,11 +18,10 @@ The application needs a runnig MySQL server, a Node.js runtime environment and n
 
 Install Node.js (LTS version prefered) and npm package manager:
 
-# Windows: 
+# Windows 
 Get the installer, it will install npm aswell: [Node.js](https://nodejs.org/en/)
 
-# Linux: 
-Arch Linux (For 16.X version):
+# Arch Linux (For 16.X version) 
 ```
 sudo pacman -Syu nodejs-lts-gallium npm
 ```
